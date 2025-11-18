@@ -3673,6 +3673,11 @@ class SudoManager(SystemModifier):
         """Ensure only authorized users in sudo group - UBTU-20-010012"""
         logger.info("Configuring sudo group membership")
         
+        # Skip on Windows - sudo group doesn't exist
+        if IS_WINDOWS or grp is None:
+            logger.info("Skipping sudo group check (not applicable on Windows)")
+            return True
+        
         try:
             # Get sudo group members
             sudo_group = grp.getgrnam('sudo')
