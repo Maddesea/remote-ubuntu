@@ -1,0 +1,345 @@
+#!/usr/bin/env python3
+"""
+Ubuntu Package Downloader for Air-Gapped STIG Execution
+========================================================
+
+Downloads all necessary Ubuntu .deb packages for offline STIG remediation.
+Run this script on an internet-connected Ubuntu 20.04 system.
+
+Usage:
+    python3 download_ubuntu_packages.py
+
+Output:
+    ubuntu_packages/ directory with all required .deb files
+
+Author: Air-Gapped STIG Solution
+Version: 1.0.0
+"""
+
+import os
+import sys
+import subprocess
+import shutil
+from pathlib import Path
+
+# Required packages for STIG compliance
+REQUIRED_PACKAGES = [
+    # Core security packages
+    'auditd',
+    'audispd-plugins',
+
+    # Intrusion detection
+    'aide',
+    'aide-common',
+
+    # AppArmor (usually installed, but include for completeness)
+    'apparmor',
+    'apparmor-utils',
+    'apparmor-profiles',
+    'apparmor-profiles-extra',
+
+    # PAM modules
+    'libpam-modules',
+    'libpam-modules-bin',
+    'libpam-pwquality',
+    'libpam-runtime',
+
+    # Firewall
+    'ufw',
+
+    # Logging
+    'rsyslog',
+
+    # Time synchronization
+    'chrony',
+
+    # Additional security tools
+    'libpam-cracklib',
+    'vlock',
+]
+
+def check_ubuntu_version():
+    """Verify running on Ubuntu 20.04"""
+    try:
+        with open('/etc/os-release', 'r') as f:
+            content = f.read()
+            if 'Ubuntu 20.04' not in content:
+                print("⚠️  WARNING: Not running on Ubuntu 20.04")
+                print("Downloaded packages may not be compatible with target system!")
+                response = input("Continue anyway? [y/N]: ")
+                if response.lower() != 'y':
+                    sys.exit(1)
+    except FileNotFoundError:
+        print("❌ Cannot determine OS version")
+        sys.exit(1)
+
+def create_output_directory():
+    """Create output directory for packages"""
+    output_dir = Path('ubuntu_packages')
+
+    if output_dir.exists():
+        print(f"⚠️  Directory {output_dir} already exists")
+        response = input("Delete and recreate? [y/N]: ")
+        if response.lower() == 'y':
+            shutil.rmtree(output_dir)
+        else:
+            print("Using existing directory")
+            return output_dir
+
+    output_dir.mkdir(exist_ok=True)
+    print(f"✓ Created output directory: {output_dir}")
+    return output_dir
+
+def update_package_cache():
+    """Update apt cache"""
+    print("\n" + "="*80)
+    print("Updating package cache...")
+    print("="*80)
+
+    result = subprocess.run(
+        ['sudo', 'apt-get', 'update'],
+        capture_output=True,
+        text=True
+    )
+
+    if result.returncode == 0:
+        print("✓ Package cache updated")
+        return True
+    else:
+        print(f"❌ Failed to update package cache: {result.stderr}")
+        return False
+
+def download_packages(output_dir):
+    """Download all required packages and their dependencies"""
+    print("\n" + "="*80)
+    print(f"Downloading {len(REQUIRED_PACKAGES)} packages and dependencies...")
+    print("="*80)
+
+    # Change to output directory
+    original_dir = os.getcwd()
+    os.chdir(output_dir)
+
+    try:
+        # Download all packages with dependencies
+        cmd = ['apt-get', 'download'] + REQUIRED_PACKAGES
+
+        # Also use apt-get to get dependencies
+        print("\nDownloading packages with all dependencies...")
+        for package in REQUIRED_PACKAGES:
+            print(f"\n📦 Downloading: {package}")
+
+            # Download package and all dependencies
+            result = subprocess.run(
+                ['sudo', 'apt-get', 'install', '--download-only', '--reinstall', '-y', package],
+                capture_output=True,
+                text=True
+            )
+
+            if result.returncode != 0:
+                print(f"  ⚠️  Warning: Could not download {package}")
+                print(f"  Error: {result.stderr}")
+            else:
+                print(f"  ✓ Downloaded {package}")
+
+        # Copy downloaded packages from apt cache
+        print("\n📦 Copying packages from apt cache...")
+        cache_dir = Path('/var/cache/apt/archives')
+
+        deb_files = list(cache_dir.glob('*.deb'))
+        copied = 0
+
+        for deb_file in deb_files:
+            if deb_file.name != 'lock':
+                try:
+                    shutil.copy2(deb_file, '.')
+                    copied += 1
+                except Exception as e:
+                    print(f"  Warning: Could not copy {deb_file.name}: {e}")
+
+        print(f"✓ Copied {copied} .deb files")
+
+    finally:
+        os.chdir(original_dir)
+
+    # Count downloaded files
+    deb_files = list(output_dir.glob('*.deb'))
+    print(f"\n✓ Total packages downloaded: {len(deb_files)}")
+
+    return len(deb_files) > 0
+
+def create_install_script(output_dir):
+    """Create installation script for air-gapped system"""
+    script_content = '''#!/bin/bash
+# Air-Gapped Package Installation Script
+# Auto-generated by download_ubuntu_packages.py
+
+set -e
+
+echo "=================================="
+echo "Installing STIG Required Packages"
+echo "=================================="
+echo ""
+
+# Check if running as root
+if [ "$EUID" -ne 0 ]; then
+    echo "❌ This script must be run as root"
+    echo "Usage: sudo bash install_packages.sh"
+    exit 1
+fi
+
+# Get script directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+# Count .deb files
+DEB_COUNT=$(ls -1 "$SCRIPT_DIR"/*.deb 2>/dev/null | wc -l)
+
+if [ "$DEB_COUNT" -eq 0 ]; then
+    echo "❌ No .deb files found in $SCRIPT_DIR"
+    exit 1
+fi
+
+echo "Found $DEB_COUNT .deb files"
+echo ""
+
+# Install all packages
+echo "📦 Installing packages..."
+dpkg -i "$SCRIPT_DIR"/*.deb 2>&1 | tee /tmp/dpkg-install.log
+
+# Fix any dependency issues
+echo ""
+echo "🔧 Fixing any dependency issues..."
+apt-get install -f -y 2>&1 | tee -a /tmp/dpkg-install.log
+
+echo ""
+echo "✓ Package installation complete"
+echo ""
+echo "Installed packages:"
+dpkg -l | grep -E "auditd|aide|apparmor|libpam" | awk '{print "  - " $2 " " $3}'
+
+echo ""
+echo "Installation log: /tmp/dpkg-install.log"
+'''
+
+    script_path = output_dir / 'install_packages.sh'
+    with open(script_path, 'w') as f:
+        f.write(script_content)
+
+    # Make executable
+    script_path.chmod(0o755)
+    print(f"✓ Created installation script: {script_path}")
+
+def create_readme(output_dir):
+    """Create README for package directory"""
+    readme_content = '''# Ubuntu 20.04 STIG Packages (Air-Gapped)
+
+This directory contains all necessary Ubuntu packages for STIG compliance
+in air-gapped environments.
+
+## Contents
+
+- **All .deb files**: Ubuntu packages and dependencies
+- **install_packages.sh**: Installation script for air-gapped system
+
+## Usage on Air-Gapped System
+
+### Option 1: Use install script (Recommended)
+```bash
+sudo bash install_packages.sh
+```
+
+### Option 2: Manual installation
+```bash
+sudo dpkg -i *.deb
+sudo apt-get install -f -y  # Fix any dependency issues
+```
+
+## Included Packages
+
+Core packages included:
+- auditd (audit daemon)
+- aide (file integrity)
+- apparmor (mandatory access control)
+- libpam-pwquality (password quality)
+- ufw (firewall)
+- rsyslog (logging)
+- chrony (time sync)
+
+Plus all dependencies required for these packages.
+
+## Verification
+
+After installation, verify key packages:
+```bash
+dpkg -l | grep auditd
+dpkg -l | grep aide
+dpkg -l | grep apparmor
+systemctl status auditd
+systemctl status rsyslog
+```
+
+## Generated By
+
+download_ubuntu_packages.py - Part of Air-Gapped STIG Solution
+'''
+
+    readme_path = output_dir / 'README.md'
+    with open(readme_path, 'w') as f:
+        f.write(readme_content)
+
+    print(f"✓ Created README: {readme_path}")
+
+def main():
+    """Main execution"""
+    print("\n" + "="*80)
+    print("UBUNTU PACKAGE DOWNLOADER FOR AIR-GAPPED STIG")
+    print("="*80)
+
+    # Check if running on Ubuntu 20.04
+    if sys.platform.startswith('linux'):
+        check_ubuntu_version()
+    else:
+        print("⚠️  WARNING: Not running on Linux")
+        print("Packages may not be compatible!")
+        response = input("Continue anyway? [y/N]: ")
+        if response.lower() != 'y':
+            sys.exit(1)
+
+    # Create output directory
+    output_dir = create_output_directory()
+
+    # Update package cache
+    if not update_package_cache():
+        print("\n⚠️  Failed to update package cache, but continuing...")
+
+    # Download packages
+    if not download_packages(output_dir):
+        print("\n❌ Failed to download packages")
+        sys.exit(1)
+
+    # Create helper scripts
+    create_install_script(output_dir)
+    create_readme(output_dir)
+
+    # Final summary
+    print("\n" + "="*80)
+    print("DOWNLOAD COMPLETE")
+    print("="*80)
+
+    deb_count = len(list(output_dir.glob('*.deb')))
+    total_size = sum(f.stat().st_size for f in output_dir.glob('*.deb'))
+    total_size_mb = total_size / (1024 * 1024)
+
+    print(f"\n✓ Downloaded {deb_count} .deb files")
+    print(f"✓ Total size: {total_size_mb:.1f} MB")
+    print(f"✓ Output directory: {output_dir.absolute()}")
+
+    print("\n📋 Next Steps:")
+    print("="*40)
+    print(f"1. Copy the entire '{output_dir}' directory to your air-gapped system")
+    print("2. On air-gapped system, run: sudo bash ubuntu_packages/install_packages.sh")
+    print("3. Proceed with STIG execution")
+
+    print("\n" + "="*80)
+
+if __name__ == '__main__':
+    main()
