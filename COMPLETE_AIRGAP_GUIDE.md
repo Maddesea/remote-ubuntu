@@ -75,68 +75,68 @@ python airgap_complete_executor.py
 
 ```
 build_complete_airgap_package.py
-├── Downloads Windows Python packages
-│   ├── paramiko-*.whl
-│   ├── cryptography-*.whl
-│   ├── bcrypt-*.whl
-│   ├── PyNaCl-*.whl
-│   ├── cffi-*.whl
-│   ├── pycparser-*.whl
-│   └── six-*.whl
-│
-├── Downloads Ubuntu .deb packages
-│   ├── auditd_*.deb
-│   ├── aide_*.deb
-│   ├── apparmor_*.deb
-│   ├── sssd_*.deb
-│   ├── libpam-pwquality_*.deb
-│   ├── chrony_*.deb
-│   ├── ufw_*.deb
-│   └── ... (20+ packages)
-│
-└── Creates ZIP package
-    ├── dependencies/ (Windows Python packages)
-    ├── ubuntu_packages/ (Ubuntu .deb files)
-    ├── scripts/
-    │   ├── airgap_complete_executor.py
-    │   └── ubuntu20_stig_v2r3_airgap.py
-    ├── README.txt
-    └── MANIFEST.json
+|-- Downloads Windows Python packages
+|   |-- paramiko-*.whl
+|   |-- cryptography-*.whl
+|   |-- bcrypt-*.whl
+|   |-- PyNaCl-*.whl
+|   |-- cffi-*.whl
+|   |-- pycparser-*.whl
+|   \-- six-*.whl
+|
+|-- Downloads Ubuntu .deb packages
+|   |-- auditd_*.deb
+|   |-- aide_*.deb
+|   |-- apparmor_*.deb
+|   |-- sssd_*.deb
+|   |-- libpam-pwquality_*.deb
+|   |-- chrony_*.deb
+|   |-- ufw_*.deb
+|   \-- ... (20+ packages)
+|
+\-- Creates ZIP package
+    |-- dependencies/ (Windows Python packages)
+    |-- ubuntu_packages/ (Ubuntu .deb files)
+    |-- scripts/
+    |   |-- airgap_complete_executor.py
+    |   \-- ubuntu20_stig_v2r3_airgap.py
+    |-- README.txt
+    \-- MANIFEST.json
 ```
 
 ### Phase 2: Execute on Air-Gapped Windows
 
 ```
 airgap_complete_executor.py
-├── 1. Install Python Dependencies (offline)
-│   └── pip install --no-index --find-links dependencies/ *.whl
-│
-├── 2. Connect to Ubuntu via SSH
-│   └── Uses locally-installed paramiko
-│
-├── 3. Transfer Ubuntu Packages
-│   └── SCP all .deb files → /tmp/stig_ubuntu_packages/
-│
-├── 4. Transfer STIG Script
-│   └── SCP ubuntu20_stig_v2r3_airgap.py → /tmp/
-│
-└── 5. Execute STIG Remediation
-    └── sudo python3 /tmp/ubuntu20_stig_v2r3_airgap.py
+|-- 1. Install Python Dependencies (offline)
+|   \-- pip install --no-index --find-links dependencies/ *.whl
+|
+|-- 2. Connect to Ubuntu via SSH
+|   \-- Uses locally-installed paramiko
+|
+|-- 3. Transfer Ubuntu Packages
+|   \-- SCP all .deb files -> /tmp/stig_ubuntu_packages/
+|
+|-- 4. Transfer STIG Script
+|   \-- SCP ubuntu20_stig_v2r3_airgap.py -> /tmp/
+|
+\-- 5. Execute STIG Remediation
+    \-- sudo python3 /tmp/ubuntu20_stig_v2r3_airgap.py
 ```
 
 ### Phase 3: Execute on Ubuntu Target (Automatic)
 
 ```
 ubuntu20_stig_v2r3_airgap.py
-├── Detects /tmp/stig_ubuntu_packages/ exists
-├── Enables OFFLINE MODE automatically
-├── Installs packages from local .deb files
-│   └── dpkg -i /tmp/stig_ubuntu_packages/*.deb
-├── Applies 172 STIG controls
-│   ├── 14 CAT I (Critical)
-│   ├── 136 CAT II (Medium)
-│   └── 22 CAT III (Low)
-└── Creates backups in /var/backups/pre-stig-*/
+|-- Detects /tmp/stig_ubuntu_packages/ exists
+|-- Enables OFFLINE MODE automatically
+|-- Installs packages from local .deb files
+|   \-- dpkg -i /tmp/stig_ubuntu_packages/*.deb
+|-- Applies 172 STIG controls
+|   |-- 14 CAT I (Critical)
+|   |-- 136 CAT II (Medium)
+|   \-- 22 CAT III (Low)
+\-- Creates backups in /var/backups/pre-stig-*/
 ```
 # Complete Air-Gap STIG Execution Guide
 
@@ -164,9 +164,9 @@ python download_all_airgap_packages.py
 
 # This creates:
 #   airgap_complete_package/
-#   ├── python_dependencies/    ← Python .whl files
-#   ├── ubuntu_packages/        ← Ubuntu .deb files
-#   └── scripts/                ← Helper scripts
+#   |-- python_dependencies/    <- Python .whl files
+#   |-- ubuntu_packages/        <- Ubuntu .deb files
+#   \-- scripts/                <- Helper scripts
 ```
 
 ### Step 2: Transfer to Air-Gapped Windows
@@ -211,29 +211,29 @@ ssh user@target 'sudo reboot'
 
 ```
 your-airgap-folder/
-├── airgap_stig_executor_complete.py    ← Main executor (NEW)
-├── ubuntu20_stig_v2r3_enhanced.py      ← STIG remediation script
-├── run_airgap_complete.bat             ← Windows launcher (NEW)
-├── download_all_airgap_packages.py     ← Package downloader (NEW)
-│
-└── airgap_complete_package/            ← Complete offline package
-    ├── python_dependencies/
-    │   ├── paramiko-*.whl
-    │   ├── cryptography-*.whl
-    │   ├── bcrypt-*.whl
-    │   └── ... (all dependencies)
-    │
-    ├── ubuntu_packages/
-    │   ├── auditd_*.deb               ← Audit logging
-    │   ├── aide_*.deb                 ← File integrity
-    │   ├── libpam-pwquality_*.deb     ← Password quality
-    │   ├── apparmor-utils_*.deb       ← AppArmor
-    │   └── ... (all required packages)
-    │
-    ├── scripts/
-    │   └── offline_package_installer.py
-    │
-    └── manifest.json
+|-- airgap_stig_executor_complete.py    <- Main executor (NEW)
+|-- ubuntu20_stig_v2r3_enhanced.py      <- STIG remediation script
+|-- run_airgap_complete.bat             <- Windows launcher (NEW)
+|-- download_all_airgap_packages.py     <- Package downloader (NEW)
+|
+\-- airgap_complete_package/            <- Complete offline package
+    |-- python_dependencies/
+    |   |-- paramiko-*.whl
+    |   |-- cryptography-*.whl
+    |   |-- bcrypt-*.whl
+    |   \-- ... (all dependencies)
+    |
+    |-- ubuntu_packages/
+    |   |-- auditd_*.deb               <- Audit logging
+    |   |-- aide_*.deb                 <- File integrity
+    |   |-- libpam-pwquality_*.deb     <- Password quality
+    |   |-- apparmor-utils_*.deb       <- AppArmor
+    |   \-- ... (all required packages)
+    |
+    |-- scripts/
+    |   \-- offline_package_installer.py
+    |
+    \-- manifest.json
 ```
 
 ---
@@ -328,7 +328,7 @@ Use your organization's approved transfer method:
 
 1. **Extract the package**
    ```powershell
-   # Right-click → Extract All
+   # Right-click -> Extract All
    # OR
    tar -xf ubuntu-stig-airgap-complete-*.zip
    ```
@@ -797,42 +797,42 @@ See TROUBLESHOOTING section above.
 
 ```
 ubuntu-stig-airgap-complete-YYYYMMDD_HHMMSS.zip
-│
-├── dependencies/                  # Windows Python packages
-│   ├── paramiko-3.4.0-*.whl
-│   ├── cryptography-41.0.7-*.whl
-│   ├── bcrypt-4.1.2-*.whl
-│   ├── PyNaCl-1.5.0-*.whl
-│   ├── cffi-1.16.0-*.whl
-│   ├── pycparser-2.21-*.whl
-│   └── six-1.16.0-*.whl
-│
-├── ubuntu_packages/               # Ubuntu .deb packages
-│   ├── auditd_*.deb
-│   ├── audispd-plugins_*.deb
-│   ├── aide_*.deb
-│   ├── aide-common_*.deb
-│   ├── apparmor_*.deb
-│   ├── apparmor-profiles_*.deb
-│   ├── apparmor-utils_*.deb
-│   ├── libpam-pwquality_*.deb
-│   ├── libpam-pkcs11_*.deb
-│   ├── sssd_*.deb
-│   ├── libpam-sss_*.deb
-│   ├── libnss-sss_*.deb
-│   ├── chrony_*.deb
-│   ├── ufw_*.deb
-│   ├── rsyslog_*.deb
-│   ├── vlock_*.deb
-│   ├── usbguard_*.deb
-│   └── ... (and dependencies)
-│
-├── scripts/                       # Executables
-│   ├── airgap_complete_executor.py
-│   └── ubuntu20_stig_v2r3_airgap.py
-│
-├── README.txt                     # Quick reference
-└── MANIFEST.json                  # Package inventory
+|
+|-- dependencies/                  # Windows Python packages
+|   |-- paramiko-3.4.0-*.whl
+|   |-- cryptography-41.0.7-*.whl
+|   |-- bcrypt-4.1.2-*.whl
+|   |-- PyNaCl-1.5.0-*.whl
+|   |-- cffi-1.16.0-*.whl
+|   |-- pycparser-2.21-*.whl
+|   \-- six-1.16.0-*.whl
+|
+|-- ubuntu_packages/               # Ubuntu .deb packages
+|   |-- auditd_*.deb
+|   |-- audispd-plugins_*.deb
+|   |-- aide_*.deb
+|   |-- aide-common_*.deb
+|   |-- apparmor_*.deb
+|   |-- apparmor-profiles_*.deb
+|   |-- apparmor-utils_*.deb
+|   |-- libpam-pwquality_*.deb
+|   |-- libpam-pkcs11_*.deb
+|   |-- sssd_*.deb
+|   |-- libpam-sss_*.deb
+|   |-- libnss-sss_*.deb
+|   |-- chrony_*.deb
+|   |-- ufw_*.deb
+|   |-- rsyslog_*.deb
+|   |-- vlock_*.deb
+|   |-- usbguard_*.deb
+|   \-- ... (and dependencies)
+|
+|-- scripts/                       # Executables
+|   |-- airgap_complete_executor.py
+|   \-- ubuntu20_stig_v2r3_airgap.py
+|
+|-- README.txt                     # Quick reference
+\-- MANIFEST.json                  # Package inventory
 ```
 ### Phase 1: Download Packages (Internet-Connected System)
 
@@ -925,10 +925,10 @@ The script will prompt for:
 1. [Windows] Install Python dependencies from local files
 2. [Windows] Connect to Ubuntu target via SSH
 3. [Ubuntu] Create temporary work directory
-4. [Windows→Ubuntu] Transfer .deb packages
+4. [Windows->Ubuntu] Transfer .deb packages
 5. [Ubuntu] Install packages using dpkg (NO apt)
 6. [Ubuntu] Verify critical packages installed
-7. [Windows→Ubuntu] Transfer STIG script
+7. [Windows->Ubuntu] Transfer STIG script
 8. [Ubuntu] Create backup of critical files
 9. [Ubuntu] Execute STIG remediation
 10. [Ubuntu] Apply all 172 controls
@@ -1286,7 +1286,7 @@ sudo oscap xccdf eval \
 **Windows Logs:**
 ```
 %USERPROFILE%\stig_execution_logs\
-└── stig_airgap_complete_YYYYMMDD_HHMMSS.log
+\-- stig_airgap_complete_YYYYMMDD_HHMMSS.log
 ```
 
 **Ubuntu Logs:**
@@ -1430,13 +1430,13 @@ Total size: ~30-50 MB
 
 ## Appendix B: Network Requirements
 
-**Windows → Ubuntu:**
+**Windows -> Ubuntu:**
 - Protocol: SSH (TCP)
 - Port: 22 (or custom SSH port)
 - Direction: Outbound from Windows
 - Data transfer: ~50 MB during execution
 
-**Ubuntu → Internet:**
+**Ubuntu -> Internet:**
 - NOT REQUIRED [OK]
 - All packages pre-downloaded
 

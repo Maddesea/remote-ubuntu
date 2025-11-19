@@ -110,7 +110,7 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 
 ---
 
-##  DOCUMENTATION FILES
+## DOCUMENTATION FILES
 
 ### 5. `ULTIMATE_AIRGAP_README.md`
 
@@ -178,10 +178,10 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 **Structure:**
 ```
 airgap_packages/
-├── python_dependencies/    ← Python packages for Windows
-├── ubuntu_packages/        ← Ubuntu packages for target
-├── manifest.json           ← Package inventory
-└── README.txt              ← Package documentation
+|-- python_dependencies/    <- Python packages for Windows
+|-- ubuntu_packages/        <- Ubuntu packages for target
+|-- manifest.json           <- Package inventory
+\-- README.txt              <- Package documentation
 ```
 
 **Size:** ~30-50 MB total
@@ -337,37 +337,37 @@ ssh ubuntu@target 'ls -la /var/backups/pre-stig-*'
 
 ---
 
-##  COMPLETE FILE LISTING
+## COMPLETE FILE LISTING
 
 ### What You Download/Create:
 
 ```
 On Internet-Connected System:
-├── BUILD_AIRGAP_PACKAGE.py          ← Download, then run
-├── ULTIMATE_AIRGAP_STIG_EXECUTOR.py ← Download
-├── ubuntu20_stig_v2r3_enhanced.py   ← Download
-└── airgap_packages/                 ← Created by builder
-    ├── python_dependencies/
-    ├── ubuntu_packages/
-    ├── manifest.json
-    └── README.txt
+|-- BUILD_AIRGAP_PACKAGE.py          <- Download, then run
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py <- Download
+|-- ubuntu20_stig_v2r3_enhanced.py   <- Download
+\-- airgap_packages/                 <- Created by builder
+    |-- python_dependencies/
+    |-- ubuntu_packages/
+    |-- manifest.json
+    \-- README.txt
 ```
 
 ### What You Transfer to Air-Gap:
 
 ```
 Transfer Package:
-├── ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main script
-├── ubuntu20_stig_v2r3_enhanced.py       ← STIG script
-├── RUN_ULTIMATE_AIRGAP_STIG.bat         ← Optional launcher
-├── ULTIMATE_AIRGAP_README.md            ← Full docs
-├── ULTRA_QUICK_START.md                 ← Quick start
-├── ULTIMATE_FILES_GUIDE.md              ← This file
-└── airgap_packages/                     ← All dependencies
-    ├── python_dependencies/
-    ├── ubuntu_packages/
-    ├── manifest.json
-    └── README.txt
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     <- Main script
+|-- ubuntu20_stig_v2r3_enhanced.py       <- STIG script
+|-- RUN_ULTIMATE_AIRGAP_STIG.bat         <- Optional launcher
+|-- ULTIMATE_AIRGAP_README.md            <- Full docs
+|-- ULTRA_QUICK_START.md                 <- Quick start
+|-- ULTIMATE_FILES_GUIDE.md              <- This file
+\-- airgap_packages/                     <- All dependencies
+    |-- python_dependencies/
+    |-- ubuntu_packages/
+    |-- manifest.json
+    \-- README.txt
 ```
 
 ### What Gets Created on Windows:
@@ -375,17 +375,17 @@ Transfer Package:
 ```
 During Execution:
 %USERPROFILE%\stig_execution_logs\
-└── ultimate_airgap_stig_*.log
+\-- ultimate_airgap_stig_*.log
 ```
 
 ### What Gets Created on Ubuntu:
 
 ```
 During Execution:
-├── /var/log/ubuntu20-stig-v2r3-remediation.log  ← STIG log
-├── /var/backups/pre-stig-*/                     ← Backups
-├── /var/backups/stig-v2r3/                      ← Additional backups
-└── /tmp/stig_airgap_*/                          ← Temporary (deleted after)
+|-- /var/log/ubuntu20-stig-v2r3-remediation.log  <- STIG log
+|-- /var/backups/pre-stig-*/                     <- Backups
+|-- /var/backups/stig-v2r3/                      <- Additional backups
+\-- /tmp/stig_airgap_*/                          <- Temporary (deleted after)
 ```
 
 ---
@@ -407,9 +407,9 @@ MUST HAVE:
 
 ```
 SHOULD HAVE:
-[OK] ULTIMATE_AIRGAP_README.md       ← Comprehensive docs
-[OK] ULTRA_QUICK_START.md            ← Quick reference
-[OK] RUN_ULTIMATE_AIRGAP_STIG.bat    ← Easy launcher
+[OK] ULTIMATE_AIRGAP_README.md       <- Comprehensive docs
+[OK] ULTRA_QUICK_START.md            <- Quick reference
+[OK] RUN_ULTIMATE_AIRGAP_STIG.bat    <- Easy launcher
 ```
 
 ### Nice to Have:
@@ -423,7 +423,7 @@ OPTIONAL:
 
 ---
 
-##  TOTAL SIZE BREAKDOWN
+## TOTAL SIZE BREAKDOWN
 
 | Component | Size | Files |
 |-----------|------|-------|
@@ -438,70 +438,70 @@ OPTIONAL:
 
 ---
 
-##  FILE FLOW DIAGRAM
+## FILE FLOW DIAGRAM
 
 ```
 [Internet System]
-      ↓
+      v
 BUILD_AIRGAP_PACKAGE.py
-      ↓
+      v
   Downloads from PyPI & Ubuntu Archives
-      ↓
+      v
   airgap_packages/ created
-      ↓
+      v
 [Transfer to Air-Gap]
-      ↓
+      v
 [Air-Gap Windows]
-      ↓
+      v
 ULTIMATE_AIRGAP_STIG_EXECUTOR.py
-      ↓
+      v
   Installs python_dependencies/
-      ↓
+      v
   Connects via SSH
-      ↓
+      v
 [Ubuntu Target]
-      ↓
+      v
   Transfers ubuntu_packages/
-      ↓
+      v
   Installs with dpkg
-      ↓
+      v
   Transfers ubuntu20_stig_v2r3_enhanced.py
-      ↓
+      v
   Executes STIG script
-      ↓
+      v
   Creates backups in /var/backups/
-      ↓
+      v
   Logs to /var/log/
-      ↓
+      v
 [172 STIG Controls Applied]
 ```
 
 ---
 
-## 🆘 QUICK FILE TROUBLESHOOTING
+## [WARNING] QUICK FILE TROUBLESHOOTING
 
 ### "File not found: ULTIMATE_AIRGAP_STIG_EXECUTOR.py"
-→ Ensure you're in the correct directory
-→ Check filename is exact (case-sensitive)
+> Ensure you're in the correct directory
+> Check filename is exact (case-sensitive)
 
 ### "File not found: ubuntu20_stig_v2r3_enhanced.py"
-→ Must be in same folder as executor
-→ Check spelling exactly
+> Must be in same folder as executor
+> Check spelling exactly
 
 ### "Package folder not found: airgap_packages/"
-→ Run BUILD_AIRGAP_PACKAGE.py first
-→ Transfer entire folder to air-gap
-→ Ensure folder is in same location as executor
+> Run BUILD_AIRGAP_PACKAGE.py first
+> Transfer entire folder to air-gap
+> Ensure folder is in same location as executor
 
 ### "No .whl files found"
-→ BUILD_AIRGAP_PACKAGE.py didn't complete
-→ Check internet connection when building
-→ Re-run builder
+> BUILD_AIRGAP_PACKAGE.py didn't complete
+> Check internet connection when building
+> Re-run builder
 
 ### "No .deb files found"
-→ Docker wasn't available during build
-→ See airgap_packages/ubuntu_packages/MANUAL_DOWNLOAD_INSTRUCTIONS.txt
-→ Download manually on Ubuntu 20.04 with internet
+> Docker wasn't available during build
+> See airgap_packages/ubuntu_packages/MANUAL_DOWNLOAD_INSTRUCTIONS.txt
+> Download manually on Ubuntu 20.04 with internet
 
 ---
 

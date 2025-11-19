@@ -212,20 +212,20 @@ def print_next_steps(output_dir="dependencies"):
     print(f"[OK] Total files: {len(list(Path(output_dir).glob('*')))} packages")
     
     print("\n[LIST] Next Steps:")
-    print("\n1⃣  VERIFY the downloaded packages (optional):")
+    print("\n1. VERIFY the downloaded packages (optional):")
     print(f"   python {output_dir}/verify_packages.py")
-    
-    print("\n2⃣  CREATE the air-gap package:")
+
+    print("\n2. CREATE the air-gap package:")
     print("   a) Copy the entire 'dependencies' folder")
     print("   b) Copy 'airgap_windows_stig_executor.py'")
     print("   c) Copy 'ubuntu20_stig_v2r3_enhanced.py' (your STIG script)")
     print("   d) Copy all documentation files (.md)")
-    
-    print("\n3⃣  TRANSFER to air-gapped system:")
+
+    print("\n3. TRANSFER to air-gapped system:")
     print("   - Use USB drive, CD/DVD, or approved transfer method")
     print("   - Ensure all files maintain their structure")
-    
-    print("\n4⃣  ON AIR-GAPPED SYSTEM:")
+
+    print("\n4. ON AIR-GAPPED SYSTEM:")
     print("   - Place all files in same directory")
     print("   - Run: python airgap_windows_stig_executor.py")
     print("   - Script will auto-install from local dependencies")
@@ -236,15 +236,15 @@ def print_next_steps(output_dir="dependencies"):
     print("\nYour air-gap package should look like:")
     print("""
     stig-airgap-package/
-    ├── dependencies/              ← This folder (with all .whl/.tar.gz files)
-    │   ├── paramiko-*.whl
-    │   ├── cryptography-*.whl
-    │   ├── bcrypt-*.whl
-    │   └── ... (more packages)
-    ├── airgap_windows_stig_executor.py
-    ├── ubuntu20_stig_v2r3_enhanced.py
-    ├── README_AIRGAP.md
-    └── other documentation files
+    |-- dependencies/              <- This folder (with all .whl/.tar.gz files)
+    |   |-- paramiko-*.whl
+    |   |-- cryptography-*.whl
+    |   |-- bcrypt-*.whl
+    |   \\-- ... (more packages)
+    |-- airgap_windows_stig_executor.py
+    |-- ubuntu20_stig_v2r3_enhanced.py
+    |-- README_AIRGAP.md
+    \\-- other documentation files
     """)
     
     print("\n" + "="*80)

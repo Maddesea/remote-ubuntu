@@ -278,11 +278,11 @@ class UltimateAirGapSTIGExecutor:
         if not all_ok:
             logger.error("\n[ERROR] Missing required files!")
             logger.error("\nRequired structure:")
-            logger.error("  ULTIMATE_AIRGAP_STIG_EXECUTOR.py  ← This script")
-            logger.error("  ubuntu20_stig_v2r3_enhanced.py    ← STIG remediation script")
+            logger.error("  ULTIMATE_AIRGAP_STIG_EXECUTOR.py  <- This script")
+            logger.error("  ubuntu20_stig_v2r3_enhanced.py    <- STIG remediation script")
             logger.error("  airgap_packages/")
-            logger.error("    ├── python_dependencies/       ← .whl files for Windows")
-            logger.error("    └── ubuntu_packages/           ← .deb files for Ubuntu")
+            logger.error("    |-- python_dependencies/       <- .whl files for Windows")
+            logger.error("    \\-- ubuntu_packages/           <- .deb files for Ubuntu")
             logger.error("\nRun the package builder first!")
             sys.exit(1)
 
@@ -291,7 +291,7 @@ class UltimateAirGapSTIGExecutor:
         logger.info(f"\n  [OK] Found {len(deb_files)} Ubuntu .deb packages")
 
         if len(deb_files) == 0:
-            logger.warning("  [WARNING]  WARNING: No .deb files found!")
+            logger.warning("  [WARNING] WARNING: No .deb files found!")
             logger.warning("  Package installation may fail on target")
 
     def print_banner(self):

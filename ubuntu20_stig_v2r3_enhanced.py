@@ -366,12 +366,12 @@ class RemoteExecutor:
         if self.successful_hosts:
             print("\n[OK] Successful hosts:")
             for host in self.successful_hosts:
-                print(f"  • {host.hostname}")
-        
+                print(f"  * {host.hostname}")
+
         if self.failed_hosts:
             print("\n[FAIL] Failed hosts:")
             for host in self.failed_hosts:
-                print(f"  • {host.hostname}")
+                print(f"  * {host.hostname}")
                 if host.errors:
                     for error in host.errors[:3]:
                         print(f"      - {error}")
@@ -4346,9 +4346,9 @@ def main():
                 print("  [WARNING]  FORCE_NO_BACKUP: System backups will NOT be created")
             
             print("\nForce mode should ONLY be used:")
-            print("  • In controlled test environments")
-            print("  • When recovering from failed remediations")
-            print("  • When you fully understand the risks")
+            print("  * In controlled test environments")
+            print("  * When recovering from failed remediations")
+            print("  * When you fully understand the risks")
             print("\n" + "!"*80)
             
             if not STIGConfig.DRY_RUN:

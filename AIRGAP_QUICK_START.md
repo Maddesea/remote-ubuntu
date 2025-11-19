@@ -41,10 +41,10 @@ python airgap_windows_stig_executor.py
 3. Enter SSH password: `********`
 4. Enter sudo password: `********` (usually same)
 5. Security options:
-   - Disable password auth? **[Y/n]** ← Press Enter for YES
-   - Enable FIPS? **[y/N]** ← Press Enter for NO
-   - Strict firewall? **[Y/n]** ← Press Enter for YES
-6. Type: **`EXECUTE`** ← Must type exactly
+   - Disable password auth? **[Y/n]** <- Press Enter for YES
+   - Enable FIPS? **[y/N]** <- Press Enter for NO
+   - Strict firewall? **[Y/n]** <- Press Enter for YES
+6. Type: **`EXECUTE`** <- Must type exactly
 
 **Wait ~10 minutes** while it works.
 
@@ -84,7 +84,7 @@ ssh user@target 'sudo systemctl status sshd auditd rsyslog ufw'
 
 ---
 
-## 🆘 Quick Fixes
+## [WARNING] Quick Fixes
 
 ### "dependencies not found"
 ```
@@ -130,7 +130,7 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-##  Need More Info?
+## Need More Info?
 
 **Full Guide:** `README_AIRGAP.md`  
 **Security Details:** `MAXIMUM_SECURITY_GUIDE.md`  
@@ -166,7 +166,7 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-## [IDEA] Pro Tips
+## [NOTE] Pro Tips
 
 **First Time?**
 1. Test on VM with snapshot

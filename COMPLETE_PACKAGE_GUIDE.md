@@ -12,7 +12,7 @@ For isolated/classified environments with NO internet
 
 ---
 
-##  Which Package Should You Use?
+## Which Package Should You Use?
 
 ### Use **Internet-Connected** If:
 - [OK] Your Windows system has internet access
@@ -34,26 +34,26 @@ For isolated/classified environments with NO internet
 ### **Package 1: Internet-Connected** (Simpler Setup)
 ```
 Internet-Connected-Package/
-├── windows_stig_remote_executor.py   ← Main executor (auto-downloads deps)
-├── ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script
-├── run_stig.bat                       ← Windows launcher
-├── README_WINDOWS_EXECUTOR.md         ← Full documentation
-├── QUICK_START.md                     ← 5-minute guide
-├── START_HERE.md                      ← Quick reference
-└── PACKAGE_SUMMARY.md                 ← Overview
+|-- windows_stig_remote_executor.py   <- Main executor (auto-downloads deps)
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script
+|-- run_stig.bat                       <- Windows launcher
+|-- README_WINDOWS_EXECUTOR.md         <- Full documentation
+|-- QUICK_START.md                     <- 5-minute guide
+|-- START_HERE.md                      <- Quick reference
+\-- PACKAGE_SUMMARY.md                 <- Overview
 ```
 
 ### **Package 2: Air-Gapped** (Maximum Security)
 ```
 Air-Gapped-Package/
-├── airgap_windows_stig_executor.py   ← Main executor (offline capable)
-├── ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script
-├── download_dependencies.py          ← Run on internet system first
-├── build_airgap_package.py           ← Package builder
-├── run_airgap_stig.bat               ← Windows launcher
-├── README_AIRGAP.md                  ← Full documentation
-├── AIRGAP_QUICK_START.md             ← 5-minute guide
-└── dependencies/ (created later)     ← Offline Python packages
+|-- airgap_windows_stig_executor.py   <- Main executor (offline capable)
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script
+|-- download_dependencies.py          <- Run on internet system first
+|-- build_airgap_package.py           <- Package builder
+|-- run_airgap_stig.bat               <- Windows launcher
+|-- README_AIRGAP.md                  <- Full documentation
+|-- AIRGAP_QUICK_START.md             <- 5-minute guide
+\-- dependencies/ (created later)     <- Offline Python packages
 ```
 
 ---
@@ -224,19 +224,19 @@ run_airgap_stig.bat
 ##  Documentation
 
 ### Internet-Connected Package:
-1. **START_HERE.md** - One-page quick reference ⭐ READ THIS FIRST
+1. **START_HERE.md** - One-page quick reference [IMPORTANT] READ THIS FIRST
 2. **QUICK_START.md** - 5-minute setup guide
 3. **README_WINDOWS_EXECUTOR.md** - Comprehensive documentation
 4. **PACKAGE_SUMMARY.md** - Complete overview
 
 ### Air-Gapped Package:
-1. **AIRGAP_QUICK_START.md** - 5-minute setup guide ⭐ READ THIS FIRST
+1. **AIRGAP_QUICK_START.md** - 5-minute setup guide [IMPORTANT] READ THIS FIRST
 2. **README_AIRGAP.md** - Comprehensive documentation
 3. **Download/build scripts** - For package creation
 
 ---
 
-## 🆘 Troubleshooting
+## [WARNING] Troubleshooting
 
 ### Common Issues (Both Packages):
 
@@ -400,7 +400,7 @@ firefox scan-report.html
 
 ---
 
-##  Support & Resources
+## Support & Resources
 
 ### Included Documentation:
 - **Internet**: README_WINDOWS_EXECUTOR.md, QUICK_START.md
@@ -462,7 +462,7 @@ Ubuntu 20.04 STIG V2R3 contains 172 specific security requirements covering auth
 
 ---
 
-##  License & Disclaimer
+## License & Disclaimer
 
 **License**: MIT License
 
@@ -472,16 +472,16 @@ Ubuntu 20.04 STIG V2R3 contains 172 specific security requirements covering auth
 
 ---
 
-##  You're Ready!
+## You're Ready!
 
 Choose your package:
 
-### **Internet-Connected** → `windows_stig_remote_executor.py`
+### **Internet-Connected** -> `windows_stig_remote_executor.py`
 - Simpler setup
 - Auto-downloads dependencies
 - Standard STIG compliance
 
-### **Air-Gapped** → `airgap_windows_stig_executor.py`
+### **Air-Gapped** -> `airgap_windows_stig_executor.py`
 - No internet required
 - Bundled dependencies
 - Maximum security lockdown
@@ -532,7 +532,7 @@ ssh user@target 'sudo reboot'
 
 ---
 
-##  File Checklist
+## File Checklist
 
 Make sure you have these files:
 

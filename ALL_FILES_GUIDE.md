@@ -8,7 +8,7 @@ This document shows ALL files you've downloaded and how they work together.
 
 ## [DOWNLOAD] Downloaded Files (14 Files Total)
 
-###  **Main Executors** (Choose One):
+### **Main Executors** (Choose One):
 1. **windows_stig_remote_executor.py** (24 KB)
    - For systems WITH internet
    - Auto-downloads dependencies
@@ -28,7 +28,7 @@ This document shows ALL files you've downloaded and how they work together.
    - Creates complete air-gap package
    - Bundles everything into ZIP
 
-###  **Windows Launchers** (Optional - Makes it easier):
+### **Windows Launchers** (Optional - Makes it easier):
 5. **run_stig.bat** (5.7 KB)
    - Launches internet-connected executor
    - Double-click to run
@@ -37,10 +37,10 @@ This document shows ALL files you've downloaded and how they work together.
    - Launches air-gapped executor
    - Double-click to run
 
-###  **Documentation Files**:
+### **Documentation Files**:
 
 #### Start Here (Quick References):
-7. **COMPLETE_PACKAGE_GUIDE.md** (15 KB) ⭐ **READ THIS FIRST!**
+7. **COMPLETE_PACKAGE_GUIDE.md** (15 KB) [IMPORTANT] **READ THIS FIRST!**
    - Overview of everything
    - Which package to use
    - Quick start for both modes
@@ -83,44 +83,44 @@ This document shows ALL files you've downloaded and how they work together.
 ### Option 1: Internet-Connected Setup
 ```
 C:\STIG-Internet\
-│
-├── windows_stig_remote_executor.py   ← Main executor
-├── ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script (you have this)
-├── run_stig.bat                       ← Quick launcher (optional)
-│
-└── Documentation\
-    ├── COMPLETE_PACKAGE_GUIDE.md      ← Start here!
-    ├── START_HERE.md                  ← Quick reference
-    ├── README_WINDOWS_EXECUTOR.md     ← Full guide
-    ├── QUICK_START.md                 ← 5-minute guide
-    └── PACKAGE_SUMMARY.md             ← Overview
+|
+|-- windows_stig_remote_executor.py   <- Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script (you have this)
+|-- run_stig.bat                       <- Quick launcher (optional)
+|
+\-- Documentation\
+    |-- COMPLETE_PACKAGE_GUIDE.md      <- Start here!
+    |-- START_HERE.md                  <- Quick reference
+    |-- README_WINDOWS_EXECUTOR.md     <- Full guide
+    |-- QUICK_START.md                 <- 5-minute guide
+    \-- PACKAGE_SUMMARY.md             <- Overview
 ```
 
 ### Option 2: Air-Gapped Setup
 ```
 C:\STIG-AirGap\
-│
-├── airgap_windows_stig_executor.py   ← Main executor
-├── ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script (you have this)
-├── download_dependencies.py          ← Run on internet system first
-├── build_airgap_package.py           ← Package builder
-├── run_airgap_stig.bat               ← Quick launcher (optional)
-│
-├── dependencies\                     ← Created by download script
-│   ├── paramiko-*.whl
-│   ├── cryptography-*.whl
-│   └── ... (all Python packages)
-│
-└── Documentation\
-    ├── COMPLETE_PACKAGE_GUIDE.md      ← Start here!
-    ├── AIRGAP_QUICK_START.md          ← Quick reference
-    ├── README_AIRGAP.md               ← Full guide
-    └── IMPORTANT_STIG_SCRIPT_NOTE.md  ← About your script
+|
+|-- airgap_windows_stig_executor.py   <- Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script (you have this)
+|-- download_dependencies.py          <- Run on internet system first
+|-- build_airgap_package.py           <- Package builder
+|-- run_airgap_stig.bat               <- Quick launcher (optional)
+|
+|-- dependencies\                     <- Created by download script
+|   |-- paramiko-*.whl
+|   |-- cryptography-*.whl
+|   \-- ... (all Python packages)
+|
+\-- Documentation\
+    |-- COMPLETE_PACKAGE_GUIDE.md      <- Start here!
+    |-- AIRGAP_QUICK_START.md          <- Quick reference
+    |-- README_AIRGAP.md               <- Full guide
+    \-- IMPORTANT_STIG_SCRIPT_NOTE.md  <- About your script
 ```
 
 ---
 
-##  DECISION TREE: Which Files Do You Need?
+## DECISION TREE: Which Files Do You Need?
 
 ### START: Do you have internet on Windows?
 
@@ -245,10 +245,10 @@ python airgap_windows_stig_executor.py
 
 ---
 
-##  Documentation Reading Order
+## Documentation Reading Order
 
 ### If You're New:
-1. **COMPLETE_PACKAGE_GUIDE.md** ⭐ (this helps you choose)
+1. **COMPLETE_PACKAGE_GUIDE.md** [IMPORTANT] (this helps you choose)
 2. **START_HERE.md** or **AIRGAP_QUICK_START.md** (based on your choice)
 3. Run the executor
 4. If issues, check troubleshooting in the README
@@ -292,21 +292,21 @@ python airgap_windows_stig_executor.py
 ## [TARGET] Success Path
 
 ```
-1. Read COMPLETE_PACKAGE_GUIDE.md ← You are here!
-   ↓
+1. Read COMPLETE_PACKAGE_GUIDE.md <- You are here!
+   v
 2. Choose: Internet or Air-Gap?
-   ↓
+   v
 3. Follow Quick Start for your choice
-   ↓
+   v
 4. Run the executor
-   ↓
+   v
 5. Wait ~10 minutes
-   ↓
+   v
 6. Reboot Ubuntu
-   ↓
+   v
 7. Verify compliance
-   ↓
-8. Done! 
+   v
+8. Done!
 ```
 
 ---
@@ -323,23 +323,23 @@ All very manageable sizes!
 
 ---
 
-## 🆘 Quick Troubleshooting
+## [WARNING] Quick Troubleshooting
 
 ### "I'm confused about which files to use"
-→ Read **COMPLETE_PACKAGE_GUIDE.md** (this file!)
+> Read **COMPLETE_PACKAGE_GUIDE.md** (this file!)
 
 ### "I can't find my STIG script"
-→ Read **IMPORTANT_STIG_SCRIPT_NOTE.md**
+> Read **IMPORTANT_STIG_SCRIPT_NOTE.md**
 
 ### "How do I run this on Windows?"
-→ Read **START_HERE.md** (internet) or **AIRGAP_QUICK_START.md** (air-gap)
+> Read **START_HERE.md** (internet) or **AIRGAP_QUICK_START.md** (air-gap)
 
 ### "I need detailed instructions"
-→ Read **README_WINDOWS_EXECUTOR.md** or **README_AIRGAP.md**
+> Read **README_WINDOWS_EXECUTOR.md** or **README_AIRGAP.md**
 
 ### "Something went wrong during execution"
-→ Check logs in %USERPROFILE%\stig_execution_logs\
-→ Read troubleshooting section in appropriate README
+> Check logs in %USERPROFILE%\stig_execution_logs\
+> Read troubleshooting section in appropriate README
 
 ---
 
@@ -359,7 +359,7 @@ You might need them again for:
 
 ---
 
-##  You're All Set!
+## You're All Set!
 
 You have EVERYTHING you need:
 
@@ -371,8 +371,8 @@ You have EVERYTHING you need:
 [OK] Troubleshooting help  
 
 **Just choose your path:**
-- **Internet-Connected** → START_HERE.md
-- **Air-Gapped** → AIRGAP_QUICK_START.md
+- **Internet-Connected** -> START_HERE.md
+- **Air-Gapped** -> AIRGAP_QUICK_START.md
 
 **Then run it and secure your Ubuntu system!**
 

@@ -57,7 +57,7 @@ class AirGapDependencyInstaller:
             'paramiko': 'paramiko',
             'cryptography': 'cryptography',
             'bcrypt': 'bcrypt',
-            'pynacl': 'PyNaCl',
+            'nacl': 'PyNaCl',
             'cffi': 'cffi',
             'pycparser': 'pycparser',
             'six': 'six'
