@@ -298,7 +298,7 @@ sudo systemctl restart sshd
 4. Update STIG script when new versions release
 5. Document all exceptions with risk acceptance
 
-## 🆘 Getting Help
+## [HELP] Getting Help
 
 ### Check First:
 1. **Logs:** `%USERPROFILE%\stig_execution_logs\` (Windows)
@@ -379,15 +379,15 @@ You now have everything needed to:
 
 ```
 windows-stig-package/
-├── windows_stig_remote_executor.py    (24 KB) - Main executor
-├── run_stig.bat                       (5.7 KB) - Windows launcher
-├── README_WINDOWS_EXECUTOR.md         (16 KB) - Full docs
-├── QUICK_START.md                     (3.8 KB) - Quick guide
-├── IMPORTANT_STIG_SCRIPT_NOTE.md      - Script location info
-└── PACKAGE_SUMMARY.md                 (THIS FILE) - Overview
+|-- windows_stig_remote_executor.py    (24 KB) - Main executor
+|-- run_stig.bat                       (5.7 KB) - Windows launcher
+|-- README_WINDOWS_EXECUTOR.md         (16 KB) - Full docs
+|-- QUICK_START.md                     (3.8 KB) - Quick guide
+|-- IMPORTANT_STIG_SCRIPT_NOTE.md      - Script location info
+|-- PACKAGE_SUMMARY.md                 (THIS FILE) - Overview
 
 REQUIRED (you already have this):
-└── ubuntu20_stig_v2r3_enhanced.py     (~100 KB) - STIG script
+|-- ubuntu20_stig_v2r3_enhanced.py     (~100 KB) - STIG script
 ```
 
 ---

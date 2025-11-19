@@ -78,7 +78,7 @@ run_stig.bat
 
 ---
 
-## 🆘 Quick Troubleshooting
+## [HELP] Quick Troubleshooting
 
 **"Python not found"**
 - Install Python from python.org

@@ -84,7 +84,7 @@ ssh user@target 'sudo systemctl status sshd auditd rsyslog ufw'
 
 ---
 
-## 🆘 Quick Fixes
+## [HELP] Quick Fixes
 
 ### "dependencies not found"
 ```
@@ -130,7 +130,7 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-##  Need More Info?
+## Need More Info?
 
 **Full Guide:** `README_AIRGAP.md`  
 **Security Details:** `MAXIMUM_SECURITY_GUIDE.md`  

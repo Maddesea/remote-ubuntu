@@ -39,23 +39,23 @@ Complete air-gapped package for executing Ubuntu 20.04 DISA STIG V2R3 remediatio
 
 ```
 stig-airgap-package/
-├── dependencies/                          ← All Python packages (offline)
-│   ├── paramiko-*.whl                    (SSH library)
-│   ├── cryptography-*.whl                (Crypto backend)
-│   ├── bcrypt-*.whl                      (Password hashing)
-│   └── ... (all dependencies)
-│
-├── airgap_windows_stig_executor.py       ← Main Windows launcher (MAXIMUM SECURITY)
-├── ubuntu20_stig_v2r3_enhanced.py        ← STIG remediation script
-├── run_airgap_stig.bat                   ← Windows quick launcher
-│
-├── download_dependencies.py              ← Run on internet-connected system
-│
-└── Documentation/
-    ├── README_AIRGAP.md                  (This file)
-    ├── AIRGAP_QUICK_START.md             (5-minute guide)
-    ├── MAXIMUM_SECURITY_GUIDE.md         (Security details)
-    └── TROUBLESHOOTING_AIRGAP.md         (Common issues)
+|-- dependencies/                          ← All Python packages (offline)
+|   |-- paramiko-*.whl                    (SSH library)
+|   |-- cryptography-*.whl                (Crypto backend)
+|   |-- bcrypt-*.whl                      (Password hashing)
+|   |-- ... (all dependencies)
+|
+|-- airgap_windows_stig_executor.py       ← Main Windows launcher (MAXIMUM SECURITY)
+|-- ubuntu20_stig_v2r3_enhanced.py        ← STIG remediation script
+|-- run_airgap_stig.bat                   ← Windows quick launcher
+|
+|-- download_dependencies.py              ← Run on internet-connected system
+|
+|-- Documentation/
+    |-- README_AIRGAP.md                  (This file)
+    |-- AIRGAP_QUICK_START.md             (5-minute guide)
+    |-- MAXIMUM_SECURITY_GUIDE.md         (Security details)
+    |-- TROUBLESHOOTING_AIRGAP.md         (Common issues)
 ```
 
 ---
@@ -128,11 +128,11 @@ python dependencies/verify_packages.py
 Create a folder with:
 ```
 stig-airgap-package/
-├── dependencies/ (folder with all .whl files)
-├── airgap_windows_stig_executor.py
-├── ubuntu20_stig_v2r3_enhanced.py
-├── run_airgap_stig.bat
-└── All .md documentation files
+|-- dependencies/ (folder with all .whl files)
+|-- airgap_windows_stig_executor.py
+|-- ubuntu20_stig_v2r3_enhanced.py
+|-- run_airgap_stig.bat
+|-- All .md documentation files
 ```
 
 #### 5. Transfer to Air-Gapped System
@@ -326,7 +326,7 @@ sudo systemctl restart auditd
 
 ---
 
-## 🆘 Troubleshooting
+## [HELP] Troubleshooting
 
 ### Common Issues:
 

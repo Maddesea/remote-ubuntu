@@ -428,15 +428,15 @@ class CompleteAirGapSTIGExecutor:
 This script will apply 172 DISA STIG security controls to the target system.
 
 WHAT WILL CHANGE:
-  • Password policies (15 char minimum, complexity requirements)
-  • Account lockout (3 failed attempts = 15 min lockout)
-  • SSH configuration (FIPS ciphers, root login disabled)
-  • Firewall rules (UFW enabled, restrictive rules)
-  • Kernel parameters (59 sysctl settings)
-  • Audit system (136 comprehensive audit rules)
-  • System services (disable unnecessary services)
-  • USB/wireless settings (restrictive by default)
-  • File permissions and ownership
+  - Password policies (15 char minimum, complexity requirements)
+  - Account lockout (3 failed attempts = 15 min lockout)
+  - SSH configuration (FIPS ciphers, root login disabled)
+  - Firewall rules (UFW enabled, restrictive rules)
+  - Kernel parameters (59 sysctl settings)
+  - Audit system (136 comprehensive audit rules)
+  - System services (disable unnecessary services)
+  - USB/wireless settings (restrictive by default)
+  - File permissions and ownership
 
 BEFORE YOU PROCEED:
   [OK] You have CONSOLE ACCESS to the target (KVM/physical/VM console)
@@ -554,7 +554,7 @@ IF SOMETHING BREAKS:
                 print("  [OK] Cleaned up temporary files\n")
                 self.logger.info("Cleaned up remote temporary files")
             else:
-                print("  ⊘ Skipped cleanup\n")
+                print("  [SKIP] Skipped cleanup\n")
 
         except Exception as e:
             print(f"  [WARNING]  Cleanup failed: {e}\n")

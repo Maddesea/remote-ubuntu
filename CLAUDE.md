@@ -5,7 +5,7 @@
 **Repository Name**: Windows-to-Ubuntu STIG Remote Executor
 **Purpose**: Automate Ubuntu 20.04 DISA STIG V2R3 compliance (172 security controls) from Windows workstations to remote Ubuntu servers
 **Language**: Python 3.6+
-**Target Platforms**: Windows (client) → Ubuntu 20.04 LTS (target)
+**Target Platforms**: Windows (client) -> Ubuntu 20.04 LTS (target)
 **Security Level**: High - DoD/DISA compliance automation
 
 ### Key Features
@@ -22,31 +22,31 @@
 
 ```
 /
-├── Core Executors (Primary Scripts)
-│   ├── windows_stig_remote_executor.py      (24 KB) - Internet-connected mode
-│   └── airgap_windows_stig_executor.py      (30 KB) - Air-gapped mode
-│
-├── Helper Scripts
-│   ├── download_dependencies.py              (9.6 KB) - Pre-download Python packages
-│   └── build_airgap_package.py              (18 KB) - Build complete air-gap package
-│
-├── Windows Launchers (Optional convenience wrappers)
-│   ├── run_stig.bat                          (5.7 KB) - Launch internet-connected mode
-│   └── run_airgap_stig.bat                   (7.5 KB) - Launch air-gapped mode
-│
-├── Documentation (User-facing)
-│   ├── START_HERE.md                         (6.5 KB) - Quick start for internet mode
-│   ├── AIRGAP_QUICK_START.md                 (4.1 KB) - Quick start for air-gap mode
-│   ├── QUICK_START.md                        (3.8 KB) - 5-minute setup guide
-│   ├── COMPLETE_PACKAGE_GUIDE.md            (15 KB) - Comprehensive overview
-│   ├── PACKAGE_SUMMARY.md                   (12 KB) - Summary of what gets changed
-│   ├── ALL_FILES_GUIDE.md                   (10 KB) - All files overview
-│   ├── README_WINDOWS_EXECUTOR.md           (16 KB) - Detailed internet mode docs
-│   ├── README_AIRGAP.md                     (16 KB) - Detailed air-gap mode docs
-│   └── IMPORTANT_STIG_SCRIPT_NOTE.md         (3 KB) - Notes about required STIG script
-│
-└── Required External File (Not in repo)
-    └── ubuntu20_stig_v2r3_enhanced.py       (~100 KB) - Actual STIG remediation script
+|-- Core Executors (Primary Scripts)
+|   |-- windows_stig_remote_executor.py      (24 KB) - Internet-connected mode
+|   |-- airgap_windows_stig_executor.py      (30 KB) - Air-gapped mode
+|
+|-- Helper Scripts
+|   |-- download_dependencies.py              (9.6 KB) - Pre-download Python packages
+|   |-- build_airgap_package.py              (18 KB) - Build complete air-gap package
+|
+|-- Windows Launchers (Optional convenience wrappers)
+|   |-- run_stig.bat                          (5.7 KB) - Launch internet-connected mode
+|   |-- run_airgap_stig.bat                   (7.5 KB) - Launch air-gapped mode
+|
+|-- Documentation (User-facing)
+|   |-- START_HERE.md                         (6.5 KB) - Quick start for internet mode
+|   |-- AIRGAP_QUICK_START.md                 (4.1 KB) - Quick start for air-gap mode
+|   |-- QUICK_START.md                        (3.8 KB) - 5-minute setup guide
+|   |-- COMPLETE_PACKAGE_GUIDE.md            (15 KB) - Comprehensive overview
+|   |-- PACKAGE_SUMMARY.md                   (12 KB) - Summary of what gets changed
+|   |-- ALL_FILES_GUIDE.md                   (10 KB) - All files overview
+|   |-- README_WINDOWS_EXECUTOR.md           (16 KB) - Detailed internet mode docs
+|   |-- README_AIRGAP.md                     (16 KB) - Detailed air-gap mode docs
+|   |-- IMPORTANT_STIG_SCRIPT_NOTE.md         (3 KB) - Notes about required STIG script
+|
+|-- Required External File (Not in repo)
+    |-- ubuntu20_stig_v2r3_enhanced.py       (~100 KB) - Actual STIG remediation script
 ```
 
 ---
@@ -444,7 +444,7 @@ sudo systemctl restart sshd
 **Windows (executor logs)**:
 ```
 %USERPROFILE%\stig_execution_logs\
-└── stig_execution_YYYYMMDD_HHMMSS.log
+|-- stig_execution_YYYYMMDD_HHMMSS.log
 ```
 
 **Ubuntu (STIG application logs)**:
@@ -508,13 +508,13 @@ ubuntu20_stig_v2r3_enhanced.py       ← STIG script (external)
 airgap_windows_stig_executor.py      ← Executor
 ubuntu20_stig_v2r3_enhanced.py       ← STIG script (external)
 dependencies/                         ← Python packages
-├── paramiko-*.whl
-├── cryptography-*.whl
-├── bcrypt-*.whl
-├── PyNaCl-*.whl
-├── cffi-*.whl
-├── pycparser-*.whl
-└── six-*.whl
+|-- paramiko-*.whl
+|-- cryptography-*.whl
+|-- bcrypt-*.whl
+|-- PyNaCl-*.whl
+|-- cffi-*.whl
+|-- pycparser-*.whl
+|-- six-*.whl
 ```
 
 ### External Dependencies
