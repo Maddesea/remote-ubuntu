@@ -32,7 +32,6 @@ import time
 import getpass
 import logging
 import subprocess
-import tempfile
 from pathlib import Path
 from datetime import datetime
 
@@ -74,8 +73,8 @@ class LocalDependencyInstaller:
             print(f"\n[ERROR] ERROR: Dependencies folder not found: {self.deps_dir}")
             print("\nExpected structure:")
             print("  airgap_complete_package/")
-            print("  ├── python_dependencies/  ← THIS FOLDER")
-            print("  └── ubuntu_packages/")
+            print("  |- python_dependencies/  <- THIS FOLDER")
+            print("  `- ubuntu_packages/")
             print("\nPlease ensure the complete package is extracted!")
             return False
 
@@ -198,12 +197,12 @@ class CompleteAirGapSTIGExecutor:
             for item in missing:
                 print(f"  - {item}")
             print("\nExpected structure:")
-            print("  airgap_stig_executor_complete.py  ← This script")
-            print("  ubuntu20_stig_v2r3_enhanced.py    ← STIG remediation script")
+            print("  airgap_stig_executor_complete.py  <- This script")
+            print("  ubuntu20_stig_v2r3_enhanced.py    <- STIG remediation script")
             print("  airgap_complete_package/")
-            print("  ├── python_dependencies/")
-            print("  ├── ubuntu_packages/            ← .deb files")
-            print("  └── scripts/")
+            print("  |- python_dependencies/")
+            print("  |- ubuntu_packages/            <- .deb files")
+            print("  `- scripts/")
             sys.exit(1)
 
         # Check for .deb files

@@ -408,9 +408,9 @@ class WindowsSTIGRemoteExecutor:
 
 **Backup locations**:
 ```
-/var/backups/pre-stig-YYYYMMDD_HHMMSS/  ← Full pre-execution backup
-/var/backups/stig-v2r3/                  ← Individual config backups
-*.stig-v2r3-backup-*                     ← Per-file backups
+/var/backups/pre-stig-YYYYMMDD_HHMMSS/  <- Full pre-execution backup
+/var/backups/stig-v2r3/                  <- Individual config backups
+*.stig-v2r3-backup-*                     <- Per-file backups
 ```
 
 **Quick SSH restore** (if SSH broken):
@@ -499,15 +499,15 @@ ERROR - Sudo password incorrect
 
 ### Required for Internet-Connected Mode
 ```
-windows_stig_remote_executor.py      ← Executor
-ubuntu20_stig_v2r3_enhanced.py       ← STIG script (external)
+windows_stig_remote_executor.py      <- Executor
+ubuntu20_stig_v2r3_enhanced.py       <- STIG script (external)
 ```
 
 ### Required for Air-Gapped Mode
 ```
-airgap_windows_stig_executor.py      ← Executor
-ubuntu20_stig_v2r3_enhanced.py       ← STIG script (external)
-dependencies/                         ← Python packages
+airgap_windows_stig_executor.py      <- Executor
+ubuntu20_stig_v2r3_enhanced.py       <- STIG script (external)
+dependencies/                         <- Python packages
 |-- paramiko-*.whl
 |-- cryptography-*.whl
 |-- bcrypt-*.whl

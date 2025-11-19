@@ -92,9 +92,9 @@ class AirGapDependencyInstaller:
         if not self.dependencies_dir.exists():
             print(f"\n[ERROR] ERROR: Dependencies directory not found: {self.dependencies_dir}")
             print("\nPackage structure should be:")
-            print("  dependencies/        ← Python .whl files")
-            print("  ubuntu_packages/     ← Ubuntu .deb files")
-            print("  scripts/             ← STIG scripts")
+            print("  dependencies/        <- Python .whl files")
+            print("  ubuntu_packages/     <- Ubuntu .deb files")
+            print("  scripts/             <- STIG scripts")
             return False
 
         # Install from local files
@@ -263,12 +263,12 @@ class CompleteAirGapSTIGExecutor:
                 print(f"  - {issue}")
             print("\nExpected structure:")
             print("  scripts/")
-            print("    ├── airgap_complete_executor.py")
-            print("    └── ubuntu20_stig_v2r3_airgap.py")
+            print("    |- airgap_complete_executor.py")
+            print("    `- ubuntu20_stig_v2r3_airgap.py")
             print("  ubuntu_packages/")
-            print("    └── *.deb files")
+            print("    `- *.deb files")
             print("  dependencies/")
-            print("    └── *.whl files")
+            print("    `- *.whl files")
             return False
 
         print("")

@@ -34,26 +34,26 @@ For isolated/classified environments with NO internet
 ### **Package 1: Internet-Connected** (Simpler Setup)
 ```
 Internet-Connected-Package/
-|-- windows_stig_remote_executor.py   ← Main executor (auto-downloads deps)
-|-- ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script
-|-- run_stig.bat                       ← Windows launcher
-|-- README_WINDOWS_EXECUTOR.md         ← Full documentation
-|-- QUICK_START.md                     ← 5-minute guide
-|-- START_HERE.md                      ← Quick reference
-|-- PACKAGE_SUMMARY.md                 ← Overview
+|-- windows_stig_remote_executor.py   <- Main executor (auto-downloads deps)
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script
+|-- run_stig.bat                       <- Windows launcher
+|-- README_WINDOWS_EXECUTOR.md         <- Full documentation
+|-- QUICK_START.md                     <- 5-minute guide
+|-- START_HERE.md                      <- Quick reference
+|-- PACKAGE_SUMMARY.md                 <- Overview
 ```
 
 ### **Package 2: Air-Gapped** (Maximum Security)
 ```
 Air-Gapped-Package/
-|-- airgap_windows_stig_executor.py   ← Main executor (offline capable)
-|-- ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script
-|-- download_dependencies.py          ← Run on internet system first
-|-- build_airgap_package.py           ← Package builder
-|-- run_airgap_stig.bat               ← Windows launcher
-|-- README_AIRGAP.md                  ← Full documentation
-|-- AIRGAP_QUICK_START.md             ← 5-minute guide
-|-- dependencies/ (created later)     ← Offline Python packages
+|-- airgap_windows_stig_executor.py   <- Main executor (offline capable)
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script
+|-- download_dependencies.py          <- Run on internet system first
+|-- build_airgap_package.py           <- Package builder
+|-- run_airgap_stig.bat               <- Windows launcher
+|-- README_AIRGAP.md                  <- Full documentation
+|-- AIRGAP_QUICK_START.md             <- 5-minute guide
+|-- dependencies/ (created later)     <- Offline Python packages
 ```
 
 ---

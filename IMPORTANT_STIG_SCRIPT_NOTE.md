@@ -18,11 +18,11 @@ The Windows remote executor requires the original STIG remediation script that y
 
 ```
 C:\STIG\
-|-- windows_stig_remote_executor.py    ← Windows launcher (provided)
-|-- ubuntu20_stig_v2r3_enhanced.py     ← Your STIG script (you already have this)
-|-- run_stig.bat                        ← Quick launcher (provided)
-|-- README_WINDOWS_EXECUTOR.md          ← Full documentation (provided)
-|-- QUICK_START.md                      ← Quick setup guide (provided)
+|-- windows_stig_remote_executor.py    <- Windows launcher (provided)
+|-- ubuntu20_stig_v2r3_enhanced.py     <- Your STIG script (you already have this)
+|-- run_stig.bat                        <- Quick launcher (provided)
+|-- README_WINDOWS_EXECUTOR.md          <- Full documentation (provided)
+|-- QUICK_START.md                      <- Quick setup guide (provided)
 ```
 
 ### If You Need To Extract/Locate Your Script:

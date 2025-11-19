@@ -84,38 +84,38 @@ This document shows ALL files you've downloaded and how they work together.
 ```
 C:\STIG-Internet\
 |
-|-- windows_stig_remote_executor.py   ← Main executor
-|-- ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script (you have this)
-|-- run_stig.bat                       ← Quick launcher (optional)
+|-- windows_stig_remote_executor.py   <- Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script (you have this)
+|-- run_stig.bat                       <- Quick launcher (optional)
 |
 |-- Documentation\
-    |-- COMPLETE_PACKAGE_GUIDE.md      ← Start here!
-    |-- START_HERE.md                  ← Quick reference
-    |-- README_WINDOWS_EXECUTOR.md     ← Full guide
-    |-- QUICK_START.md                 ← 5-minute guide
-    |-- PACKAGE_SUMMARY.md             ← Overview
+    |-- COMPLETE_PACKAGE_GUIDE.md      <- Start here!
+    |-- START_HERE.md                  <- Quick reference
+    |-- README_WINDOWS_EXECUTOR.md     <- Full guide
+    |-- QUICK_START.md                 <- 5-minute guide
+    |-- PACKAGE_SUMMARY.md             <- Overview
 ```
 
 ### Option 2: Air-Gapped Setup
 ```
 C:\STIG-AirGap\
 |
-|-- airgap_windows_stig_executor.py   ← Main executor
-|-- ubuntu20_stig_v2r3_enhanced.py    ← Your STIG script (you have this)
-|-- download_dependencies.py          ← Run on internet system first
-|-- build_airgap_package.py           ← Package builder
-|-- run_airgap_stig.bat               ← Quick launcher (optional)
+|-- airgap_windows_stig_executor.py   <- Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py    <- Your STIG script (you have this)
+|-- download_dependencies.py          <- Run on internet system first
+|-- build_airgap_package.py           <- Package builder
+|-- run_airgap_stig.bat               <- Quick launcher (optional)
 |
-|-- dependencies\                     ← Created by download script
+|-- dependencies\                     <- Created by download script
 |   |-- paramiko-*.whl
 |   |-- cryptography-*.whl
 |   |-- ... (all Python packages)
 |
 |-- Documentation\
-    |-- COMPLETE_PACKAGE_GUIDE.md      ← Start here!
-    |-- AIRGAP_QUICK_START.md          ← Quick reference
-    |-- README_AIRGAP.md               ← Full guide
-    |-- IMPORTANT_STIG_SCRIPT_NOTE.md  ← About your script
+    |-- COMPLETE_PACKAGE_GUIDE.md      <- Start here!
+    |-- AIRGAP_QUICK_START.md          <- Quick reference
+    |-- README_AIRGAP.md               <- Full guide
+    |-- IMPORTANT_STIG_SCRIPT_NOTE.md  <- About your script
 ```
 
 ---

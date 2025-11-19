@@ -122,11 +122,11 @@ Your air-gapped Windows system should look like:
 
 ```
 /your/stig/folder/
-|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py  ← Run this
-|-- ubuntu20_stig_v2r3_enhanced.py    ← STIG script
-|-- airgap_packages/                  ← All dependencies
-    |-- python_dependencies/          ← .whl files
-    |-- ubuntu_packages/              ← .deb files
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py  <- Run this
+|-- ubuntu20_stig_v2r3_enhanced.py    <- STIG script
+|-- airgap_packages/                  <- All dependencies
+    |-- python_dependencies/          <- .whl files
+    |-- ubuntu_packages/              <- .deb files
 ```
 
 ---

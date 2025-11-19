@@ -39,17 +39,17 @@ Complete air-gapped package for executing Ubuntu 20.04 DISA STIG V2R3 remediatio
 
 ```
 stig-airgap-package/
-|-- dependencies/                          ← All Python packages (offline)
+|-- dependencies/                          <- All Python packages (offline)
 |   |-- paramiko-*.whl                    (SSH library)
 |   |-- cryptography-*.whl                (Crypto backend)
 |   |-- bcrypt-*.whl                      (Password hashing)
 |   |-- ... (all dependencies)
 |
-|-- airgap_windows_stig_executor.py       ← Main Windows launcher (MAXIMUM SECURITY)
-|-- ubuntu20_stig_v2r3_enhanced.py        ← STIG remediation script
-|-- run_airgap_stig.bat                   ← Windows quick launcher
+|-- airgap_windows_stig_executor.py       <- Main Windows launcher (MAXIMUM SECURITY)
+|-- ubuntu20_stig_v2r3_enhanced.py        <- STIG remediation script
+|-- run_airgap_stig.bat                   <- Windows quick launcher
 |
-|-- download_dependencies.py              ← Run on internet-connected system
+|-- download_dependencies.py              <- Run on internet-connected system
 |
 |-- Documentation/
     |-- README_AIRGAP.md                  (This file)
@@ -88,9 +88,9 @@ python airgap_windows_stig_executor.py
 2. Enter SSH credentials
 3. Enter sudo password
 4. **Choose security options:**
-   - Disable SSH password auth? [Y/n] ← Default: YES
-   - Enable FIPS mode? [y/N] ← Default: NO
-   - Strict firewall? [Y/n] ← Default: YES
+   - Disable SSH password auth? [Y/n] <- Default: YES
+   - Enable FIPS mode? [y/N] <- Default: NO
+   - Strict firewall? [Y/n] <- Default: YES
 5. Type 'EXECUTE' to confirm
 
 ### Step 4: Wait for Completion (~10 minutes)

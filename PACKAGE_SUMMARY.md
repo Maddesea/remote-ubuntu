@@ -220,9 +220,9 @@ If something goes wrong:
 
 ### Automatic Backups Created:
 ```
-/var/backups/pre-stig-YYYYMMDD_HHMMSS/  ← Pre-execution backup
-/var/backups/stig-v2r3/                  ← Configuration backups
-*.stig-v2r3-backup-*                     ← Individual file backups
+/var/backups/pre-stig-YYYYMMDD_HHMMSS/  <- Pre-execution backup
+/var/backups/stig-v2r3/                  <- Configuration backups
+*.stig-v2r3-backup-*                     <- Individual file backups
 ```
 
 ### Quick Restore (SSH broken):

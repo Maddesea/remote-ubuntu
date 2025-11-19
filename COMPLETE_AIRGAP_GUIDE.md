@@ -164,9 +164,9 @@ python download_all_airgap_packages.py
 
 # This creates:
 #   airgap_complete_package/
-#   |-- python_dependencies/    ← Python .whl files
-#   |-- ubuntu_packages/        ← Ubuntu .deb files
-#   |-- scripts/                ← Helper scripts
+#   |-- python_dependencies/    <- Python .whl files
+#   |-- ubuntu_packages/        <- Ubuntu .deb files
+#   |-- scripts/                <- Helper scripts
 ```
 
 ### Step 2: Transfer to Air-Gapped Windows
@@ -211,12 +211,12 @@ ssh user@target 'sudo reboot'
 
 ```
 your-airgap-folder/
-|-- airgap_stig_executor_complete.py    ← Main executor (NEW)
-|-- ubuntu20_stig_v2r3_enhanced.py      ← STIG remediation script
-|-- run_airgap_complete.bat             ← Windows launcher (NEW)
-|-- download_all_airgap_packages.py     ← Package downloader (NEW)
+|-- airgap_stig_executor_complete.py    <- Main executor (NEW)
+|-- ubuntu20_stig_v2r3_enhanced.py      <- STIG remediation script
+|-- run_airgap_complete.bat             <- Windows launcher (NEW)
+|-- download_all_airgap_packages.py     <- Package downloader (NEW)
 |
-|-- airgap_complete_package/            ← Complete offline package
+|-- airgap_complete_package/            <- Complete offline package
     |-- python_dependencies/
     |   |-- paramiko-*.whl
     |   |-- cryptography-*.whl
@@ -224,10 +224,10 @@ your-airgap-folder/
     |   |-- ... (all dependencies)
     |
     |-- ubuntu_packages/
-    |   |-- auditd_*.deb               ← Audit logging
-    |   |-- aide_*.deb                 ← File integrity
-    |   |-- libpam-pwquality_*.deb     ← Password quality
-    |   |-- apparmor-utils_*.deb       ← AppArmor
+    |   |-- auditd_*.deb               <- Audit logging
+    |   |-- aide_*.deb                 <- File integrity
+    |   |-- libpam-pwquality_*.deb     <- Password quality
+    |   |-- apparmor-utils_*.deb       <- AppArmor
     |   |-- ... (all required packages)
     |
     |-- scripts/
