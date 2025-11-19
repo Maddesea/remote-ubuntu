@@ -67,8 +67,6 @@ import shutil
 import tempfile
 import re
 import logging
-import pwd
-import grp
 import stat
 import glob
 import argparse
@@ -79,6 +77,19 @@ from typing import Dict, List, Tuple, Optional, Set
 import json
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import platform
+
+# Platform compatibility detection
+IS_WINDOWS = platform.system() == 'Windows'
+IS_LINUX = platform.system() == 'Linux'
+
+# Unix-only imports (conditional for Windows compatibility)
+if not IS_WINDOWS:
+    import pwd
+    import grp
+else:
+    pwd = None  # Not available on Windows
+    grp = None  # Not available on Windows
 
 # Optional remote execution support
 try:
@@ -104,7 +115,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('/var/log/ubuntu20-stig-v2r3-remediation.log'),
+        logging.FileHandler('/var/log/ubuntu20-stig-v2r3-remediation.log' if not IS_WINDOWS else 'ubuntu20-stig-v2r3-remediation.log'),
         logging.StreamHandler(sys.stdout)
     ]
 )
@@ -609,6 +620,27 @@ By using this IS (which includes any device attached to this IS), you consent to
 # UTILITY FUNCTIONS
 # ============================================================================
 
+
+
+# ============================================================================
+# CROSS-PLATFORM HELPER FUNCTIONS
+# ============================================================================
+
+def is_admin():
+    """Check if running with administrative privileges (cross-platform)"""
+    if IS_WINDOWS:
+        try:
+            import ctypes
+            return ctypes.windll.shell32.IsUserAnAdmin() != 0
+        except Exception:
+            return False
+    else:
+        try:
+            return os.geteuid() == 0
+        except AttributeError:
+            return False
+
+
 class SystemModifier:
     """Base class for system modifications with error handling"""
     
@@ -699,9 +731,13 @@ class SystemModifier:
                 os.chmod(temp_path, mode)
                 
                 # Set ownership
-                uid = pwd.getpwnam(owner).pw_uid
-                gid = grp.getgrnam(group).gr_gid
-                os.chown(temp_path, uid, gid)
+                if not IS_WINDOWS and pwd is not None:
+                    try:
+                        uid = pwd.getpwnam(owner).pw_uid
+                        gid = grp.getgrnam(group).gr_gid
+                        os.chown(temp_path, uid, gid)
+                    except (KeyError, OSError) as e:
+                        logger.warning(f"Could not set ownership: {e}")
                 
                 # Atomic move
                 shutil.move(temp_path, filepath)
@@ -812,7 +848,7 @@ class PreFlightChecker:
     
     def check_root(self) -> Tuple[bool, str]:
         """Check if running as root"""
-        if os.geteuid() == 0:
+        if is_admin():
             return True, "Running as root"
         return False, "Must run as root"
     
@@ -3223,9 +3259,13 @@ class FilePermissionsManager(SystemModifier):
                 try:
                     if not STIGConfig.DRY_RUN:
                         os.chmod(path, mode)
-                        uid = pwd.getpwnam(owner).pw_uid
-                        gid = grp.getgrnam(group).gr_gid
-                        os.chown(path, uid, gid)
+                        if not IS_WINDOWS and pwd is not None:
+                            try:
+                                uid = pwd.getpwnam(owner).pw_uid
+                                gid = grp.getgrnam(group).gr_gid
+                                os.chown(path, uid, gid)
+                            except (KeyError, OSError) as e:
+                                logger.warning(f"Could not set ownership: {e}")
                     
                     logger.info(f"Set permissions {oct(mode)} {owner}:{group} on {path}")
                     self.changes.append(f"Set permissions on {path}")
@@ -3633,6 +3673,11 @@ class SudoManager(SystemModifier):
         """Ensure only authorized users in sudo group - UBTU-20-010012"""
         logger.info("Configuring sudo group membership")
         
+        # Skip on Windows - sudo group doesn't exist
+        if IS_WINDOWS or grp is None:
+            logger.info("Skipping sudo group check (not applicable on Windows)")
+            return True
+        
         try:
             # Get sudo group members
             sudo_group = grp.getgrnam('sudo')
@@ -3742,7 +3787,7 @@ class UBUNTU20STIGRemediation:
         logger.info("="*80)
         
         # Check if running as root
-        if os.geteuid() != 0:
+        if not is_admin():
             logger.error("This script must be run as root")
             return False
         
@@ -4159,12 +4204,37 @@ class UBUNTU20STIGRemediation:
 # MAIN ENTRY POINT
 # ============================================================================
 
+
+def validate_platform_compatibility():
+    """Validate platform compatibility before execution"""
+    if IS_WINDOWS:
+        if not any(['--remote' in arg for arg in sys.argv]) and '--help' not in sys.argv and '-h' not in sys.argv:
+            print("\n" + "="*80)
+            print("ERROR: Direct execution on Windows is not supported")
+            print("="*80)
+            print("\nThis script performs Ubuntu 20.04 STIG remediation.")
+            print("For remote execution from Windows:")
+            print("  python ubuntu20_stig_v2r3_enhanced.py --remote <linux-host> --remote-key <ssh-key>")
+            print("="*80)
+            sys.exit(1)
+        if not PARAMIKO_AVAILABLE:
+            print("ERROR: Remote execution requires paramiko library")
+            print("Install with: pip install paramiko")
+            sys.exit(1)
+        logger.info("Windows - Remote Execution Mode Only")
+    elif IS_LINUX:
+        logger.info("Linux - Direct Execution Mode")
+
+
 def main():
     """Main entry point with enhanced safety features and remote execution"""
     
     # Parse command-line arguments
     parser = setup_argument_parser()
     args = parser.parse_args()
+    
+    # Validate platform
+    validate_platform_compatibility()
     
     # Handle special modes first
     if args.emergency:
