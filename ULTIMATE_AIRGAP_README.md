@@ -123,8 +123,8 @@ This will:
 **Output:**
 ```
 airgap_packages/
-|-- python_dependencies/  ← .whl files for Windows (~20-30 MB)
-|-- ubuntu_packages/      ← .deb files for Ubuntu (~10-20 MB)
+|-- python_dependencies/  <- .whl files for Windows (~20-30 MB)
+|-- ubuntu_packages/      <- .deb files for Ubuntu (~10-20 MB)
 |-- manifest.json
 |-- README.txt
 ```
@@ -149,10 +149,10 @@ cat airgap_packages/manifest.json
 Create a transfer package with:
 ```
 stig_airgap_package/
-|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main executor
-|-- ubuntu20_stig_v2r3_enhanced.py       ← STIG script
-|-- RUN_ULTIMATE_AIRGAP_STIG.bat         ← Windows launcher (optional)
-|-- airgap_packages/                     ← All dependencies
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     <- Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py       <- STIG script
+|-- RUN_ULTIMATE_AIRGAP_STIG.bat         <- Windows launcher (optional)
+|-- airgap_packages/                     <- All dependencies
     |-- python_dependencies/
     |-- ubuntu_packages/
 ```

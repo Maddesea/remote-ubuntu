@@ -502,19 +502,19 @@ TROUBLESHOOTING:
 ================
 
 "paramiko not installed"
-  → The script will auto-install from dependencies/ folder
+  -> The script will auto-install from dependencies/ folder
 
 "SSH connection failed"
-  → Verify: ssh username@target works manually
-  → Check firewall allows port 22
+  -> Verify: ssh username@target works manually
+  -> Check firewall allows port 22
 
 "Permission denied"
-  → Verify user has sudo privileges
-  → Try: ssh user@target 'sudo -v'
+  -> Verify user has sudo privileges
+  -> Try: ssh user@target 'sudo -v'
 
 "Ubuntu packages not found"
-  → Ensure ubuntu_packages/*.deb files exist
-  → Re-run build_complete_airgap_package.py
+  -> Ensure ubuntu_packages/*.deb files exist
+  -> Re-run build_complete_airgap_package.py
 
 SUPPORT:
 ========

@@ -178,10 +178,10 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 **Structure:**
 ```
 airgap_packages/
-|-- python_dependencies/    ← Python packages for Windows
-|-- ubuntu_packages/        ← Ubuntu packages for target
-|-- manifest.json           ← Package inventory
-|-- README.txt              ← Package documentation
+|-- python_dependencies/    <- Python packages for Windows
+|-- ubuntu_packages/        <- Ubuntu packages for target
+|-- manifest.json           <- Package inventory
+|-- README.txt              <- Package documentation
 ```
 
 **Size:** ~30-50 MB total
@@ -343,10 +343,10 @@ ssh ubuntu@target 'ls -la /var/backups/pre-stig-*'
 
 ```
 On Internet-Connected System:
-|-- BUILD_AIRGAP_PACKAGE.py          ← Download, then run
-|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py ← Download
-|-- ubuntu20_stig_v2r3_enhanced.py   ← Download
-|-- airgap_packages/                 ← Created by builder
+|-- BUILD_AIRGAP_PACKAGE.py          <- Download, then run
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py <- Download
+|-- ubuntu20_stig_v2r3_enhanced.py   <- Download
+|-- airgap_packages/                 <- Created by builder
     |-- python_dependencies/
     |-- ubuntu_packages/
     |-- manifest.json
@@ -357,13 +357,13 @@ On Internet-Connected System:
 
 ```
 Transfer Package:
-|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main script
-|-- ubuntu20_stig_v2r3_enhanced.py       ← STIG script
-|-- RUN_ULTIMATE_AIRGAP_STIG.bat         ← Optional launcher
-|-- ULTIMATE_AIRGAP_README.md            ← Full docs
-|-- ULTRA_QUICK_START.md                 ← Quick start
-|-- ULTIMATE_FILES_GUIDE.md              ← This file
-|-- airgap_packages/                     ← All dependencies
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     <- Main script
+|-- ubuntu20_stig_v2r3_enhanced.py       <- STIG script
+|-- RUN_ULTIMATE_AIRGAP_STIG.bat         <- Optional launcher
+|-- ULTIMATE_AIRGAP_README.md            <- Full docs
+|-- ULTRA_QUICK_START.md                 <- Quick start
+|-- ULTIMATE_FILES_GUIDE.md              <- This file
+|-- airgap_packages/                     <- All dependencies
     |-- python_dependencies/
     |-- ubuntu_packages/
     |-- manifest.json
@@ -382,10 +382,10 @@ During Execution:
 
 ```
 During Execution:
-|-- /var/log/ubuntu20-stig-v2r3-remediation.log  ← STIG log
-|-- /var/backups/pre-stig-*/                     ← Backups
-|-- /var/backups/stig-v2r3/                      ← Additional backups
-|-- /tmp/stig_airgap_*/                          ← Temporary (deleted after)
+|-- /var/log/ubuntu20-stig-v2r3-remediation.log  <- STIG log
+|-- /var/backups/pre-stig-*/                     <- Backups
+|-- /var/backups/stig-v2r3/                      <- Additional backups
+|-- /tmp/stig_airgap_*/                          <- Temporary (deleted after)
 ```
 
 ---
@@ -407,9 +407,9 @@ MUST HAVE:
 
 ```
 SHOULD HAVE:
-[OK] ULTIMATE_AIRGAP_README.md       ← Comprehensive docs
-[OK] ULTRA_QUICK_START.md            ← Quick reference
-[OK] RUN_ULTIMATE_AIRGAP_STIG.bat    ← Easy launcher
+[OK] ULTIMATE_AIRGAP_README.md       <- Comprehensive docs
+[OK] ULTRA_QUICK_START.md            <- Quick reference
+[OK] RUN_ULTIMATE_AIRGAP_STIG.bat    <- Easy launcher
 ```
 
 ### Nice to Have:

@@ -236,15 +236,15 @@ def print_next_steps(output_dir="dependencies"):
     print("\nYour air-gap package should look like:")
     print("""
     stig-airgap-package/
-    ├── dependencies/              ← This folder (with all .whl/.tar.gz files)
-    │   ├── paramiko-*.whl
-    │   ├── cryptography-*.whl
-    │   ├── bcrypt-*.whl
-    │   └── ... (more packages)
-    ├── airgap_windows_stig_executor.py
-    ├── ubuntu20_stig_v2r3_enhanced.py
-    ├── README_AIRGAP.md
-    └── other documentation files
+    |- dependencies/              <- This folder (with all .whl/.tar.gz files)
+    |   |- paramiko-*.whl
+    |   |- cryptography-*.whl
+    |   |- bcrypt-*.whl
+    |   `- ... (more packages)
+    |- airgap_windows_stig_executor.py
+    |- ubuntu20_stig_v2r3_enhanced.py
+    |- README_AIRGAP.md
+    `- other documentation files
     """)
     
     print("\n" + "="*80)

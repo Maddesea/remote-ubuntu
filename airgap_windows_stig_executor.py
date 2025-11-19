@@ -27,8 +27,6 @@ import time
 import getpass
 import logging
 import subprocess
-import zipfile
-import tempfile
 from pathlib import Path
 from datetime import datetime
 

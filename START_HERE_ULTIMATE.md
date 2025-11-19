@@ -270,23 +270,23 @@ You should have these files:
 
 ### Core Files (REQUIRED):
 ```
-ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main script (run this)
-ubuntu20_stig_v2r3_enhanced.py       ← STIG implementation
-BUILD_AIRGAP_PACKAGE.py              ← Package builder
-airgap_packages/                     ← All dependencies
+ULTIMATE_AIRGAP_STIG_EXECUTOR.py     <- Main script (run this)
+ubuntu20_stig_v2r3_enhanced.py       <- STIG implementation
+BUILD_AIRGAP_PACKAGE.py              <- Package builder
+airgap_packages/                     <- All dependencies
 ```
 
 ### Documentation (RECOMMENDED):
 ```
-START_HERE_ULTIMATE.md               ← This file
-ULTRA_QUICK_START.md                 ← Quick start (5 min)
-ULTIMATE_AIRGAP_README.md            ← Full documentation
-ULTIMATE_FILES_GUIDE.md              ← File reference
+START_HERE_ULTIMATE.md               <- This file
+ULTRA_QUICK_START.md                 <- Quick start (5 min)
+ULTIMATE_AIRGAP_README.md            <- Full documentation
+ULTIMATE_FILES_GUIDE.md              <- File reference
 ```
 
 ### Optional:
 ```
-RUN_ULTIMATE_AIRGAP_STIG.bat         ← Windows launcher
+RUN_ULTIMATE_AIRGAP_STIG.bat         <- Windows launcher
 ```
 
 ---

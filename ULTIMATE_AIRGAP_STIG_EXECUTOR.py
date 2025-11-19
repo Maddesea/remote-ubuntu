@@ -40,8 +40,6 @@ import time
 import getpass
 import logging
 import subprocess
-import tarfile
-import tempfile
 from pathlib import Path
 from datetime import datetime
 
@@ -278,11 +276,11 @@ class UltimateAirGapSTIGExecutor:
         if not all_ok:
             logger.error("\n[ERROR] Missing required files!")
             logger.error("\nRequired structure:")
-            logger.error("  ULTIMATE_AIRGAP_STIG_EXECUTOR.py  ← This script")
-            logger.error("  ubuntu20_stig_v2r3_enhanced.py    ← STIG remediation script")
+            logger.error("  ULTIMATE_AIRGAP_STIG_EXECUTOR.py  <- This script")
+            logger.error("  ubuntu20_stig_v2r3_enhanced.py    <- STIG remediation script")
             logger.error("  airgap_packages/")
-            logger.error("    ├── python_dependencies/       ← .whl files for Windows")
-            logger.error("    └── ubuntu_packages/           ← .deb files for Ubuntu")
+            logger.error("    |- python_dependencies/       <- .whl files for Windows")
+            logger.error("    `- ubuntu_packages/           <- .deb files for Ubuntu")
             logger.error("\nRun the package builder first!")
             sys.exit(1)
 

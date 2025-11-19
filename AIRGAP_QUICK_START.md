@@ -41,10 +41,10 @@ python airgap_windows_stig_executor.py
 3. Enter SSH password: `********`
 4. Enter sudo password: `********` (usually same)
 5. Security options:
-   - Disable password auth? **[Y/n]** ← Press Enter for YES
-   - Enable FIPS? **[y/N]** ← Press Enter for NO
-   - Strict firewall? **[Y/n]** ← Press Enter for YES
-6. Type: **`EXECUTE`** ← Must type exactly
+   - Disable password auth? **[Y/n]** <- Press Enter for YES
+   - Enable FIPS? **[y/N]** <- Press Enter for NO
+   - Strict firewall? **[Y/n]** <- Press Enter for YES
+6. Type: **`EXECUTE`** <- Must type exactly
 
 **Wait ~10 minutes** while it works.
 
