@@ -24,16 +24,16 @@ This solution applies **all 172 DISA STIG V2R3 controls** to Ubuntu 20.04 LTS fr
 Choose based on your experience level:
 
 ### [RUN] **I just want to get started NOW!**
-→ Read: **`ULTRA_QUICK_START.md`** (1 page, 5 minutes)
+-> Read: **`ULTRA_QUICK_START.md`** (1 page, 5 minutes)
 
 ###  **I want complete documentation**
-→ Read: **`ULTIMATE_AIRGAP_README.md`** (Full guide, troubleshooting, FAQ)
+-> Read: **`ULTIMATE_AIRGAP_README.md`** (Full guide, troubleshooting, FAQ)
 
 ###  **What are all these files?**
-→ Read: **`ULTIMATE_FILES_GUIDE.md`** (Explains every file)
+-> Read: **`ULTIMATE_FILES_GUIDE.md`** (Explains every file)
 
 ###  **I've never done this before**
-→ Read this page first, then `ULTRA_QUICK_START.md`
+-> Read this page first, then `ULTRA_QUICK_START.md`
 
 ---
 
@@ -238,29 +238,29 @@ Only after successful test:
 
 ---
 
-## 🆘 Quick Troubleshooting
+## [HELP] Quick Troubleshooting
 
 ### "paramiko not found"
-→ Ensure `airgap_packages/python_dependencies/` has .whl files
-→ Try: `pip install --no-index --find-links airgap_packages/python_dependencies paramiko`
+-> Ensure `airgap_packages/python_dependencies/` has .whl files
+-> Try: `pip install --no-index --find-links airgap_packages/python_dependencies paramiko`
 
 ### "SSH connection failed"
-→ Test manual SSH: `ssh username@target`
-→ Check firewall allows port 22
-→ Verify password is correct
+-> Test manual SSH: `ssh username@target`
+-> Check firewall allows port 22
+-> Verify password is correct
 
 ### "STIG script not found"
-→ Ensure `ubuntu20_stig_v2r3_enhanced.py` is in same folder as executor
-→ Check spelling (case-sensitive!)
+-> Ensure `ubuntu20_stig_v2r3_enhanced.py` is in same folder as executor
+-> Check spelling (case-sensitive!)
 
 ### "No .deb files found"
-→ Check `airgap_packages/ubuntu_packages/` has .deb files
-→ If empty, see `MANUAL_DOWNLOAD_INSTRUCTIONS.txt` in that folder
+-> Check `airgap_packages/ubuntu_packages/` has .deb files
+-> If empty, see `MANUAL_DOWNLOAD_INSTRUCTIONS.txt` in that folder
 
 ### SSH access broken after execution
-→ Use **console access** (this is why it's required!)
-→ Restore SSH config: `sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/`
-→ Restart SSH: `sudo systemctl restart sshd`
+-> Use **console access** (this is why it's required!)
+-> Restore SSH config: `sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/`
+-> Restart SSH: `sudo systemctl restart sshd`
 
 ---
 
@@ -466,4 +466,4 @@ This script will:
 **172 Total Controls - Maximum Security**
 **100% Offline Operation - GUARANTEED**
 
-**[TARGET] START WITH:** `ULTRA_QUICK_START.md` → Then execute!
+**[TARGET] START WITH:** `ULTRA_QUICK_START.md` -> Then execute!

@@ -39,9 +39,9 @@ pip install paramiko scp
 Create a folder (e.g., `C:\STIG\`) with:
 ```
 C:\STIG\
-├── windows_stig_remote_executor.py  ← Downloaded from me
-├── ubuntu20_stig_v2r3_enhanced.py   ← Your uploaded STIG script
-└── run_stig.bat                     ← Downloaded from me (optional)
+|-- windows_stig_remote_executor.py  ← Downloaded from me
+|-- ubuntu20_stig_v2r3_enhanced.py   ← Your uploaded STIG script
+|-- run_stig.bat                     ← Downloaded from me (optional)
 ```
 
 ### 4. Have This Info Ready
@@ -52,7 +52,7 @@ C:\STIG\
 
 ---
 
-## ▶ Run It
+## Run It
 
 **Easy Way:**
 ```
@@ -138,7 +138,7 @@ ssh user@target 'sudo reboot'
 
 ---
 
-## 🆘 If Something Goes Wrong
+## [HELP] If Something Goes Wrong
 
 **Can't find STIG script:**
 ```

@@ -676,22 +676,22 @@ class CompleteAirGapSTIGExecutor:
         print("CRITICAL NEXT STEPS")
         print("="*80)
 
-        print("\n1⃣  REBOOT THE SYSTEM:")
+        print("\n1. REBOOT THE SYSTEM:")
         print(f"   ssh {self.username}@{self.target_host} 'sudo reboot'")
 
-        print("\n2⃣  VERIFY SSH ACCESS AFTER REBOOT:")
-        print("   [WARNING]  Password authentication has been DISABLED")
-        print("   [WARNING]  You MUST use SSH keys")
+        print("\n2. VERIFY SSH ACCESS AFTER REBOOT:")
+        print("   [WARNING] Password authentication has been DISABLED")
+        print("   [WARNING] You MUST use SSH keys")
         print("   If you cannot connect:")
         print("     a) Use console access (KVM/IPMI)")
         print("     b) Restore from backup if needed")
 
-        print("\n3⃣  VERIFY STIG COMPLIANCE:")
+        print("\n3. VERIFY STIG COMPLIANCE:")
         print("   - Run SCAP scan (if available)")
         print("   - Check /var/log/ubuntu20-stig-v2r3-remediation.log")
         print("   - Verify services: auditd, rsyslog, ufw, sshd")
 
-        print("\n4⃣  BACKUP LOCATIONS (if rollback needed):")
+        print("\n4. BACKUP LOCATIONS (if rollback needed):")
         print("   - /var/backups/pre-stig-*/")
         print("   - /var/backups/stig-v2r3/")
 

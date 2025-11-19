@@ -123,10 +123,10 @@ This will:
 **Output:**
 ```
 airgap_packages/
-├── python_dependencies/  ← .whl files for Windows (~20-30 MB)
-├── ubuntu_packages/      ← .deb files for Ubuntu (~10-20 MB)
-├── manifest.json
-└── README.txt
+|-- python_dependencies/  ← .whl files for Windows (~20-30 MB)
+|-- ubuntu_packages/      ← .deb files for Ubuntu (~10-20 MB)
+|-- manifest.json
+|-- README.txt
 ```
 
 #### Step 1.3: Verify the Package
@@ -149,12 +149,12 @@ cat airgap_packages/manifest.json
 Create a transfer package with:
 ```
 stig_airgap_package/
-├── ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main executor
-├── ubuntu20_stig_v2r3_enhanced.py       ← STIG script
-├── RUN_ULTIMATE_AIRGAP_STIG.bat         ← Windows launcher (optional)
-└── airgap_packages/                     ← All dependencies
-    ├── python_dependencies/
-    └── ubuntu_packages/
+|-- ULTIMATE_AIRGAP_STIG_EXECUTOR.py     ← Main executor
+|-- ubuntu20_stig_v2r3_enhanced.py       ← STIG script
+|-- RUN_ULTIMATE_AIRGAP_STIG.bat         ← Windows launcher (optional)
+|-- airgap_packages/                     ← All dependencies
+    |-- python_dependencies/
+    |-- ubuntu_packages/
 ```
 
 #### Step 2.2: Transfer Using Approved Method
@@ -405,25 +405,25 @@ After successful completion:
 
 ```
 airgap_packages/
-├── python_dependencies/
-│   ├── paramiko-*.whl
-│   ├── cryptography-*.whl
-│   ├── bcrypt-*.whl
-│   ├── PyNaCl-*.whl
-│   ├── cffi-*.whl
-│   ├── pycparser-*.whl
-│   └── six-*.whl
-│
-├── ubuntu_packages/
-│   ├── auditd_*.deb
-│   ├── aide_*.deb
-│   ├── libpam-pwquality_*.deb
-│   ├── apparmor-utils_*.deb
-│   ├── ufw_*.deb
-│   └── [dependencies]_*.deb
-│
-├── manifest.json
-└── README.txt
+|-- python_dependencies/
+|   |-- paramiko-*.whl
+|   |-- cryptography-*.whl
+|   |-- bcrypt-*.whl
+|   |-- PyNaCl-*.whl
+|   |-- cffi-*.whl
+|   |-- pycparser-*.whl
+|   |-- six-*.whl
+|
+|-- ubuntu_packages/
+|   |-- auditd_*.deb
+|   |-- aide_*.deb
+|   |-- libpam-pwquality_*.deb
+|   |-- apparmor-utils_*.deb
+|   |-- ufw_*.deb
+|   |-- [dependencies]_*.deb
+|
+|-- manifest.json
+|-- README.txt
 ```
 
 **Total size:** ~30-50 MB
@@ -536,13 +536,13 @@ Before execution, the script creates backups:
 
 ```
 /var/backups/pre-stig-YYYYMMDD_HHMMSS/
-├── sshd_config
-├── pam.d/
-├── sudoers
-├── login.defs
-├── security/
-├── sysctl.conf
-└── grub
+|-- sshd_config
+|-- pam.d/
+|-- sudoers
+|-- login.defs
+|-- security/
+|-- sysctl.conf
+|-- grub
 ```
 
 ### Rollback Procedure

@@ -431,17 +431,17 @@ Security Mode: Maximum Lockdown
         print("NEXT STEPS")
         print("="*80)
         
-        print("\n1⃣  VERIFY package integrity:")
+        print("\n1. VERIFY package integrity:")
         print(f"   Windows: certutil -hashfile {archive_name} SHA256")
         print(f"   Linux/Mac: shasum -a 256 {archive_name}")
         print(f"   Compare with: {archive_name}.sha256")
-        
-        print("\n2⃣  TRANSFER to air-gapped system:")
+
+        print("\n2. TRANSFER to air-gapped system:")
         print("   - Use approved transfer method (USB, CD/DVD, secure transfer)")
         print("   - Scan for malware if required by policy")
         print("   - Document transfer for compliance")
-        
-        print("\n3⃣  ON AIR-GAPPED SYSTEM:")
+
+        print("\n3. ON AIR-GAPPED SYSTEM:")
         print(f"   - Extract: {archive_name}")
         print("   - Verify checksums (optional)")
         print("   - Read: README.txt")

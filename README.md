@@ -122,13 +122,13 @@ See [README_AIRGAP.md](README_AIRGAP.md) or [AIRGAP_QUICK_START.md](AIRGAP_QUICK
 
 ```
 .
-├── windows_stig_remote_executor.py   # Main Windows executor
-├── airgap_windows_stig_executor.py   # Air-gap executor
-├── build_airgap_package.py           # Air-gap package builder
-├── download_dependencies.py          # Dependency downloader
-├── run_stig.bat                      # Windows launcher
-├── run_airgap_stig.bat               # Air-gap launcher
-└── Documentation files (*.md)
+|-- windows_stig_remote_executor.py   # Main Windows executor
+|-- airgap_windows_stig_executor.py   # Air-gap executor
+|-- build_airgap_package.py           # Air-gap package builder
+|-- download_dependencies.py          # Dependency downloader
+|-- run_stig.bat                      # Windows launcher
+|-- run_airgap_stig.bat               # Air-gap launcher
+|-- Documentation files (*.md)
 ```
 
 ## Critical Warnings
