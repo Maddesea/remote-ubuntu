@@ -13,13 +13,13 @@ This script is GUARANTEED to work in 100% offline environments with:
 - ALL packages pre-bundled
 
 Features:
-✓ Self-contained Windows dependency installer
-✓ Transfers ALL required .deb packages to target
-✓ Installs packages offline using dpkg
-✓ Executes all 172 STIG controls
-✓ Maximum security lockdown
-✓ Complete backup creation
-✓ Post-execution verification
+[OK] Self-contained Windows dependency installer
+[OK] Transfers ALL required .deb packages to target
+[OK] Installs packages offline using dpkg
+[OK] Executes all 172 STIG controls
+[OK] Maximum security lockdown
+[OK] Complete backup creation
+[OK] Post-execution verification
 
 Requirements on Windows:
     - Python 3.6+
@@ -57,11 +57,11 @@ REQUIRED_PYTHON = (3, 6)
 #=============================================================================
 
 if sys.version_info < REQUIRED_PYTHON:
-    print(f"❌ ERROR: Python {REQUIRED_PYTHON[0]}.{REQUIRED_PYTHON[1]}+ required")
+    print(f"[ERROR] ERROR: Python {REQUIRED_PYTHON[0]}.{REQUIRED_PYTHON[1]}+ required")
     print(f"Current version: {sys.version}")
     sys.exit(1)
 
-print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor} detected")
+print(f"[OK] Python {sys.version_info.major}.{sys.version_info.minor} detected")
 
 #=============================================================================
 # WINDOWS DEPENDENCY INSTALLER
@@ -78,7 +78,7 @@ class WindowsDependencyInstaller:
     def check_package_folder(self):
         """Check if package folder exists"""
         if not self.packages_dir.exists():
-            print(f"\n❌ ERROR: Package folder not found!")
+            print(f"\n[ERROR] ERROR: Package folder not found!")
             print(f"Expected: {self.packages_dir}")
             print("\nYou need to:")
             print("1. Run the package builder on an internet-connected system")
@@ -87,18 +87,18 @@ class WindowsDependencyInstaller:
             return False
 
         if not self.python_deps.exists():
-            print(f"\n❌ ERROR: Python dependencies folder not found!")
+            print(f"\n[ERROR] ERROR: Python dependencies folder not found!")
             print(f"Expected: {self.python_deps}")
             return False
 
         # Check for wheel files
         whl_files = list(self.python_deps.glob("*.whl"))
         if not whl_files:
-            print(f"\n❌ ERROR: No .whl files found in {self.python_deps}")
+            print(f"\n[ERROR] ERROR: No .whl files found in {self.python_deps}")
             print("Package folder appears to be incomplete!")
             return False
 
-        print(f"✓ Found {len(whl_files)} Python packages in {self.python_deps}")
+        print(f"[OK] Found {len(whl_files)} Python packages in {self.python_deps}")
         return True
 
     def check_paramiko(self):
@@ -106,15 +106,15 @@ class WindowsDependencyInstaller:
         try:
             import paramiko
             version = getattr(paramiko, '__version__', 'unknown')
-            print(f"  ✓ paramiko {version} already installed")
+            print(f"  [OK] paramiko {version} already installed")
             return True
         except ImportError:
-            print("  ✗ paramiko not installed")
+            print("  [FAIL] paramiko not installed")
             return False
 
     def install_paramiko(self):
         """Install paramiko from local files"""
-        print(f"\n📦 Installing paramiko from {self.python_deps}...")
+        print(f"\n[PACKAGE] Installing paramiko from {self.python_deps}...")
 
         try:
             cmd = [
@@ -134,27 +134,27 @@ class WindowsDependencyInstaller:
             )
 
             if result.returncode == 0:
-                print("✓ paramiko installed successfully!")
+                print("[OK] paramiko installed successfully!")
 
                 # Verify import
                 try:
                     import paramiko
-                    print(f"✓ paramiko verified: {paramiko.__version__}")
+                    print(f"[OK] paramiko verified: {paramiko.__version__}")
                     return True
                 except ImportError as e:
-                    print(f"❌ Failed to import paramiko after install: {e}")
+                    print(f"[ERROR] Failed to import paramiko after install: {e}")
                     return False
             else:
-                print(f"❌ Installation failed!")
+                print(f"[ERROR] Installation failed!")
                 print(f"STDOUT: {result.stdout}")
                 print(f"STDERR: {result.stderr}")
                 return False
 
         except subprocess.TimeoutExpired:
-            print("❌ Installation timed out (>5 minutes)")
+            print("[ERROR] Installation timed out (>5 minutes)")
             return False
         except Exception as e:
-            print(f"❌ Installation error: {e}")
+            print(f"[ERROR] Installation error: {e}")
             return False
 
     def setup(self):
@@ -173,7 +173,7 @@ class WindowsDependencyInstaller:
 
         # Install paramiko
         if not self.install_paramiko():
-            print("\n❌ Failed to install paramiko!")
+            print("\n[ERROR] Failed to install paramiko!")
             print("\nTroubleshooting:")
             print("1. Ensure airgap_packages/python_dependencies/ has .whl files")
             print("2. Try: pip install --upgrade pip")
@@ -186,16 +186,16 @@ class WindowsDependencyInstaller:
 print("Initializing Windows environment...")
 installer = WindowsDependencyInstaller()
 if not installer.setup():
-    print("\n❌ Cannot proceed without paramiko!")
+    print("\n[ERROR] Cannot proceed without paramiko!")
     sys.exit(1)
 
 # Import paramiko (should work now)
 try:
     import paramiko
     from paramiko.ssh_exception import SSHException, AuthenticationException
-    print("✓ paramiko imported successfully")
+    print("[OK] paramiko imported successfully")
 except ImportError as e:
-    print(f"❌ Failed to import paramiko: {e}")
+    print(f"[ERROR] Failed to import paramiko: {e}")
     sys.exit(1)
 
 #=============================================================================
@@ -270,13 +270,13 @@ class UltimateAirGapSTIGExecutor:
         all_ok = True
         for name, path in checks.items():
             if path.exists():
-                logger.info(f"  ✓ {name}: {path}")
+                logger.info(f"  [OK] {name}: {path}")
             else:
-                logger.error(f"  ✗ {name}: {path} - NOT FOUND")
+                logger.error(f"  [FAIL] {name}: {path} - NOT FOUND")
                 all_ok = False
 
         if not all_ok:
-            logger.error("\n❌ Missing required files!")
+            logger.error("\n[ERROR] Missing required files!")
             logger.error("\nRequired structure:")
             logger.error("  ULTIMATE_AIRGAP_STIG_EXECUTOR.py  ← This script")
             logger.error("  ubuntu20_stig_v2r3_enhanced.py    ← STIG remediation script")
@@ -288,10 +288,10 @@ class UltimateAirGapSTIGExecutor:
 
         # Check for .deb files
         deb_files = list(self.ubuntu_debs.glob("*.deb"))
-        logger.info(f"\n  ✓ Found {len(deb_files)} Ubuntu .deb packages")
+        logger.info(f"\n  [OK] Found {len(deb_files)} Ubuntu .deb packages")
 
         if len(deb_files) == 0:
-            logger.warning("  ⚠️  WARNING: No .deb files found!")
+            logger.warning("  [WARNING]  WARNING: No .deb files found!")
             logger.warning("  Package installation may fail on target")
 
     def print_banner(self):
@@ -308,16 +308,16 @@ class UltimateAirGapSTIGExecutor:
         print("CONNECTION SETUP")
         print("="*80)
 
-        print("\n⚠️  CRITICAL WARNINGS:")
+        print("\n[WARNING]  CRITICAL WARNINGS:")
         print("   - This will apply ALL 172 STIG controls")
         print("   - SSH password auth will be DISABLED (keys only)")
         print("   - USB storage will be DISABLED")
         print("   - Wireless will be DISABLED")
         print("   - Strict firewall will be enabled")
         print("   - Many services will be disabled")
-        print("\n   ✓ ENSURE you have console access (KVM/IPMI)")
-        print("   ✓ ENSURE SSH keys are configured")
-        print("   ✓ ENSURE you have a backup/snapshot")
+        print("\n   [OK] ENSURE you have console access (KVM/IPMI)")
+        print("   [OK] ENSURE SSH keys are configured")
+        print("   [OK] ENSURE you have a backup/snapshot")
 
         print("\n" + "-"*80)
 
@@ -345,12 +345,12 @@ class UltimateAirGapSTIGExecutor:
         print("="*80)
         print(f"Target:      {self.target_host}:{self.port}")
         print(f"Username:    {self.username}")
-        print(f"Sudo:        {'✓ Configured' if self.sudo_password else '✗ Not set'}")
+        print(f"Sudo:        {'[OK] Configured' if self.sudo_password else '[FAIL] Not set'}")
         print("="*80)
 
-        confirm = input("\n⚠️  Proceed with execution? [yes/NO]: ").strip().lower()
+        confirm = input("\n[WARNING]  Proceed with execution? [yes/NO]: ").strip().lower()
         if confirm != 'yes':
-            logger.warning("❌ Execution cancelled by user")
+            logger.warning("[ERROR] Execution cancelled by user")
             sys.exit(0)
 
     def connect(self):
@@ -380,17 +380,17 @@ class UltimateAirGapSTIGExecutor:
             self.sftp_client = self.ssh_client.open_sftp()
             self.connected = True
 
-            logger.info(f"✓ Successfully connected to {self.target_host}")
+            logger.info(f"[OK] Successfully connected to {self.target_host}")
             return True
 
         except AuthenticationException:
-            logger.error("❌ Authentication failed - check username/password")
+            logger.error("[ERROR] Authentication failed - check username/password")
             return False
         except SSHException as e:
-            logger.error(f"❌ SSH error: {e}")
+            logger.error(f"[ERROR] SSH error: {e}")
             return False
         except Exception as e:
-            logger.error(f"❌ Connection failed: {e}")
+            logger.error(f"[ERROR] Connection failed: {e}")
             return False
 
     def disconnect(self):
@@ -398,7 +398,7 @@ class UltimateAirGapSTIGExecutor:
         if self.sftp_client:
             try:
                 self.sftp_client.close()
-            except:
+            except Exception:
                 pass
 
         if self.ssh_client:
@@ -406,7 +406,7 @@ class UltimateAirGapSTIGExecutor:
                 self.ssh_client.close()
                 self.connected = False
                 logger.info(f"Disconnected from {self.target_host}")
-            except:
+            except Exception:
                 pass
 
     def execute_command(self, command, use_sudo=False, timeout=300, stream_output=False):
@@ -472,10 +472,10 @@ class UltimateAirGapSTIGExecutor:
         rc, stdout, stderr = self.execute_command("whoami", use_sudo=True, timeout=10)
 
         if rc == 0 and 'root' in stdout:
-            logger.info("✓ Sudo access verified")
+            logger.info("[OK] Sudo access verified")
             return True
         else:
-            logger.error("❌ Sudo verification failed")
+            logger.error("[ERROR] Sudo verification failed")
             logger.error(f"Output: {stdout}")
             logger.error(f"Error: {stderr}")
             return False
@@ -495,7 +495,7 @@ class UltimateAirGapSTIGExecutor:
                     logger.info(f"  {line}")
 
             if 'Ubuntu 20.04' not in stdout:
-                logger.warning("\n⚠️  WARNING: Not Ubuntu 20.04!")
+                logger.warning("\n[WARNING]  WARNING: Not Ubuntu 20.04!")
                 confirm = input("Continue anyway? [yes/NO]: ").strip().lower()
                 if confirm != 'yes':
                     return False
@@ -534,10 +534,10 @@ class UltimateAirGapSTIGExecutor:
         )
 
         if rc == 0:
-            logger.info(f"✓ Workspace created: {self.remote_work_dir}")
+            logger.info(f"[OK] Workspace created: {self.remote_work_dir}")
             return True
         else:
-            logger.error(f"❌ Failed to create workspace: {stderr}")
+            logger.error(f"[ERROR] Failed to create workspace: {stderr}")
             return False
 
     def transfer_ubuntu_packages(self):
@@ -549,7 +549,7 @@ class UltimateAirGapSTIGExecutor:
         deb_files = list(self.ubuntu_debs.glob("*.deb"))
 
         if not deb_files:
-            logger.warning("⚠️  No .deb files found!")
+            logger.warning("[WARNING]  No .deb files found!")
             logger.warning(f"Checked: {self.ubuntu_debs}")
             logger.warning("Continuing without Ubuntu packages...")
             logger.warning("Some STIG controls may fail if dependencies are missing")
@@ -568,12 +568,12 @@ class UltimateAirGapSTIGExecutor:
                 self.sftp_client.put(str(deb_file), remote_path)
                 transferred += 1
             except Exception as e:
-                logger.error(f"  ✗ Failed to transfer {deb_file.name}: {e}")
+                logger.error(f"  [FAIL] Failed to transfer {deb_file.name}: {e}")
                 failed += 1
 
-        logger.info(f"\n✓ Transferred: {transferred} packages")
+        logger.info(f"\n[OK] Transferred: {transferred} packages")
         if failed > 0:
-            logger.warning(f"⚠️  Failed: {failed} packages")
+            logger.warning(f"[WARNING]  Failed: {failed} packages")
 
         return transferred > 0
 
@@ -591,7 +591,7 @@ class UltimateAirGapSTIGExecutor:
         num_debs = int(stdout.strip()) if rc == 0 else 0
 
         if num_debs == 0:
-            logger.warning("⚠️  No .deb packages to install")
+            logger.warning("[WARNING]  No .deb packages to install")
             logger.warning("Proceeding without package installation...")
             logger.warning("Some STIG controls may require manual package installation")
             return True
@@ -609,9 +609,9 @@ class UltimateAirGapSTIGExecutor:
         )
 
         if rc == 0:
-            logger.info("✓ All packages installed successfully")
+            logger.info("[OK] All packages installed successfully")
         else:
-            logger.warning("⚠️  Some packages may have had dependency issues")
+            logger.warning("[WARNING]  Some packages may have had dependency issues")
             logger.info("Attempting to fix dependencies...")
 
             # Try to fix broken dependencies (without downloading)
@@ -623,9 +623,9 @@ class UltimateAirGapSTIGExecutor:
             )
 
             if rc2 == 0:
-                logger.info("✓ Dependencies fixed")
+                logger.info("[OK] Dependencies fixed")
             else:
-                logger.warning("⚠️  Some dependency issues remain")
+                logger.warning("[WARNING]  Some dependency issues remain")
                 logger.warning("This may affect some STIG controls")
 
         # Verify key packages
@@ -640,9 +640,9 @@ class UltimateAirGapSTIGExecutor:
         for pkg_name, pkg_path in packages_to_check.items():
             rc, stdout, stderr = self.execute_command(f"test -f {pkg_path} && echo 'OK' || echo 'NOT_FOUND'")
             if 'OK' in stdout:
-                logger.info(f"  ✓ {pkg_name}")
+                logger.info(f"  [OK] {pkg_name}")
             else:
-                logger.warning(f"  ✗ {pkg_name} - not found")
+                logger.warning(f"  [FAIL] {pkg_name} - not found")
 
         return True
 
@@ -653,7 +653,7 @@ class UltimateAirGapSTIGExecutor:
         logger.info("="*80)
 
         if not self.stig_script.exists():
-            logger.error(f"❌ STIG script not found: {self.stig_script}")
+            logger.error(f"[ERROR] STIG script not found: {self.stig_script}")
             logger.error("\nRequired file: ubuntu20_stig_v2r3_enhanced.py")
             logger.error("This file must be in the same directory as this script!")
             return False
@@ -667,11 +667,11 @@ class UltimateAirGapSTIGExecutor:
             self.sftp_client.put(str(self.stig_script), self.remote_stig_script)
             self.sftp_client.chmod(self.remote_stig_script, 0o755)
 
-            logger.info("✓ STIG script transferred successfully")
+            logger.info("[OK] STIG script transferred successfully")
             return True
 
         except Exception as e:
-            logger.error(f"❌ Transfer failed: {e}")
+            logger.error(f"[ERROR] Transfer failed: {e}")
             return False
 
     def create_backup(self):
@@ -710,7 +710,7 @@ class UltimateAirGapSTIGExecutor:
             cmd = f"cp -r {file_path} {backup_dir}/ 2>/dev/null || true"
             self.execute_command(cmd, use_sudo=True, timeout=30)
 
-        logger.info(f"✓ Backup created: {backup_dir}")
+        logger.info(f"[OK] Backup created: {backup_dir}")
         return True
 
     def execute_stig_remediation(self):
@@ -718,17 +718,17 @@ class UltimateAirGapSTIGExecutor:
         logger.info("\n" + "="*80)
         logger.info("EXECUTING STIG REMEDIATION")
         logger.info("="*80)
-        logger.info("\n⚠️  This will apply ALL 172 STIG controls")
-        logger.info("⏳ Execution may take 5-15 minutes")
-        logger.info("⏳ DO NOT interrupt!\n")
+        logger.info("\n[WARNING]  This will apply ALL 172 STIG controls")
+        logger.info("[WAIT] Execution may take 5-15 minutes")
+        logger.info("[WAIT] DO NOT interrupt!\n")
 
         # Final confirmation
-        final = input("🔴 Type 'EXECUTE' to begin: ").strip()
+        final = input("[RED] Type 'EXECUTE' to begin: ").strip()
         if final != 'EXECUTE':
-            logger.warning("❌ Execution cancelled")
+            logger.warning("[ERROR] Execution cancelled")
             return False
 
-        logger.info("\n🔒 Starting STIG remediation...\n")
+        logger.info("\n[SECURE] Starting STIG remediation...\n")
 
         cmd = f"python3 {self.remote_stig_script}"
 
@@ -741,12 +741,12 @@ class UltimateAirGapSTIGExecutor:
 
         if rc == 0:
             logger.info("\n" + "="*80)
-            logger.info("✓ STIG REMEDIATION COMPLETED SUCCESSFULLY")
+            logger.info("[OK] STIG REMEDIATION COMPLETED SUCCESSFULLY")
             logger.info("="*80)
             return True
         else:
             logger.error("\n" + "="*80)
-            logger.error(f"❌ STIG REMEDIATION FAILED (exit code: {rc})")
+            logger.error(f"[ERROR] STIG REMEDIATION FAILED (exit code: {rc})")
             logger.error("="*80)
             return False
 
@@ -757,7 +757,7 @@ class UltimateAirGapSTIGExecutor:
         logger.info("="*80)
 
         # Check SSH still works
-        logger.info("\n✓ SSH connection still active")
+        logger.info("\n[OK] SSH connection still active")
 
         # Check critical services
         logger.info("\nChecking critical services:")
@@ -771,9 +771,9 @@ class UltimateAirGapSTIGExecutor:
             )
             status = stdout.strip()
             if status == 'active':
-                logger.info(f"  ✓ {service}: active")
+                logger.info(f"  [OK] {service}: active")
             else:
-                logger.warning(f"  ⚠️  {service}: {status}")
+                logger.warning(f"  [WARNING]  {service}: {status}")
 
         # Check SSH config
         logger.info("\nVerifying SSH configuration:")
@@ -784,9 +784,9 @@ class UltimateAirGapSTIGExecutor:
         )
 
         if rc == 0:
-            logger.info("  ✓ SSH configuration valid")
+            logger.info("  [OK] SSH configuration valid")
         else:
-            logger.error(f"  ❌ SSH configuration error: {stderr}")
+            logger.error(f"  [ERROR] SSH configuration error: {stderr}")
 
         return True
 
@@ -800,7 +800,7 @@ class UltimateAirGapSTIGExecutor:
                 use_sudo=False,
                 timeout=30
             )
-            logger.info("✓ Cleanup complete")
+            logger.info("[OK] Cleanup complete")
 
     def print_final_summary(self):
         """Print final execution summary"""
@@ -815,10 +815,10 @@ class UltimateAirGapSTIGExecutor:
         print("CRITICAL NEXT STEPS")
         print("="*80)
 
-        print("\n1. 🔄 REBOOT THE SYSTEM:")
+        print("\n1.  REBOOT THE SYSTEM:")
         print(f"   ssh {self.username}@{self.target_host} 'sudo reboot'")
 
-        print("\n2. 🔑 SSH KEY ACCESS REQUIRED:")
+        print("\n2. [KEY] SSH KEY ACCESS REQUIRED:")
         print("   Password authentication has been DISABLED")
         print("   You MUST use SSH keys to access the system")
         print("\n   If keys not configured:")
@@ -826,31 +826,31 @@ class UltimateAirGapSTIGExecutor:
         print("   b) Copy your SSH public key to ~/.ssh/authorized_keys")
         print("   c) Or temporarily re-enable password auth")
 
-        print("\n3. 🔒 STIG CONTROLS APPLIED:")
-        print("   ✓ All 172 STIG controls applied")
-        print("   ✓ SSH password authentication disabled")
-        print("   ✓ USB storage disabled")
-        print("   ✓ Wireless disabled")
-        print("   ✓ Strict firewall enabled (deny all except SSH)")
-        print("   ✓ All unnecessary services disabled")
-        print("   ✓ Audit logging enabled")
-        print("   ✓ Password complexity enforced")
-        print("   ✓ Account lockout enabled")
+        print("\n3. [SECURE] STIG CONTROLS APPLIED:")
+        print("   [OK] All 172 STIG controls applied")
+        print("   [OK] SSH password authentication disabled")
+        print("   [OK] USB storage disabled")
+        print("   [OK] Wireless disabled")
+        print("   [OK] Strict firewall enabled (deny all except SSH)")
+        print("   [OK] All unnecessary services disabled")
+        print("   [OK] Audit logging enabled")
+        print("   [OK] Password complexity enforced")
+        print("   [OK] Account lockout enabled")
 
-        print("\n4. 📋 VERIFICATION:")
+        print("\n4. [LIST] VERIFICATION:")
         print("   - Run SCAP scan to verify compliance")
         print("   - Check /var/log/ubuntu20-stig-v2r3-remediation.log")
         print("   - Verify all services are running")
         print("   - Test SSH key access")
 
-        print("\n5. 💾 BACKUPS:")
+        print("\n5. [SAVE] BACKUPS:")
         print("   Backups created on target:")
         print("   - /var/backups/pre-stig-*")
         print("   - /var/backups/stig-v2r3/")
         print("   - Individual .stig-v2r3-backup-* files")
 
         print("\n" + "="*80)
-        print("✓ ULTIMATE AIR-GAP STIG EXECUTION COMPLETE")
+        print("[OK] ULTIMATE AIR-GAP STIG EXECUTION COMPLETE")
         print("="*80)
 
     def run(self):
@@ -898,10 +898,10 @@ class UltimateAirGapSTIGExecutor:
             return True
 
         except KeyboardInterrupt:
-            logger.warning("\n\n⚠️  Interrupted by user!")
+            logger.warning("\n\n[WARNING]  Interrupted by user!")
             return False
         except Exception as e:
-            logger.exception("❌ Fatal error")
+            logger.exception("[ERROR] Fatal error")
             return False
         finally:
             self.cleanup()

@@ -77,20 +77,20 @@ class AirGapDependencyInstaller:
         for import_name, package_name in required_packages.items():
             try:
                 __import__(import_name)
-                print(f"  ✓ {package_name} is installed")
+                print(f"  [OK] {package_name} is installed")
             except ImportError:
-                print(f"  ✗ {package_name} is NOT installed")
+                print(f"  [FAIL] {package_name} is NOT installed")
                 missing.append(package_name)
 
         if not missing:
-            print("\n✓ All dependencies are installed!")
+            print("\n[OK] All dependencies are installed!")
             return True
 
-        print(f"\n⚠️  Missing {len(missing)} packages: {', '.join(missing)}")
+        print(f"\n[WARNING]  Missing {len(missing)} packages: {', '.join(missing)}")
 
         # Check if dependencies directory exists
         if not self.dependencies_dir.exists():
-            print(f"\n❌ ERROR: Dependencies directory not found: {self.dependencies_dir}")
+            print(f"\n[ERROR] ERROR: Dependencies directory not found: {self.dependencies_dir}")
             print("\nPackage structure should be:")
             print("  dependencies/        ← Python .whl files")
             print("  ubuntu_packages/     ← Ubuntu .deb files")
@@ -98,7 +98,7 @@ class AirGapDependencyInstaller:
             return False
 
         # Install from local files
-        print(f"\n📦 Installing from local files in: {self.dependencies_dir}")
+        print(f"\n[PACKAGE] Installing from local files in: {self.dependencies_dir}")
         return self.install_from_local()
 
     def install_from_local(self):
@@ -108,7 +108,7 @@ class AirGapDependencyInstaller:
         all_files = wheel_files + tar_files
 
         if not all_files:
-            print(f"\n❌ ERROR: No package files found in {self.dependencies_dir}")
+            print(f"\n[ERROR] ERROR: No package files found in {self.dependencies_dir}")
             return False
 
         print(f"\nFound {len(all_files)} package files")
@@ -121,10 +121,10 @@ class AirGapDependencyInstaller:
         try:
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)
             print(result.stdout)
-            print(f"\n✓ Successfully installed all dependencies!")
+            print(f"\n[OK] Successfully installed all dependencies!")
             return True
         except subprocess.CalledProcessError:
-            print("\n⚠️  Batch install failed, trying individual installation...")
+            print("\n[WARNING]  Batch install failed, trying individual installation...")
 
         # Try individual installation
         success_count = 0
@@ -138,20 +138,20 @@ class AirGapDependencyInstaller:
                     capture_output=True,
                     text=True
                 )
-                print(f"    ✓ Installed: {file.name}")
+                print(f"    [OK] Installed: {file.name}")
                 self.installed.append(file.name)
                 success_count += 1
             except subprocess.CalledProcessError as e:
-                print(f"    ✗ Failed: {file.name}")
+                print(f"    [FAIL] Failed: {file.name}")
                 self.failed.append(file.name)
 
         if self.failed:
-            print(f"\n⚠️  {len(self.failed)} packages failed to install:")
+            print(f"\n[WARNING]  {len(self.failed)} packages failed to install:")
             for pkg in self.failed:
                 print(f"    - {pkg}")
 
         if success_count > 0:
-            print(f"\n✓ Installed {success_count}/{len(all_files)} packages")
+            print(f"\n[OK] Installed {success_count}/{len(all_files)} packages")
             return True
 
         return False
@@ -229,7 +229,7 @@ class CompleteAirGapSTIGExecutor:
 
     def check_package_structure(self):
         """Verify package structure is correct"""
-        print("📦 Checking package structure...\n")
+        print("[PACKAGE] Checking package structure...\n")
 
         issues = []
 
@@ -237,14 +237,14 @@ class CompleteAirGapSTIGExecutor:
         if not self.scripts_dir.exists():
             issues.append(f"Scripts directory not found: {self.scripts_dir}")
         else:
-            print(f"  ✓ Scripts directory: {self.scripts_dir}")
+            print(f"  [OK] Scripts directory: {self.scripts_dir}")
 
             # Check for STIG script
             stig_script_path = self.scripts_dir / self.stig_script
             if not stig_script_path.exists():
                 issues.append(f"STIG script not found: {stig_script_path}")
             else:
-                print(f"  ✓ STIG script: {self.stig_script}")
+                print(f"  [OK] STIG script: {self.stig_script}")
 
         # Check for Ubuntu packages directory
         if not self.ubuntu_packages_dir.exists():
@@ -252,13 +252,13 @@ class CompleteAirGapSTIGExecutor:
         else:
             deb_files = list(self.ubuntu_packages_dir.glob("*.deb"))
             if not deb_files:
-                print(f"  ⚠️  WARNING: No .deb files in {self.ubuntu_packages_dir}")
+                print(f"  [WARNING]  WARNING: No .deb files in {self.ubuntu_packages_dir}")
                 print(f"     STIG script will attempt to use target's package cache")
             else:
-                print(f"  ✓ Ubuntu packages: {len(deb_files)} .deb files")
+                print(f"  [OK] Ubuntu packages: {len(deb_files)} .deb files")
 
         if issues:
-            print("\n❌ PACKAGE STRUCTURE ISSUES:")
+            print("\n[ERROR] PACKAGE STRUCTURE ISSUES:")
             for issue in issues:
                 print(f"  - {issue}")
             print("\nExpected structure:")
@@ -281,7 +281,7 @@ class CompleteAirGapSTIGExecutor:
 
         self.host = input("Ubuntu target IP or hostname: ").strip()
         if not self.host:
-            print("❌ ERROR: Hostname/IP required")
+            print("[ERROR] ERROR: Hostname/IP required")
             return False
 
         port_input = input(f"SSH port [22]: ").strip()
@@ -289,17 +289,17 @@ class CompleteAirGapSTIGExecutor:
             try:
                 self.port = int(port_input)
             except ValueError:
-                print("❌ ERROR: Invalid port number")
+                print("[ERROR] ERROR: Invalid port number")
                 return False
 
         self.username = input("SSH username: ").strip()
         if not self.username:
-            print("❌ ERROR: Username required")
+            print("[ERROR] ERROR: Username required")
             return False
 
         self.password = getpass.getpass("SSH password: ")
         if not self.password:
-            print("❌ ERROR: Password required")
+            print("[ERROR] ERROR: Password required")
             return False
 
         print("\nSudo password (press Enter if same as SSH password): ", end='', flush=True)
@@ -312,7 +312,7 @@ class CompleteAirGapSTIGExecutor:
 
     def test_connection(self):
         """Test SSH connection to target"""
-        print(f"🔌 Testing SSH connection to {self.username}@{self.host}:{self.port}...")
+        print(f" Testing SSH connection to {self.username}@{self.host}:{self.port}...")
 
         try:
             import paramiko
@@ -331,12 +331,12 @@ class CompleteAirGapSTIGExecutor:
             )
 
             self.connected = True
-            print(f"✓ Connected successfully!\n")
+            print(f"[OK] Connected successfully!\n")
             self.logger.info(f"Connected to {self.host}")
             return True
 
         except Exception as e:
-            print(f"❌ Connection failed: {e}\n")
+            print(f"[ERROR] Connection failed: {e}\n")
             self.logger.error(f"Connection failed: {e}")
             return False
 
@@ -345,10 +345,10 @@ class CompleteAirGapSTIGExecutor:
         deb_files = list(self.ubuntu_packages_dir.glob("*.deb"))
 
         if not deb_files:
-            print("⚠️  No Ubuntu packages to transfer (will rely on target's cache)\n")
+            print("[WARNING]  No Ubuntu packages to transfer (will rely on target's cache)\n")
             return True
 
-        print(f"📦 Transferring {len(deb_files)} Ubuntu packages to target...")
+        print(f"[PACKAGE] Transferring {len(deb_files)} Ubuntu packages to target...")
 
         try:
             import paramiko
@@ -369,33 +369,33 @@ class CompleteAirGapSTIGExecutor:
 
                     sftp.put(str(deb_file), remote_path)
 
-                    print(" ✓")
+                    print(" [OK]")
                     success_count += 1
                     self.logger.info(f"Transferred: {deb_file.name}")
 
                 except Exception as e:
-                    print(f" ✗ Failed: {e}")
+                    print(f" [FAIL] Failed: {e}")
                     self.logger.error(f"Failed to transfer {deb_file.name}: {e}")
 
             sftp.close()
 
-            print(f"\n✓ Transferred {success_count}/{len(deb_files)} packages")
+            print(f"\n[OK] Transferred {success_count}/{len(deb_files)} packages")
             print(f"  Remote location: {remote_pkg_dir}\n")
 
             return success_count > 0
 
         except Exception as e:
-            print(f"\n❌ Transfer failed: {e}\n")
+            print(f"\n[ERROR] Transfer failed: {e}\n")
             self.logger.error(f"Package transfer failed: {e}")
             return False
 
     def transfer_stig_script(self):
         """Transfer STIG remediation script to target"""
-        print(f"📄 Transferring STIG script to target...")
+        print(f"[FILE] Transferring STIG script to target...")
 
         stig_script_path = self.scripts_dir / self.stig_script
         if not stig_script_path.exists():
-            print(f"❌ ERROR: STIG script not found: {stig_script_path}\n")
+            print(f"[ERROR] ERROR: STIG script not found: {stig_script_path}\n")
             return False
 
         try:
@@ -408,21 +408,21 @@ class CompleteAirGapSTIGExecutor:
             sftp.chmod(remote_path, 0o755)
             sftp.close()
 
-            print(f"  ✓ Transferred: {self.stig_script}")
+            print(f"  [OK] Transferred: {self.stig_script}")
             print(f"  Remote location: {remote_path}\n")
 
             self.logger.info(f"Transferred STIG script to {remote_path}")
             return True
 
         except Exception as e:
-            print(f"❌ Transfer failed: {e}\n")
+            print(f"[ERROR] Transfer failed: {e}\n")
             self.logger.error(f"Script transfer failed: {e}")
             return False
 
     def show_warnings(self):
         """Display important warnings before execution"""
         print("\n" + "!"*80)
-        print("⚠️  CRITICAL WARNINGS - READ CAREFULLY")
+        print("[WARNING]  CRITICAL WARNINGS - READ CAREFULLY")
         print("!"*80)
         print("""
 This script will apply 172 DISA STIG security controls to the target system.
@@ -439,11 +439,11 @@ WHAT WILL CHANGE:
   • File permissions and ownership
 
 BEFORE YOU PROCEED:
-  ✓ You have CONSOLE ACCESS to the target (KVM/physical/VM console)
-  ✓ This is a TEST environment (not production)
-  ✓ You have current backups
-  ✓ You understand SSH may be reconfigured
-  ✓ You are prepared for the system to reboot
+  [OK] You have CONSOLE ACCESS to the target (KVM/physical/VM console)
+  [OK] This is a TEST environment (not production)
+  [OK] You have current backups
+  [OK] You understand SSH may be reconfigured
+  [OK] You are prepared for the system to reboot
 
 BACKUPS:
   Automatic backups will be created in:
@@ -472,10 +472,10 @@ IF SOMETHING BREAKS:
         response = input("Type 'EXECUTE' (all caps) to proceed, or anything else to cancel: ").strip()
 
         if response == "EXECUTE":
-            print("\n✓ Confirmed. Proceeding with execution...\n")
+            print("\n[OK] Confirmed. Proceeding with execution...\n")
             return True
         else:
-            print("\n❌ Execution cancelled by user.\n")
+            print("\n[ERROR] Execution cancelled by user.\n")
             return False
 
     def execute_stig(self):
@@ -518,22 +518,22 @@ IF SOMETHING BREAKS:
             print("="*80 + "\n")
 
             if exit_code == 0:
-                print("✅ STIG EXECUTION SUCCESSFUL!")
+                print("[OK] STIG EXECUTION SUCCESSFUL!")
                 self.logger.info("STIG execution completed successfully")
                 return True
             else:
-                print(f"⚠️  STIG execution completed with exit code: {exit_code}")
+                print(f"[WARNING]  STIG execution completed with exit code: {exit_code}")
                 self.logger.warning(f"STIG execution completed with exit code: {exit_code}")
                 return False
 
         except Exception as e:
-            print(f"\n❌ Execution failed: {e}\n")
+            print(f"\n[ERROR] Execution failed: {e}\n")
             self.logger.error(f"STIG execution failed: {e}")
             return False
 
     def cleanup(self):
         """Clean up remote files (optional)"""
-        print("\n🧹 Cleaning up remote files...")
+        print("\n Cleaning up remote files...")
 
         try:
             # Ask if user wants to clean up
@@ -551,13 +551,13 @@ IF SOMETHING BREAKS:
                     stdin.flush()
                     stdout.channel.recv_exit_status()
 
-                print("  ✓ Cleaned up temporary files\n")
+                print("  [OK] Cleaned up temporary files\n")
                 self.logger.info("Cleaned up remote temporary files")
             else:
                 print("  ⊘ Skipped cleanup\n")
 
         except Exception as e:
-            print(f"  ⚠️  Cleanup failed: {e}\n")
+            print(f"  [WARNING]  Cleanup failed: {e}\n")
             self.logger.warning(f"Cleanup failed: {e}")
 
     def close(self):
@@ -565,7 +565,7 @@ IF SOMETHING BREAKS:
         if self.client:
             self.client.close()
             self.connected = False
-            print("✓ Connection closed\n")
+            print("[OK] Connection closed\n")
 
     def run(self):
         """Main execution flow"""
@@ -585,7 +585,7 @@ IF SOMETHING BREAKS:
 
         # Transfer Ubuntu packages
         if not self.transfer_ubuntu_packages():
-            print("⚠️  Package transfer failed, continuing anyway...")
+            print("[WARNING]  Package transfer failed, continuing anyway...")
 
         # Transfer STIG script
         if not self.transfer_stig_script():
@@ -611,9 +611,9 @@ IF SOMETHING BREAKS:
         # Final summary
         print("\n" + "="*80)
         if success:
-            print("✅ STIG REMEDIATION COMPLETED SUCCESSFULLY")
+            print("[OK] STIG REMEDIATION COMPLETED SUCCESSFULLY")
         else:
-            print("⚠️  STIG REMEDIATION COMPLETED WITH WARNINGS")
+            print("[WARNING]  STIG REMEDIATION COMPLETED WITH WARNINGS")
         print("="*80)
         print("\nNEXT STEPS:")
         print("1. Review the execution log on target:")
@@ -642,7 +642,7 @@ def main():
 
     installer = AirGapDependencyInstaller()
     if not installer.check_and_install():
-        print("\n❌ Failed to install dependencies")
+        print("\n[ERROR] Failed to install dependencies")
         print("\nPlease ensure the 'dependencies' folder contains all required packages.")
         print("Run build_complete_airgap_package.py on a connected system to create the package.")
         return 1
@@ -650,9 +650,9 @@ def main():
     # Import paramiko after installation
     try:
         import paramiko
-        print("\n✓ paramiko successfully imported\n")
+        print("\n[OK] paramiko successfully imported\n")
     except ImportError:
-        print("\n❌ ERROR: Failed to import paramiko after installation")
+        print("\n[ERROR] ERROR: Failed to import paramiko after installation")
         print("Please check the dependencies folder and try again.")
         return 1
 
@@ -668,12 +668,12 @@ def main():
         return 0 if success else 1
 
     except KeyboardInterrupt:
-        print("\n\n❌ Execution cancelled by user")
+        print("\n\n[ERROR] Execution cancelled by user")
         executor.close()
         return 1
 
     except Exception as e:
-        print(f"\n❌ ERROR: {e}")
+        print(f"\n[ERROR] ERROR: {e}")
         import traceback
         traceback.print_exc()
         executor.close()

@@ -1,14 +1,14 @@
-# 📦 ALL FILES - COMPLETE PACKAGE OVERVIEW
+# [PACKAGE] ALL FILES - COMPLETE PACKAGE OVERVIEW
 
-## 🎯 YOU HAVE EVERYTHING YOU NEED!
+## [TARGET] YOU HAVE EVERYTHING YOU NEED!
 
 This document shows ALL files you've downloaded and how they work together.
 
 ---
 
-## 📥 Downloaded Files (14 Files Total)
+## [DOWNLOAD] Downloaded Files (14 Files Total)
 
-### 🔵 **Main Executors** (Choose One):
+###  **Main Executors** (Choose One):
 1. **windows_stig_remote_executor.py** (24 KB)
    - For systems WITH internet
    - Auto-downloads dependencies
@@ -19,7 +19,7 @@ This document shows ALL files you've downloaded and how they work together.
    - Needs dependencies pre-downloaded
    - Maximum security lockdown mode
 
-### 🔧 **Helper Scripts**:
+### [CONFIG] **Helper Scripts**:
 3. **download_dependencies.py** (9.4 KB)
    - Downloads Python packages for air-gap
    - Run on internet-connected system first
@@ -28,7 +28,7 @@ This document shows ALL files you've downloaded and how they work together.
    - Creates complete air-gap package
    - Bundles everything into ZIP
 
-### 🪟 **Windows Launchers** (Optional - Makes it easier):
+###  **Windows Launchers** (Optional - Makes it easier):
 5. **run_stig.bat** (5.7 KB)
    - Launches internet-connected executor
    - Double-click to run
@@ -37,7 +37,7 @@ This document shows ALL files you've downloaded and how they work together.
    - Launches air-gapped executor
    - Double-click to run
 
-### 📖 **Documentation Files**:
+###  **Documentation Files**:
 
 #### Start Here (Quick References):
 7. **COMPLETE_PACKAGE_GUIDE.md** (15 KB) ⭐ **READ THIS FIRST!**
@@ -78,7 +78,7 @@ This document shows ALL files you've downloaded and how they work together.
 
 ---
 
-## 📂 How to Organize Your Files
+## [DIR] How to Organize Your Files
 
 ### Option 1: Internet-Connected Setup
 ```
@@ -120,18 +120,18 @@ C:\STIG-AirGap\
 
 ---
 
-## 🚦 DECISION TREE: Which Files Do You Need?
+##  DECISION TREE: Which Files Do You Need?
 
 ### START: Do you have internet on Windows?
 
-#### ✅ YES - I have internet
+#### [OK] YES - I have internet
 ```
 USE: Internet-Connected Package
 
 FILES NEEDED:
-✓ windows_stig_remote_executor.py
-✓ ubuntu20_stig_v2r3_enhanced.py (your STIG script)
-✓ run_stig.bat (optional)
+[OK] windows_stig_remote_executor.py
+[OK] ubuntu20_stig_v2r3_enhanced.py (your STIG script)
+[OK] run_stig.bat (optional)
 
 READ:
 1. COMPLETE_PACKAGE_GUIDE.md (overview)
@@ -143,7 +143,7 @@ python windows_stig_remote_executor.py
 (or double-click run_stig.bat)
 ```
 
-#### ❌ NO - Air-gapped/Isolated
+#### [ERROR] NO - Air-gapped/Isolated
 ```
 USE: Air-Gapped Package
 
@@ -154,10 +154,10 @@ FIRST (on internet system):
 
 THEN (on air-gapped system):
 Extract ZIP, you'll have:
-✓ airgap_windows_stig_executor.py
-✓ ubuntu20_stig_v2r3_enhanced.py (your STIG script)
-✓ dependencies/ (folder with packages)
-✓ run_airgap_stig.bat (optional)
+[OK] airgap_windows_stig_executor.py
+[OK] ubuntu20_stig_v2r3_enhanced.py (your STIG script)
+[OK] dependencies/ (folder with packages)
+[OK] run_airgap_stig.bat (optional)
 
 READ:
 1. COMPLETE_PACKAGE_GUIDE.md (overview)
@@ -171,7 +171,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## ⚡ ULTRA-QUICK START
+## [FAST] ULTRA-QUICK START
 
 ### Internet-Connected (3 Steps):
 ```powershell
@@ -205,7 +205,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## 🎓 What Each File Does
+## [LEARN] What Each File Does
 
 ### Executors:
 - **windows_stig_remote_executor.py**
@@ -245,7 +245,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## 📖 Documentation Reading Order
+##  Documentation Reading Order
 
 ### If You're New:
 1. **COMPLETE_PACKAGE_GUIDE.md** ⭐ (this helps you choose)
@@ -264,7 +264,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## ⚠️ CRITICAL: Don't Forget!
+## [WARNING] CRITICAL: Don't Forget!
 
 ### You MUST Have:
 1. **ubuntu20_stig_v2r3_enhanced.py** - Your STIG script
@@ -289,7 +289,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## 🎯 Success Path
+## [TARGET] Success Path
 
 ```
 1. Read COMPLETE_PACKAGE_GUIDE.md ← You are here!
@@ -306,12 +306,12 @@ python airgap_windows_stig_executor.py
    ↓
 7. Verify compliance
    ↓
-8. Done! 🎉
+8. Done! 
 ```
 
 ---
 
-## 📊 File Size Summary
+## [CHART] File Size Summary
 
 ```
 Total Package: ~171 KB (scripts + docs)
@@ -343,7 +343,7 @@ All very manageable sizes!
 
 ---
 
-## 💾 Backup Your Files!
+## [SAVE] Backup Your Files!
 
 After you get everything working, save these files somewhere safe:
 - All .py files
@@ -359,16 +359,16 @@ You might need them again for:
 
 ---
 
-## 🎉 You're All Set!
+##  You're All Set!
 
 You have EVERYTHING you need:
 
-✅ Two complete executor options (internet & air-gap)  
-✅ Helper scripts for building packages  
-✅ Windows launchers for easy execution  
-✅ Comprehensive documentation  
-✅ Quick start guides  
-✅ Troubleshooting help  
+[OK] Two complete executor options (internet & air-gap)  
+[OK] Helper scripts for building packages  
+[OK] Windows launchers for easy execution  
+[OK] Comprehensive documentation  
+[OK] Quick start guides  
+[OK] Troubleshooting help  
 
 **Just choose your path:**
 - **Internet-Connected** → START_HERE.md
@@ -378,7 +378,7 @@ You have EVERYTHING you need:
 
 ---
 
-## 📋 Final Checklist
+## [LIST] Final Checklist
 
 Before you start:
 
@@ -398,7 +398,7 @@ Before you start:
 - [ ] Transferred complete package to air-gapped system
 - [ ] dependencies/ folder present
 
-**Now you're ready to secure your Ubuntu system! 🔒**
+**Now you're ready to secure your Ubuntu system! [SECURE]**
 
 ---
 
@@ -407,4 +407,4 @@ Before you start:
 **STIG**: V2R3 (172 controls)  
 **Files**: 14 total (scripts + documentation)
 
-**🛡️ Lock it down - online or offline!**
+**[SHIELD] Lock it down - online or offline!**

@@ -1,6 +1,6 @@
 # Quick Installation Guide - Windows STIG Remote Executor
 
-## 🚀 5-Minute Setup
+## [LAUNCH] 5-Minute Setup
 
 ### Step 1: Download Files (1 minute)
 
@@ -15,7 +15,7 @@ Download these 3 files to a folder on your Windows computer (e.g., `C:\STIG\`):
 1. Go to https://www.python.org/downloads/
 2. Download Python 3.12 (or latest 3.x)
 3. Run installer
-4. ✅ **IMPORTANT: Check "Add Python to PATH"**
+4. [OK] **IMPORTANT: Check "Add Python to PATH"**
 5. Click Install
 
 Verify installation:
@@ -56,7 +56,7 @@ Follow the prompts and confirm execution.
 
 ---
 
-## ⚡ Ultra-Quick Reference
+## [FAST] Ultra-Quick Reference
 
 ```powershell
 # One-time setup
@@ -108,7 +108,7 @@ pip install paramiko scp
 
 ---
 
-## 📋 Pre-Flight Checklist
+## [LIST] Pre-Flight Checklist
 
 Before running the script:
 
@@ -124,7 +124,7 @@ Before running the script:
 
 ---
 
-## 🎯 Post-Execution Checklist
+## [TARGET] Post-Execution Checklist
 
 After script completes:
 
@@ -138,7 +138,7 @@ After script completes:
 
 ---
 
-## 📞 Need Help?
+##  Need Help?
 
 **Read the full documentation:**
 - README_WINDOWS_EXECUTOR.md (comprehensive guide)
@@ -157,7 +157,7 @@ After script completes:
 
 ---
 
-## ⚠️ Remember
+## [WARNING] Remember
 
 1. **Always test in non-production first**
 2. **Have console access ready**
@@ -165,4 +165,4 @@ After script completes:
 4. **System must be rebooted after**
 5. **SSH configuration will change**
 
-**Good luck! 🛡️**
+**Good luck! [SHIELD]**

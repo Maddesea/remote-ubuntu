@@ -1,0 +1,56 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+stig_execution_logs/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+.temp/
+
+# Dependencies folder (can be large)
+dependencies/
+
+# Build artifacts
+*.zip
+stig-airgap-package-*/
+
+# Test files
+test_*.py
+tests/
+
+# Sensitive data
+*.pem
+*.key
+*.crt
+credentials.json
+secrets.json

@@ -1,6 +1,6 @@
 # ULTIMATE AIR-GAP STIG - ULTRA QUICK START
 
-## 🚀 Get Running in 3 Steps (5 Minutes)
+## [LAUNCH] Get Running in 3 Steps (5 Minutes)
 
 This is the **absolute fastest** way to apply all 172 STIG controls to Ubuntu 20.04 from Windows in an air-gapped environment.
 
@@ -23,9 +23,9 @@ python BUILD_AIRGAP_PACKAGE.py
 Copy these to your air-gapped Windows system:
 
 ```
-✓ ULTIMATE_AIRGAP_STIG_EXECUTOR.py
-✓ ubuntu20_stig_v2r3_enhanced.py
-✓ airgap_packages/ (entire folder)
+[OK] ULTIMATE_AIRGAP_STIG_EXECUTOR.py
+[OK] ubuntu20_stig_v2r3_enhanced.py
+[OK] airgap_packages/ (entire folder)
 ```
 
 Transfer method: USB drive, CD, approved transfer system
@@ -51,7 +51,7 @@ python ULTIMATE_AIRGAP_STIG_EXECUTOR.py
 
 ---
 
-## ✅ DONE!
+## [OK] DONE!
 
 The script will:
 1. Install Python dependencies (from local files)
@@ -64,7 +64,7 @@ The script will:
 
 ---
 
-## 🔴 CRITICAL REQUIREMENTS
+## [RED] CRITICAL REQUIREMENTS
 
 Before running, **YOU MUST HAVE:**
 
@@ -77,23 +77,23 @@ Without console access, you WILL lose access if anything goes wrong!
 
 ---
 
-## 📋 What Gets Applied
+## [LIST] What Gets Applied
 
 All 172 DISA STIG V2R3 controls:
-- ✅ SSH hardening (password auth disabled)
-- ✅ Password complexity (15 char min)
-- ✅ Account lockout (3 attempts)
-- ✅ Audit logging (auditd)
-- ✅ File integrity (aide)
-- ✅ Firewall rules (UFW)
-- ✅ USB storage disabled
-- ✅ Wireless disabled
-- ✅ Kernel hardening
-- ✅ All 172 controls
+- [OK] SSH hardening (password auth disabled)
+- [OK] Password complexity (15 char min)
+- [OK] Account lockout (3 attempts)
+- [OK] Audit logging (auditd)
+- [OK] File integrity (aide)
+- [OK] Firewall rules (UFW)
+- [OK] USB storage disabled
+- [OK] Wireless disabled
+- [OK] Kernel hardening
+- [OK] All 172 controls
 
 ---
 
-## 🔧 If Something Goes Wrong
+## [CONFIG] If Something Goes Wrong
 
 **SSH broken?** Use console access:
 ```bash
@@ -105,7 +105,7 @@ sudo systemctl restart sshd
 
 ---
 
-## 📞 Need More Help?
+##  Need More Help?
 
 See `ULTIMATE_AIRGAP_README.md` for:
 - Complete setup guide
@@ -116,7 +116,7 @@ See `ULTIMATE_AIRGAP_README.md` for:
 
 ---
 
-## 🎯 Directory Structure
+## [TARGET] Directory Structure
 
 Your air-gapped Windows system should look like:
 
@@ -131,7 +131,7 @@ Your air-gapped Windows system should look like:
 
 ---
 
-## ⚡ That's It!
+## [FAST] That's It!
 
 **Total time:** 5 minutes setup + 10 minutes execution = 15 minutes total
 

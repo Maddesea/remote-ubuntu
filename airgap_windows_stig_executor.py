@@ -69,20 +69,20 @@ class AirGapDependencyInstaller:
         for import_name, package_name in required_packages.items():
             try:
                 __import__(import_name)
-                print(f"  ✓ {package_name} is installed")
+                print(f"  [OK] {package_name} is installed")
             except ImportError:
-                print(f"  ✗ {package_name} is NOT installed")
+                print(f"  [FAIL] {package_name} is NOT installed")
                 missing.append(package_name)
         
         if not missing:
-            print("\n✓ All dependencies are installed!")
+            print("\n[OK] All dependencies are installed!")
             return True
         
-        print(f"\n⚠️  Missing {len(missing)} packages: {', '.join(missing)}")
+        print(f"\n[WARNING]  Missing {len(missing)} packages: {', '.join(missing)}")
         
         # Check if dependencies directory exists
         if not self.dependencies_dir.exists():
-            print(f"\n❌ ERROR: Dependencies directory not found: {self.dependencies_dir}")
+            print(f"\n[ERROR] ERROR: Dependencies directory not found: {self.dependencies_dir}")
             print("\nTo fix this:")
             print("1. On a connected system, run: pip download -d dependencies paramiko")
             print("2. Copy the entire 'dependencies' folder to this air-gapped system")
@@ -90,7 +90,7 @@ class AirGapDependencyInstaller:
             return False
         
         # Install from local files
-        print(f"\n📦 Installing from local files in: {self.dependencies_dir}")
+        print(f"\n[PACKAGE] Installing from local files in: {self.dependencies_dir}")
         return self.install_from_local()
     
     def install_from_local(self):
@@ -100,7 +100,7 @@ class AirGapDependencyInstaller:
         all_files = wheel_files + tar_files
         
         if not all_files:
-            print(f"\n❌ ERROR: No package files found in {self.dependencies_dir}")
+            print(f"\n[ERROR] ERROR: No package files found in {self.dependencies_dir}")
             print("\nExpected files: .whl or .tar.gz files for paramiko and dependencies")
             return False
         
@@ -111,7 +111,7 @@ class AirGapDependencyInstaller:
             print(f"  ... and {len(all_files) - 10} more")
         
         # Install all packages
-        print("\n📦 Installing packages...")
+        print("\n[PACKAGE] Installing packages...")
         
         try:
             # Use pip to install from directory
@@ -130,27 +130,27 @@ class AirGapDependencyInstaller:
             )
             
             if result.returncode == 0:
-                print("✓ Installation successful!")
+                print("[OK] Installation successful!")
                 print("\nVerifying installation...")
                 
                 # Verify by importing
                 try:
                     import paramiko
-                    print("✓ paramiko verified")
+                    print("[OK] paramiko verified")
                     return True
                 except ImportError as e:
-                    print(f"✗ Verification failed: {e}")
+                    print(f"[FAIL] Verification failed: {e}")
                     return False
             else:
-                print(f"✗ Installation failed:")
+                print(f"[FAIL] Installation failed:")
                 print(result.stderr)
                 return False
                 
         except subprocess.TimeoutExpired:
-            print("✗ Installation timed out")
+            print("[FAIL] Installation timed out")
             return False
         except Exception as e:
-            print(f"✗ Installation error: {e}")
+            print(f"[FAIL] Installation error: {e}")
             return False
 
 # Try to import paramiko, or install from local files
@@ -159,7 +159,7 @@ try:
     from paramiko.ssh_exception import SSHException, AuthenticationException
     PARAMIKO_AVAILABLE = True
 except ImportError:
-    print("⚠️  paramiko not found - will attempt installation from local files")
+    print("[WARNING]  paramiko not found - will attempt installation from local files")
     PARAMIKO_AVAILABLE = False
     
     # Try to install from local dependencies
@@ -171,11 +171,11 @@ except ImportError:
             from paramiko.ssh_exception import SSHException, AuthenticationException
             PARAMIKO_AVAILABLE = True
         except ImportError:
-            print("\n❌ Failed to import paramiko after installation")
+            print("\n[ERROR] Failed to import paramiko after installation")
             print("Please check the dependencies folder and try again")
             sys.exit(1)
     else:
-        print("\n❌ Cannot proceed without paramiko")
+        print("\n[ERROR] Cannot proceed without paramiko")
         print("\nFor air-gapped installation:")
         print("1. On internet-connected system: pip download -d dependencies paramiko")
         print("2. Copy 'dependencies' folder to this system")
@@ -228,9 +228,9 @@ class MaximumSecuritySTIGExecutor:
         print("\n" + "="*80)
         print("AIR-GAPPED UBUNTU 20.04 STIG MAXIMUM SECURITY EXECUTOR")
         print("="*80)
-        print("\n🔒 MAXIMUM SECURITY MODE")
+        print("\n[SECURE] MAXIMUM SECURITY MODE")
         print("This will apply the MOST RESTRICTIVE STIG configuration possible.")
-        print("\n⚠️  CRITICAL WARNINGS:")
+        print("\n[WARNING]  CRITICAL WARNINGS:")
         print("   - SSH password authentication will be DISABLED")
         print("   - Only SSH key authentication will work after execution")
         print("   - Root login will be COMPLETELY DISABLED")
@@ -239,15 +239,15 @@ class MaximumSecuritySTIGExecutor:
         print("   - USB storage will be completely disabled")
         print("   - Wireless will be completely disabled")
         print("   - System will be in maximum lockdown state")
-        print("\n⚠️  ENSURE YOU HAVE:")
-        print("   ✓ Console access (KVM/IPMI/Physical) available")
-        print("   ✓ SSH keys already configured on target")
-        print("   ✓ Current system backup/snapshot")
-        print("   ✓ Tested this in non-production first")
+        print("\n[WARNING]  ENSURE YOU HAVE:")
+        print("   [OK] Console access (KVM/IPMI/Physical) available")
+        print("   [OK] SSH keys already configured on target")
+        print("   [OK] Current system backup/snapshot")
+        print("   [OK] Tested this in non-production first")
         print("\n" + "="*80)
         
         # Configuration options
-        print("\n🔧 Security Configuration:")
+        print("\n[CONFIG] Security Configuration:")
         print("="*40)
         
         # Ask about password auth (default: disable)
@@ -262,7 +262,7 @@ class MaximumSecuritySTIGExecutor:
         strict_fw = input("Enable strict firewall? (deny all except SSH) [Y/n]: ").strip().lower()
         self.strict_firewall = strict_fw in ['', 'y', 'yes']
         
-        print("\n📋 Connection Information:")
+        print("\n[LIST] Connection Information:")
         print("="*40)
         
         # Get target information
@@ -275,7 +275,7 @@ class MaximumSecuritySTIGExecutor:
         self.password = getpass.getpass(f"SSH password for {self.username}: ")
         
         # Get sudo password
-        print("\n🔑 Sudo Password:")
+        print("\n[KEY] Sudo Password:")
         use_same = input(f"Use same password for sudo? [Y/n]: ").strip().lower()
         
         if use_same in ['', 'y', 'yes']:
@@ -289,7 +289,7 @@ class MaximumSecuritySTIGExecutor:
         print("="*80)
         print(f"Target Host:            {self.target_host}:{self.port}")
         print(f"SSH User:               {self.username}")
-        print(f"Sudo Password:          {'✓ Configured' if self.sudo_password else '✗ Not set'}")
+        print(f"Sudo Password:          {'[OK] Configured' if self.sudo_password else '[FAIL] Not set'}")
         print("\nSecurity Settings:")
         print(f"  Disable Password Auth:  {'YES' if self.disable_password_auth else 'NO'}")
         print(f"  Enable FIPS Mode:       {'YES' if self.enable_fips else 'NO'}")
@@ -297,14 +297,14 @@ class MaximumSecuritySTIGExecutor:
         print(f"  Disable Unnecessary:    YES (always)")
         print("="*80)
         
-        print("\n⚠️  FINAL WARNING:")
+        print("\n[WARNING]  FINAL WARNING:")
         print("After execution, you will need SSH keys to access the system.")
         print("Password authentication will be disabled.")
         print("Ensure you have console access available!")
         
-        confirm = input("\n⚠️  Proceed with MAXIMUM SECURITY configuration? [yes/NO]: ").strip().lower()
+        confirm = input("\n[WARNING]  Proceed with MAXIMUM SECURITY configuration? [yes/NO]: ").strip().lower()
         if confirm != 'yes':
-            print("\n❌ Execution cancelled by user.")
+            print("\n[ERROR] Execution cancelled by user.")
             sys.exit(0)
     
     def connect(self):
@@ -328,17 +328,17 @@ class MaximumSecuritySTIGExecutor:
             )
             
             self.connected = True
-            logger.info(f"✓ Successfully connected to {self.target_host}")
+            logger.info(f"[OK] Successfully connected to {self.target_host}")
             return True
             
         except AuthenticationException:
-            logger.error("❌ Authentication failed - check username/password")
+            logger.error("[ERROR] Authentication failed - check username/password")
             return False
         except SSHException as e:
-            logger.error(f"❌ SSH error: {e}")
+            logger.error(f"[ERROR] SSH error: {e}")
             return False
         except Exception as e:
-            logger.error(f"❌ Connection failed: {e}")
+            logger.error(f"[ERROR] Connection failed: {e}")
             return False
     
     def disconnect(self):
@@ -400,10 +400,10 @@ class MaximumSecuritySTIGExecutor:
         rc, stdout, stderr = self.execute_command("whoami", use_sudo=True, timeout=10)
         
         if rc == 0 and 'root' in stdout:
-            logger.info("✓ Sudo access verified")
+            logger.info("[OK] Sudo access verified")
             return True
         else:
-            logger.error("❌ Sudo access verification failed")
+            logger.error("[ERROR] Sudo access verification failed")
             return False
     
     def check_system_info(self):
@@ -421,7 +421,7 @@ class MaximumSecuritySTIGExecutor:
                     logger.info(f"  {line}")
             
             if 'Ubuntu 20.04' not in stdout:
-                logger.warning("⚠️  WARNING: Target system is not Ubuntu 20.04!")
+                logger.warning("[WARNING]  WARNING: Target system is not Ubuntu 20.04!")
                 confirm = input("\nContinue anyway? [yes/NO]: ").strip().lower()
                 if confirm != 'yes':
                     return False
@@ -444,7 +444,7 @@ class MaximumSecuritySTIGExecutor:
         stig_script = script_dir / "ubuntu20_stig_v2r3_enhanced.py"
         
         if not stig_script.exists():
-            logger.error(f"❌ STIG script not found: {stig_script}")
+            logger.error(f"[ERROR] STIG script not found: {stig_script}")
             return False
         
         logger.info(f"Found STIG script: {stig_script}")
@@ -464,13 +464,13 @@ class MaximumSecuritySTIGExecutor:
             sftp.chmod(remote_script, 0o755)
             sftp.close()
             
-            logger.info(f"✓ Script transferred to {remote_script}")
+            logger.info(f"[OK] Script transferred to {remote_script}")
             
             self.remote_script_path = remote_script
             return True
             
         except Exception as e:
-            logger.error(f"❌ Failed to transfer script: {e}")
+            logger.error(f"[ERROR] Failed to transfer script: {e}")
             return False
     
     def install_dependencies(self):
@@ -496,9 +496,9 @@ class MaximumSecuritySTIGExecutor:
         )
         
         if rc == 0:
-            logger.info("✓ Dependencies installed")
+            logger.info("[OK] Dependencies installed")
         else:
-            logger.warning("⚠️  Some dependencies may have failed")
+            logger.warning("[WARNING]  Some dependencies may have failed")
         
         return True
     
@@ -529,7 +529,7 @@ class MaximumSecuritySTIGExecutor:
                 use_sudo=True
             )
         
-        logger.info(f"✓ Backup created: {backup_dir}")
+        logger.info(f"[OK] Backup created: {backup_dir}")
         return True
     
     def configure_maximum_security(self):
@@ -570,7 +570,7 @@ ENABLE_AUDITD = True
 STRICT_FILE_PERMISSIONS = True
 REMOVE_WORLD_WRITABLE = True
 
-print("🔒 MAXIMUM SECURITY MODE ENABLED")
+print("[SECURE] MAXIMUM SECURITY MODE ENABLED")
 """
         
         # Write config override
@@ -582,7 +582,7 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
                 f.write(config_override)
             sftp.close()
             
-            logger.info("✓ Maximum security configuration applied")
+            logger.info("[OK] Maximum security configuration applied")
             return True
         except Exception as e:
             logger.error(f"Failed to write config: {e}")
@@ -593,8 +593,8 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
         logger.info("\n" + "="*80)
         logger.info("EXECUTING MAXIMUM SECURITY STIG REMEDIATION")
         logger.info("="*80)
-        logger.info("\n⏳ This will take several minutes...")
-        logger.info("⏳ Do not interrupt the process!\n")
+        logger.info("\n[WAIT] This will take several minutes...")
+        logger.info("[WAIT] Do not interrupt the process!\n")
         
         cmd = f"python3 {self.remote_script_path}"
         
@@ -627,17 +627,17 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
             
             if exit_code == 0:
                 logger.info("\n" + "="*80)
-                logger.info("✓ MAXIMUM SECURITY STIG REMEDIATION COMPLETED")
+                logger.info("[OK] MAXIMUM SECURITY STIG REMEDIATION COMPLETED")
                 logger.info("="*80)
                 return True
             else:
                 logger.error("\n" + "="*80)
-                logger.error(f"❌ STIG REMEDIATION FAILED (exit code: {exit_code})")
+                logger.error(f"[ERROR] STIG REMEDIATION FAILED (exit code: {exit_code})")
                 logger.error("="*80)
                 return False
                 
         except Exception as e:
-            logger.exception(f"❌ Error during STIG execution: {e}")
+            logger.exception(f"[ERROR] Error during STIG execution: {e}")
             return False
     
     def cleanup_remote_files(self):
@@ -647,7 +647,7 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
         if hasattr(self, 'remote_script_path'):
             remote_dir = str(Path(self.remote_script_path).parent)
             self.execute_command(f"rm -rf {remote_dir}", use_sudo=True, timeout=10)
-            logger.info("✓ Temporary files removed")
+            logger.info("[OK] Temporary files removed")
     
     def post_execution_checks(self):
         """Perform post-execution verification"""
@@ -655,7 +655,7 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
         logger.info("POST-EXECUTION CHECKS")
         logger.info("="*80)
         
-        logger.info("\n✓ SSH access verified (still connected)")
+        logger.info("\n[OK] SSH access verified (still connected)")
         
         logger.info("\nChecking critical services:")
         services = ['sshd', 'auditd', 'rsyslog', 'ufw']
@@ -668,9 +668,9 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
             )
             status = stdout.strip()
             if status == 'active':
-                logger.info(f"  ✓ {service}: {status}")
+                logger.info(f"  [OK] {service}: {status}")
             else:
-                logger.warning(f"  ⚠️  {service}: {status}")
+                logger.warning(f"  [WARNING]  {service}: {status}")
         
         logger.info("\nVerifying SSH configuration:")
         rc, stdout, stderr = self.execute_command(
@@ -679,9 +679,9 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
             timeout=10
         )
         if rc == 0:
-            logger.info("  ✓ SSH configuration syntax valid")
+            logger.info("  [OK] SSH configuration syntax valid")
         else:
-            logger.error(f"  ❌ SSH configuration has errors: {stderr}")
+            logger.error(f"  [ERROR] SSH configuration has errors: {stderr}")
         
         return True
     
@@ -696,18 +696,18 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
         print("\n" + "="*80)
         print("CRITICAL NEXT STEPS")
         print("="*80)
-        print("\n1. ⚠️  REBOOT THE SYSTEM:")
+        print("\n1. [WARNING]  REBOOT THE SYSTEM:")
         print(f"   ssh {self.username}@{self.target_host} 'sudo reboot'")
         
         if self.disable_password_auth:
-            print("\n2. 🔑 SSH KEY ACCESS REQUIRED:")
+            print("\n2. [KEY] SSH KEY ACCESS REQUIRED:")
             print("   Password authentication has been DISABLED")
             print("   You MUST use SSH keys to access the system")
             print("   If keys not configured, use console access to:")
             print("     a) Copy your SSH public key to ~/.ssh/authorized_keys")
             print("     b) Or temporarily re-enable password auth")
         
-        print("\n3. 🔒 MAXIMUM SECURITY APPLIED:")
+        print("\n3. [SECURE] MAXIMUM SECURITY APPLIED:")
         print("   - All unnecessary services disabled")
         print("   - USB storage completely disabled")
         print("   - Wireless adapters disabled")
@@ -715,7 +715,7 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
         print("   - Password authentication disabled (if selected)")
         print("   - All 172 STIG controls applied")
         
-        print("\n4. 🔍 VERIFY COMPLIANCE:")
+        print("\n4. [SEARCH] VERIFY COMPLIANCE:")
         print("   - Run SCAP scan to verify ~100% compliance")
         print("   - Check audit logs are being generated")
         print("   - Verify all required services are running")
@@ -758,7 +758,7 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
             self.configure_maximum_security()
             
             print("\n" + "="*80)
-            print("⚠️  FINAL CONFIRMATION - MAXIMUM SECURITY MODE ⚠️")
+            print("[WARNING]  FINAL CONFIRMATION - MAXIMUM SECURITY MODE [WARNING]")
             print("="*80)
             print("\nThis will apply the MOST RESTRICTIVE STIG configuration.")
             print("\nChanges include:")
@@ -768,15 +768,15 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
             print("  - Disable USB storage and wireless")
             print("  - Remove all unnecessary services")
             print("  - Apply all 172 STIG controls")
-            print("\n⚠️  ENSURE YOU HAVE:")
-            print("  ✓ Console access ready")
-            print("  ✓ SSH keys configured")
-            print("  ✓ System backup created")
+            print("\n[WARNING]  ENSURE YOU HAVE:")
+            print("  [OK] Console access ready")
+            print("  [OK] SSH keys configured")
+            print("  [OK] System backup created")
             print("\n" + "="*80)
             
-            final_confirm = input("\n🔴 Type 'EXECUTE' to begin: ").strip()
+            final_confirm = input("\n[RED] Type 'EXECUTE' to begin: ").strip()
             if final_confirm != 'EXECUTE':
-                logger.warning("❌ Execution cancelled")
+                logger.warning("[ERROR] Execution cancelled")
                 return False
             
             success = self.execute_stig_remediation()
@@ -785,15 +785,15 @@ print("🔒 MAXIMUM SECURITY MODE ENABLED")
                 self.post_execution_checks()
                 self.print_final_summary()
             else:
-                logger.error("\n❌ STIG remediation encountered errors")
+                logger.error("\n[ERROR] STIG remediation encountered errors")
             
             return success
             
         except KeyboardInterrupt:
-            logger.warning("\n\n⚠️  Execution interrupted by user!")
+            logger.warning("\n\n[WARNING]  Execution interrupted by user!")
             return False
         except Exception as e:
-            logger.exception("❌ Fatal error during execution")
+            logger.exception("[ERROR] Fatal error during execution")
             return False
         finally:
             self.cleanup_remote_files()
@@ -809,9 +809,9 @@ def main():
     
     # Check if running on Windows
     if sys.platform.startswith('win'):
-        print("✓ Running on Windows")
+        print("[OK] Running on Windows")
     else:
-        print("ℹ️  Cross-platform support enabled")
+        print("[INFO]  Cross-platform support enabled")
     
     # Create and run executor
     executor = MaximumSecuritySTIGExecutor()

@@ -1,6 +1,6 @@
-# 🚀 START HERE - Windows STIG Remote Executor
+# [LAUNCH] START HERE - Windows STIG Remote Executor
 
-## ⚡ What This Is
+## [FAST] What This Is
 
 Execute Ubuntu 20.04 DISA STIG V2R3 compliance (172 security controls) from your Windows PC to a remote Ubuntu server.
 
@@ -8,13 +8,13 @@ Execute Ubuntu 20.04 DISA STIG V2R3 compliance (172 security controls) from your
 
 ---
 
-## 📥 What You Downloaded
+## [DOWNLOAD] What You Downloaded
 
 1. **windows_stig_remote_executor.py** - Runs from Windows, connects via SSH
 2. **run_stig.bat** - Windows launcher (optional - makes it easier)
 3. Documentation files (README, guides, etc.)
 
-## ⚠️ What You Need From Your Upload
+## [WARNING] What You Need From Your Upload
 
 **Your STIG script:** The Python script you uploaded originally  
 **Must be named:** `ubuntu20_stig_v2r3_enhanced.py`  
@@ -22,7 +22,7 @@ Execute Ubuntu 20.04 DISA STIG V2R3 compliance (172 security controls) from your
 
 ---
 
-## 🎯 Setup (5 Minutes)
+## [TARGET] Setup (5 Minutes)
 
 ### 1. Install Python (Skip if you have it)
 - Download: https://www.python.org/downloads/
@@ -52,7 +52,7 @@ C:\STIG\
 
 ---
 
-## ▶️ Run It
+## ▶ Run It
 
 **Easy Way:**
 ```
@@ -80,7 +80,7 @@ python windows_stig_remote_executor.py
 
 ---
 
-## ✅ After It Completes
+## [OK] After It Completes
 
 **1. Reboot Ubuntu:**
 ```powershell
@@ -98,43 +98,43 @@ ssh user@target 'sudo reboot'
 
 ---
 
-## 🛡️ What Gets Changed
+## [SHIELD] What Gets Changed
 
 **172 STIG controls applied:**
 
 **Security:**
-- ✅ SSH hardened (root disabled, strong ciphers only)
-- ✅ Password policy (15 char min, complexity required)
-- ✅ Account lockout (3 failed attempts = locked)
-- ✅ Firewall enabled (UFW, deny all incoming except SSH)
-- ✅ Audit logging (comprehensive 136-rule audit)
+- [OK] SSH hardened (root disabled, strong ciphers only)
+- [OK] Password policy (15 char min, complexity required)
+- [OK] Account lockout (3 failed attempts = locked)
+- [OK] Firewall enabled (UFW, deny all incoming except SSH)
+- [OK] Audit logging (comprehensive 136-rule audit)
 
 **Restrictions:**
-- ✅ USB storage disabled
-- ✅ Wireless adapters disabled
-- ✅ Sudo restrictions (no NOPASSWD, no ALL)
-- ✅ Unnecessary services disabled
+- [OK] USB storage disabled
+- [OK] Wireless adapters disabled
+- [OK] Sudo restrictions (no NOPASSWD, no ALL)
+- [OK] Unnecessary services disabled
 
 **Monitoring:**
-- ✅ AppArmor enforcing
-- ✅ AIDE integrity checking
-- ✅ Comprehensive audit trails
+- [OK] AppArmor enforcing
+- [OK] AIDE integrity checking
+- [OK] Comprehensive audit trails
 
 ---
 
-## ⚠️ CRITICAL WARNINGS
+## [WARNING] CRITICAL WARNINGS
 
 **BEFORE Running:**
-- 🔴 Create backup/snapshot of Ubuntu system
-- 🔴 Test in non-production first
-- 🔴 Have console access ready (KVM/physical)
-- 🔴 Both .py files must be in same folder
+- [RED] Create backup/snapshot of Ubuntu system
+- [RED] Test in non-production first
+- [RED] Have console access ready (KVM/physical)
+- [RED] Both .py files must be in same folder
 
 **AFTER Running:**
-- 🔴 Root SSH login will be DISABLED
-- 🔴 System MUST be rebooted
-- 🔴 Users must have 15+ char passwords with complexity
-- 🔴 SSH may require keys instead of passwords
+- [RED] Root SSH login will be DISABLED
+- [RED] System MUST be rebooted
+- [RED] Users must have 15+ char passwords with complexity
+- [RED] SSH may require keys instead of passwords
 
 ---
 
@@ -168,7 +168,7 @@ FIX: pip install paramiko scp
 
 ---
 
-## 📚 Need More Info?
+##  Need More Info?
 
 **Quick:** Read `QUICK_START.md` (5-minute guide)  
 **Detailed:** Read `README_WINDOWS_EXECUTOR.md` (full documentation)  
@@ -183,7 +183,7 @@ FIX: pip install paramiko scp
 
 ---
 
-## 🎯 Quick Checklist
+## [TARGET] Quick Checklist
 
 **Before Running:**
 - [ ] Python 3.6+ installed on Windows
@@ -208,7 +208,7 @@ FIX: pip install paramiko scp
 
 ---
 
-## 💡 Pro Tip
+## [IDEA] Pro Tip
 
 **First Time?**
 1. Test on a VM or dev system first
@@ -226,7 +226,7 @@ FIX: pip install paramiko scp
 
 ---
 
-## 🎉 You're Ready!
+##  You're Ready!
 
 **To run right now:**
 1. Make sure both .py files are in same folder
@@ -235,7 +235,7 @@ FIX: pip install paramiko scp
 4. Follow the prompts
 5. Wait ~10 minutes
 6. Reboot Ubuntu
-7. Done! 🎊
+7. Done! 
 
 **Questions?** Check the README files or logs.
 
@@ -247,11 +247,11 @@ FIX: pip install paramiko scp
 
 **Version:** 1.0.0 | **STIG:** V2R3 | **Controls:** 172 (14 CAT I, 136 CAT II, 22 CAT III)
 
-**🛡️ Good luck securing your systems!**
+**[SHIELD] Good luck securing your systems!**
 
 ---
 
-## 📋 Quick Command Reference
+## [LIST] Quick Command Reference
 
 ```powershell
 # Setup

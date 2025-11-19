@@ -1,6 +1,6 @@
-# 🎯 COMPLETE WINDOWS STIG PACKAGE - START HERE
+# [TARGET] COMPLETE WINDOWS STIG PACKAGE - START HERE
 
-## 📦 What You Have
+## [PACKAGE] What You Have
 
 You now have **TWO complete packages** for applying Ubuntu 20.04 DISA STIG V2R3 compliance from Windows:
 
@@ -12,24 +12,24 @@ For isolated/classified environments with NO internet
 
 ---
 
-## 🎭 Which Package Should You Use?
+##  Which Package Should You Use?
 
 ### Use **Internet-Connected** If:
-- ✅ Your Windows system has internet access
-- ✅ You want simpler setup (auto-downloads dependencies)
-- ✅ You're testing/developing
-- ✅ You want standard STIG compliance
+- [OK] Your Windows system has internet access
+- [OK] You want simpler setup (auto-downloads dependencies)
+- [OK] You're testing/developing
+- [OK] You want standard STIG compliance
 
 ### Use **Air-Gapped** If:
-- ✅ Working in isolated/classified environment
-- ✅ NO internet access allowed
-- ✅ Need maximum security lockdown
-- ✅ Require pre-approved software packages
-- ✅ Must document all transfers
+- [OK] Working in isolated/classified environment
+- [OK] NO internet access allowed
+- [OK] Need maximum security lockdown
+- [OK] Require pre-approved software packages
+- [OK] Must document all transfers
 
 ---
 
-## 📁 File Organization
+## [FOLDER] File Organization
 
 ### **Package 1: Internet-Connected** (Simpler Setup)
 ```
@@ -58,7 +58,7 @@ Air-Gapped-Package/
 
 ---
 
-## 🚀 Quick Start Guide
+## [LAUNCH] Quick Start Guide
 
 ### For **Internet-Connected** Systems:
 
@@ -127,7 +127,7 @@ run_airgap_stig.bat
 
 ---
 
-## 🔒 Security Differences
+## [SECURE] Security Differences
 
 ### Internet-Connected Package:
 - **SSH**: Password auth can stay enabled (your choice)
@@ -146,28 +146,28 @@ run_airgap_stig.bat
 
 ---
 
-## ⚠️ CRITICAL WARNINGS (Both Packages)
+## [WARNING] CRITICAL WARNINGS (Both Packages)
 
 ### Before Running:
-- 🔴 **Create backup/snapshot** of Ubuntu system
-- 🔴 **Have console access** ready (KVM/IPMI/Physical)
-- 🔴 **Test in non-production** first
-- 🔴 **Both .py files** must be in same folder
+- [RED] **Create backup/snapshot** of Ubuntu system
+- [RED] **Have console access** ready (KVM/IPMI/Physical)
+- [RED] **Test in non-production** first
+- [RED] **Both .py files** must be in same folder
 
 ### After Running:
-- 🔴 **System must reboot** to complete changes
-- 🔴 **SSH configuration changes** (may require keys)
-- 🔴 **Password policies enforced** (15+ chars, complexity)
-- 🔴 **Many services disabled** (USB, Bluetooth, CUPS, etc.)
+- [RED] **System must reboot** to complete changes
+- [RED] **SSH configuration changes** (may require keys)
+- [RED] **Password policies enforced** (15+ chars, complexity)
+- [RED] **Many services disabled** (USB, Bluetooth, CUPS, etc.)
 
 ### Air-Gapped Specific:
-- 🔴 **SSH keys required** (password auth disabled)
-- 🔴 **Console access essential** (SSH changes are strict)
-- 🔴 **Maximum restrictions** (USB, wireless, etc. all disabled)
+- [RED] **SSH keys required** (password auth disabled)
+- [RED] **Console access essential** (SSH changes are strict)
+- [RED] **Maximum restrictions** (USB, wireless, etc. all disabled)
 
 ---
 
-## 📊 What Gets Applied (172 STIG Controls)
+## [CHART] What Gets Applied (172 STIG Controls)
 
 ### Category I (High - 14 controls):
 - SSH hardening (root disabled, strong ciphers)
@@ -197,7 +197,7 @@ run_airgap_stig.bat
 
 ---
 
-## 🔧 Prerequisites
+## [CONFIG] Prerequisites
 
 ### On Windows (Both Packages):
 - Windows 10/11 or Windows Server
@@ -221,7 +221,7 @@ run_airgap_stig.bat
 
 ---
 
-## 📖 Documentation
+##  Documentation
 
 ### Internet-Connected Package:
 1. **START_HERE.md** - One-page quick reference ⭐ READ THIS FIRST
@@ -297,24 +297,24 @@ pip install --no-index --find-links=dependencies paramiko
 
 ---
 
-## 🎯 Success Criteria
+## [TARGET] Success Criteria
 
 Your STIG remediation is successful when:
 
-✅ Script completes without critical errors  
-✅ System reboots successfully  
-✅ SSH access works (with appropriate auth method)  
-✅ Critical services running (sshd, auditd, rsyslog, ufw)  
-✅ SCAP scan shows 90-100% compliance  
-✅ Users can login with compliant passwords  
-✅ Audit logs being generated  
-✅ Firewall active and configured  
-✅ Applications function correctly  
-✅ No unexpected access issues  
+[OK] Script completes without critical errors  
+[OK] System reboots successfully  
+[OK] SSH access works (with appropriate auth method)  
+[OK] Critical services running (sshd, auditd, rsyslog, ufw)  
+[OK] SCAP scan shows 90-100% compliance  
+[OK] Users can login with compliant passwords  
+[OK] Audit logs being generated  
+[OK] Firewall active and configured  
+[OK] Applications function correctly  
+[OK] No unexpected access issues  
 
 ---
 
-## 📝 Post-Execution Checklist
+## [NOTE] Post-Execution Checklist
 
 ### Immediate (Before Reboot):
 - [ ] Review execution log for errors
@@ -350,7 +350,7 @@ Your STIG remediation is successful when:
 
 ---
 
-## 🔍 SCAP Scanning
+## [SEARCH] SCAP Scanning
 
 To verify compliance after remediation:
 
@@ -376,7 +376,7 @@ firefox scan-report.html
 
 ---
 
-## 💡 Best Practices
+## [IDEA] Best Practices
 
 ### Testing:
 1. **Always test in non-production first**
@@ -400,7 +400,7 @@ firefox scan-report.html
 
 ---
 
-## 📞 Support & Resources
+##  Support & Resources
 
 ### Included Documentation:
 - **Internet**: README_WINDOWS_EXECUTOR.md, QUICK_START.md
@@ -426,7 +426,7 @@ firefox scan-report.html
 
 ---
 
-## 🎓 Important Concepts
+## [LEARN] Important Concepts
 
 ### What is STIG?
 **Security Technical Implementation Guide** - DoD standards for securing systems against cyber threats. Contains specific configuration requirements.
@@ -444,7 +444,7 @@ Ubuntu 20.04 STIG V2R3 contains 172 specific security requirements covering auth
 
 ---
 
-## 🔐 Security Compliance
+## [LOCKED] Security Compliance
 
 ### This configuration helps meet:
 - **NIST 800-53** - Federal security controls
@@ -462,7 +462,7 @@ Ubuntu 20.04 STIG V2R3 contains 172 specific security requirements covering auth
 
 ---
 
-## ⚖️ License & Disclaimer
+##  License & Disclaimer
 
 **License**: MIT License
 
@@ -472,7 +472,7 @@ Ubuntu 20.04 STIG V2R3 contains 172 specific security requirements covering auth
 
 ---
 
-## 🎉 You're Ready!
+##  You're Ready!
 
 Choose your package:
 
@@ -490,7 +490,7 @@ Choose your package:
 
 ---
 
-## 📋 Quick Command Reference
+## [LIST] Quick Command Reference
 
 ### Internet-Connected:
 ```powershell
@@ -528,11 +528,11 @@ ssh user@target 'sudo reboot'
 **STIG**: V2R3 (Release 3, July 2025)  
 **Controls**: 172 total (14 CAT I, 136 CAT II, 22 CAT III)  
 
-**🛡️ Secure your Ubuntu systems with confidence - online or offline!**
+**[SHIELD] Secure your Ubuntu systems with confidence - online or offline!**
 
 ---
 
-## 🗂️ File Checklist
+##  File Checklist
 
 Make sure you have these files:
 
@@ -558,4 +558,4 @@ Make sure you have these files:
 
 **Need help? Check the comprehensive README files for your chosen package!**
 
-**Good luck with your STIG compliance journey! 🎯**
+**Good luck with your STIG compliance journey! [TARGET]**

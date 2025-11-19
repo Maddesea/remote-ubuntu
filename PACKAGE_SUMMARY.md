@@ -1,6 +1,6 @@
 # Windows-to-Ubuntu STIG Remote Executor - Complete Package
 
-## 📦 What You've Received
+## [PACKAGE] What You've Received
 
 This package enables you to execute Ubuntu 20.04 DISA STIG V2R3 compliance remediation **from your Windows workstation** to a remote Ubuntu server.
 
@@ -37,7 +37,7 @@ This package enables you to execute Ubuntu 20.04 DISA STIG V2R3 compliance remed
    - Information about the required STIG script
    - How to locate your script file
 
-## 🎯 What This Does
+## [TARGET] What This Does
 
 ### Before (Manual):
 - SSH into Ubuntu server
@@ -54,7 +54,7 @@ This package enables you to execute Ubuntu 20.04 DISA STIG V2R3 compliance remed
 - Automatic backups before changes
 - Post-execution validation
 
-## 🚀 Quick Start (3 Steps)
+## [LAUNCH] Quick Start (3 Steps)
 
 ### Step 1: Install Python (if not installed)
 ```powershell
@@ -77,7 +77,7 @@ python windows_stig_remote_executor.py
 run_stig.bat
 ```
 
-## 📋 Prerequisites Checklist
+## [LIST] Prerequisites Checklist
 
 ### On Your Windows PC:
 - [ ] Windows 10/11 (or Windows Server)
@@ -100,11 +100,11 @@ run_stig.bat
 - [ ] SSH credentials ready (username/password)
 - [ ] Sudo password ready
 
-## ⚡ What Gets Applied
+## [FAST] What Gets Applied
 
 The script applies **172 STIG controls** to achieve near 100% compliance:
 
-### 🔴 CAT I (High - 14 controls):
+### [RED] CAT I (High - 14 controls):
 - SSH hardening (disable root login, password auth restrictions)
 - Remove null password support
 - Lock accounts with blank passwords
@@ -112,7 +112,7 @@ The script applies **172 STIG controls** to achieve near 100% compliance:
 - PAM SHA512 password hashing
 - PKI authentication support
 
-### 🟡 CAT II (Medium - 136 controls):
+###  CAT II (Medium - 136 controls):
 - Password quality (15 char min, complexity requirements)
 - Account lockout (3 failed attempts = locked)
 - 59 kernel security parameters (network, memory, security)
@@ -130,11 +130,11 @@ The script applies **172 STIG controls** to achieve near 100% compliance:
 - AIDE file integrity monitoring
 - Cron execution auditing (NEW in V2R3)
 
-### 🟢 CAT III (Low - 22 controls):
+###  CAT III (Low - 22 controls):
 - Additional file permission restrictions
 - System documentation
 
-## 🔒 Security Changes Made
+## [SECURE] Security Changes Made
 
 ### Authentication:
 - **Passwords:** 15 char minimum, complexity required
@@ -164,7 +164,7 @@ The script applies **172 STIG controls** to achieve near 100% compliance:
 - **GRUB:** Audit enabled at boot
 - **Kernel:** Address space randomization (ASLR)
 
-## ⚠️ Important Warnings
+## [WARNING] Important Warnings
 
 ### SSH Access:
 - **Root login will be DISABLED**
@@ -191,7 +191,7 @@ The script applies **172 STIG controls** to achieve near 100% compliance:
 - GRUB changes need reboot
 - Service changes finalized on reboot
 
-## 📊 Expected Results
+## [CHART] Expected Results
 
 After successful execution:
 
@@ -214,7 +214,7 @@ After successful execution:
 - Required services running
 - Firewall not blocking needed ports
 
-## 🔄 Rollback Procedures
+##  Rollback Procedures
 
 If something goes wrong:
 
@@ -245,7 +245,7 @@ sudo cp $BACKUP/sudoers /etc/
 sudo systemctl restart sshd
 ```
 
-## 📖 Documentation Files
+##  Documentation Files
 
 ### Start Here:
 1. **QUICK_START.md** - 5-minute setup guide
@@ -260,7 +260,7 @@ sudo systemctl restart sshd
 - Check `/var/log/ubuntu20-stig-v2r3-remediation.log` on Ubuntu
 - Run SCAP scan to verify compliance
 
-## 🎓 Learning Resources
+## [LEARN] Learning Resources
 
 ### DISA STIG:
 - STIG Library: https://public.cyber.mil/stigs/
@@ -276,7 +276,7 @@ sudo systemctl restart sshd
 - CIS Benchmarks
 - PCI-DSS Requirements
 
-## 💡 Pro Tips
+## [IDEA] Pro Tips
 
 ### For Testing:
 1. Use VM snapshots for instant rollback
@@ -316,22 +316,22 @@ sudo systemctl restart sshd
 - **System unbootable:** Boot recovery mode, restore GRUB config
 - **Services down:** Check service status, restore from backup
 
-## 🎯 Success Checklist
+## [TARGET] Success Checklist
 
 Your STIG remediation is successful when:
 
-✅ Script completes without critical errors  
-✅ System reboots successfully  
-✅ SSH access works (possibly with new restrictions)  
-✅ Critical services running (sshd, auditd, rsyslog, ufw)  
-✅ SCAP scan shows 90%+ compliance  
-✅ Users can login (with compliant passwords)  
-✅ Audit logs being generated  
-✅ Firewall active and configured  
-✅ Applications function correctly  
-✅ No unexpected service disruptions  
+[OK] Script completes without critical errors  
+[OK] System reboots successfully  
+[OK] SSH access works (possibly with new restrictions)  
+[OK] Critical services running (sshd, auditd, rsyslog, ufw)  
+[OK] SCAP scan shows 90%+ compliance  
+[OK] Users can login (with compliant passwords)  
+[OK] Audit logs being generated  
+[OK] Firewall active and configured  
+[OK] Applications function correctly  
+[OK] No unexpected service disruptions  
 
-## 📝 Next Steps After Successful Execution
+## [NOTE] Next Steps After Successful Execution
 
 1. **Immediate (before reboot):**
    - Review execution log for errors
@@ -361,21 +361,21 @@ Your STIG remediation is successful when:
    - Document any exceptions
    - Update change control records
 
-## 🎉 You're Ready!
+##  You're Ready!
 
 You now have everything needed to:
-- ✅ Run STIG remediation from Windows
-- ✅ Automatically handle passwords
-- ✅ Monitor real-time progress
-- ✅ Achieve near 100% compliance
-- ✅ Rollback if needed
-- ✅ Validate with SCAP scanning
+- [OK] Run STIG remediation from Windows
+- [OK] Automatically handle passwords
+- [OK] Monitor real-time progress
+- [OK] Achieve near 100% compliance
+- [OK] Rollback if needed
+- [OK] Validate with SCAP scanning
 
 **Remember:** Always test in non-production first!
 
 ---
 
-## 📁 Package File Summary
+## [FOLDER] Package File Summary
 
 ```
 windows-stig-package/
@@ -397,4 +397,4 @@ REQUIRED (you already have this):
 **STIG Version:** V2R3 (Release 3, July 2025)  
 **Controls:** 172 total (14 CAT I, 136 CAT II, 22 CAT III)  
 
-**🛡️ Secure your Ubuntu systems with confidence!**
+**[SHIELD] Secure your Ubuntu systems with confidence!**

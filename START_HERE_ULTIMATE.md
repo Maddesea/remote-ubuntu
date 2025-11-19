@@ -1,4 +1,4 @@
-# 🚀 START HERE - ULTIMATE AIR-GAP STIG EXECUTOR
+# [LAUNCH] START HERE - ULTIMATE AIR-GAP STIG EXECUTOR
 
 ## Welcome!
 
@@ -8,36 +8,36 @@ This solution applies **all 172 DISA STIG V2R3 controls** to Ubuntu 20.04 LTS fr
 
 ---
 
-## ⚡ What You Get
+## [FAST] What You Get
 
-✅ **100% offline operation** - NO internet needed on Windows or Ubuntu
-✅ **Plug-and-play** - Download, transfer, execute
-✅ **All 172 STIG controls** - Complete compliance
-✅ **Automatic backups** - Safe rollback if needed
-✅ **Verified execution** - Post-execution checks
-✅ **Complete documentation** - Every detail explained
+[OK] **100% offline operation** - NO internet needed on Windows or Ubuntu
+[OK] **Plug-and-play** - Download, transfer, execute
+[OK] **All 172 STIG controls** - Complete compliance
+[OK] **Automatic backups** - Safe rollback if needed
+[OK] **Verified execution** - Post-execution checks
+[OK] **Complete documentation** - Every detail explained
 
 ---
 
-## 📖 Which Document to Read?
+##  Which Document to Read?
 
 Choose based on your experience level:
 
-### 🏃 **I just want to get started NOW!**
+### [RUN] **I just want to get started NOW!**
 → Read: **`ULTRA_QUICK_START.md`** (1 page, 5 minutes)
 
-### 📚 **I want complete documentation**
+###  **I want complete documentation**
 → Read: **`ULTIMATE_AIRGAP_README.md`** (Full guide, troubleshooting, FAQ)
 
-### 🗂️ **What are all these files?**
+###  **What are all these files?**
 → Read: **`ULTIMATE_FILES_GUIDE.md`** (Explains every file)
 
-### 🤔 **I've never done this before**
+###  **I've never done this before**
 → Read this page first, then `ULTRA_QUICK_START.md`
 
 ---
 
-## 🎯 The 3-Step Process
+## [TARGET] The 3-Step Process
 
 ### STEP 1: Build Package (Internet System)
 
@@ -61,10 +61,10 @@ python BUILD_AIRGAP_PACKAGE.py
 Copy these files to your **air-gapped Windows** system:
 
 ```
-✓ ULTIMATE_AIRGAP_STIG_EXECUTOR.py
-✓ ubuntu20_stig_v2r3_enhanced.py
-✓ airgap_packages/ (entire folder)
-✓ All documentation .md files (optional but recommended)
+[OK] ULTIMATE_AIRGAP_STIG_EXECUTOR.py
+[OK] ubuntu20_stig_v2r3_enhanced.py
+[OK] airgap_packages/ (entire folder)
+[OK] All documentation .md files (optional but recommended)
 ```
 
 **Method:** USB drive, CD/DVD, approved transfer system
@@ -98,7 +98,7 @@ python ULTIMATE_AIRGAP_STIG_EXECUTOR.py
 
 ---
 
-## ⚠️ CRITICAL: Before You Execute
+## [WARNING] CRITICAL: Before You Execute
 
 **YOU MUST HAVE** these before running:
 
@@ -144,37 +144,37 @@ Create a backup or snapshot:
 
 ---
 
-## 📋 What Will Change on Ubuntu
+## [LIST] What Will Change on Ubuntu
 
 After execution, your Ubuntu system will have:
 
 ### Security Changes:
-- ✅ SSH password authentication **DISABLED** (keys only)
-- ✅ Root login **COMPLETELY DISABLED**
-- ✅ Password complexity enforced (15 char minimum)
-- ✅ Account lockout enabled (3 failed attempts)
-- ✅ Firewall enabled (deny all except SSH)
-- ✅ USB storage **DISABLED**
-- ✅ Wireless **DISABLED**
+- [OK] SSH password authentication **DISABLED** (keys only)
+- [OK] Root login **COMPLETELY DISABLED**
+- [OK] Password complexity enforced (15 char minimum)
+- [OK] Account lockout enabled (3 failed attempts)
+- [OK] Firewall enabled (deny all except SSH)
+- [OK] USB storage **DISABLED**
+- [OK] Wireless **DISABLED**
 
 ### Services:
-- ✅ Audit logging (auditd) **ENABLED**
-- ✅ File integrity (aide) **ENABLED**
-- ✅ AppArmor **ENFORCING**
-- ❌ CUPS (printing) **DISABLED**
-- ❌ Bluetooth **DISABLED**
-- ❌ Avahi **DISABLED**
+- [OK] Audit logging (auditd) **ENABLED**
+- [OK] File integrity (aide) **ENABLED**
+- [OK] AppArmor **ENFORCING**
+- [ERROR] CUPS (printing) **DISABLED**
+- [ERROR] Bluetooth **DISABLED**
+- [ERROR] Avahi **DISABLED**
 
 ### Kernel:
-- ✅ 59 sysctl parameters hardened
-- ✅ Network stack hardened
-- ✅ Memory protections enabled
+- [OK] 59 sysctl parameters hardened
+- [OK] Network stack hardened
+- [OK] Memory protections enabled
 
 **Total:** All 172 STIG controls applied
 
 ---
 
-## 🎓 First-Time User Guide
+## [LEARN] First-Time User Guide
 
 If this is your first time:
 
@@ -264,7 +264,7 @@ Only after successful test:
 
 ---
 
-## 📁 File Overview
+## [FOLDER] File Overview
 
 You should have these files:
 
@@ -291,7 +291,7 @@ RUN_ULTIMATE_AIRGAP_STIG.bat         ← Windows launcher
 
 ---
 
-## ✅ Pre-Flight Checklist
+## [OK] Pre-Flight Checklist
 
 Before executing, verify:
 
@@ -323,7 +323,7 @@ YOUR READINESS:
 
 ---
 
-## 🎯 Next Steps
+## [TARGET] Next Steps
 
 Choose your path:
 
@@ -357,7 +357,7 @@ Choose your path:
 
 ---
 
-## 💡 Tips for Success
+## [IDEA] Tips for Success
 
 ### Tip 1: Test First
 **Always** test on non-production first. No exceptions.
@@ -385,20 +385,20 @@ Always reboot after STIG application for changes to take full effect.
 
 ---
 
-## 🏆 Success Criteria
+##  Success Criteria
 
 You'll know it worked when:
 
-✅ Executor completes without errors
-✅ SSH **key** access works (password will NOT work)
-✅ Console access works
-✅ Critical services running: `sshd`, `auditd`, `ufw`
-✅ System boots successfully after reboot
-✅ SCAP scan shows high compliance (~95%+)
+[OK] Executor completes without errors
+[OK] SSH **key** access works (password will NOT work)
+[OK] Console access works
+[OK] Critical services running: `sshd`, `auditd`, `ufw`
+[OK] System boots successfully after reboot
+[OK] SCAP scan shows high compliance (~95%+)
 
 ---
 
-## 📞 Support Resources
+##  Support Resources
 
 ### Log Locations:
 - **Windows:** `%USERPROFILE%\stig_execution_logs\`
@@ -415,16 +415,16 @@ You'll know it worked when:
 
 ---
 
-## 🎯 Summary
+## [TARGET] Summary
 
 You have everything you need for **100% guaranteed air-gapped STIG execution**:
 
-- ✅ **Executor script** - Does all the work
-- ✅ **Package builder** - Downloads dependencies
-- ✅ **STIG script** - Implements 172 controls
-- ✅ **Documentation** - Complete guides
-- ✅ **Offline support** - Works without internet
-- ✅ **Safety features** - Backups and verification
+- [OK] **Executor script** - Does all the work
+- [OK] **Package builder** - Downloads dependencies
+- [OK] **STIG script** - Implements 172 controls
+- [OK] **Documentation** - Complete guides
+- [OK] **Offline support** - Works without internet
+- [OK] **Safety features** - Backups and verification
 
 **Total Time to Execute:** 15-30 minutes
 **Confidence Level:** 100%
@@ -432,7 +432,7 @@ You have everything you need for **100% guaranteed air-gapped STIG execution**:
 
 ---
 
-## 🚀 Ready to Start?
+## [LAUNCH] Ready to Start?
 
 ### Quickest Path to Success:
 
@@ -444,14 +444,14 @@ You have everything you need for **100% guaranteed air-gapped STIG execution**:
 
 ---
 
-## ⚠️ Final Reminder
+## [WARNING] Final Reminder
 
 This script will:
-- ❌ **DISABLE SSH password authentication**
-- ❌ **DISABLE USB storage**
-- ❌ **DISABLE wireless**
-- ✅ **REQUIRE SSH keys for access**
-- ✅ **REQUIRE console access if SSH breaks**
+- [ERROR] **DISABLE SSH password authentication**
+- [ERROR] **DISABLE USB storage**
+- [ERROR] **DISABLE wireless**
+- [OK] **REQUIRE SSH keys for access**
+- [OK] **REQUIRE console access if SSH breaks**
 
 **Do not proceed unless you:**
 - Have SSH keys configured
@@ -466,4 +466,4 @@ This script will:
 **172 Total Controls - Maximum Security**
 **100% Offline Operation - GUARANTEED**
 
-**🎯 START WITH:** `ULTRA_QUICK_START.md` → Then execute!
+**[TARGET] START WITH:** `ULTRA_QUICK_START.md` → Then execute!

@@ -71,10 +71,10 @@ class AirGapPackageBuilder:
 
         # Python version
         if sys.version_info < (3, 6):
-            print(f"❌ Python 3.6+ required (current: {sys.version})")
+            print(f"[ERROR] Python 3.6+ required (current: {sys.version})")
             all_ok = False
         else:
-            print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor}")
+            print(f"[OK] Python {sys.version_info.major}.{sys.version_info.minor}")
 
         # pip
         try:
@@ -85,12 +85,12 @@ class AirGapPackageBuilder:
                 timeout=10
             )
             if result.returncode == 0:
-                print("✓ pip available")
+                print("[OK] pip available")
             else:
-                print("❌ pip not found")
+                print("[ERROR] pip not found")
                 all_ok = False
         except Exception:
-            print("❌ pip not available")
+            print("[ERROR] pip not available")
             all_ok = False
 
         # Internet
@@ -98,9 +98,9 @@ class AirGapPackageBuilder:
         try:
             import urllib.request
             urllib.request.urlopen('https://pypi.org', timeout=10)
-            print("✓ Internet connection available")
+            print("[OK] Internet connection available")
         except Exception as e:
-            print(f"❌ No internet connection: {e}")
+            print(f"[ERROR] No internet connection: {e}")
             print("\nThis script requires internet to download packages!")
             all_ok = False
 
@@ -114,13 +114,13 @@ class AirGapPackageBuilder:
                 timeout=10
             )
             if result.returncode == 0:
-                print("✓ Docker available (will be used for Ubuntu packages)")
+                print("[OK] Docker available (will be used for Ubuntu packages)")
                 self.docker_available = True
             else:
-                print("⚠️  Docker not available (will provide manual instructions)")
+                print("[WARNING]  Docker not available (will provide manual instructions)")
                 self.docker_available = False
         except Exception:
-            print("⚠️  Docker not installed (will provide manual instructions)")
+            print("[WARNING]  Docker not installed (will provide manual instructions)")
             self.docker_available = False
 
         return all_ok
@@ -132,11 +132,11 @@ class AirGapPackageBuilder:
         print("="*80)
 
         if self.output_dir.exists():
-            print(f"\n⚠️  Directory exists: {self.output_dir}")
+            print(f"\n[WARNING]  Directory exists: {self.output_dir}")
             response = input("Delete and recreate? [Y/n]: ").strip().lower()
             if response in ['', 'y', 'yes']:
                 shutil.rmtree(self.output_dir)
-                print("✓ Removed existing directory")
+                print("[OK] Removed existing directory")
             else:
                 print("Using existing directory...")
                 return True
@@ -145,9 +145,9 @@ class AirGapPackageBuilder:
         self.python_deps.mkdir(exist_ok=True)
         self.ubuntu_pkgs.mkdir(exist_ok=True)
 
-        print(f"\n✓ Created: {self.output_dir}/")
-        print(f"✓ Created: {self.python_deps}/")
-        print(f"✓ Created: {self.ubuntu_pkgs}/")
+        print(f"\n[OK] Created: {self.output_dir}/")
+        print(f"[OK] Created: {self.python_deps}/")
+        print(f"[OK] Created: {self.ubuntu_pkgs}/")
 
         return True
 
@@ -191,7 +191,7 @@ class AirGapPackageBuilder:
             if result.returncode == 0:
                 files = list(self.python_deps.glob('*'))
                 total_size = sum(f.stat().st_size for f in files if f.is_file()) / (1024 * 1024)
-                print(f"\n✓ Downloaded {len(files)} Python packages ({total_size:.1f} MB)")
+                print(f"\n[OK] Downloaded {len(files)} Python packages ({total_size:.1f} MB)")
 
                 # List files
                 print("\nDownloaded files:")
@@ -201,12 +201,12 @@ class AirGapPackageBuilder:
 
                 return True
             else:
-                print(f"\n❌ Download failed!")
+                print(f"\n[ERROR] Download failed!")
                 print(f"Error: {result.stderr}")
                 return False
 
         except Exception as e:
-            print(f"\n❌ Error: {e}")
+            print(f"\n[ERROR] Error: {e}")
             return False
 
     def download_ubuntu_packages_docker(self):
@@ -304,7 +304,7 @@ echo "Download complete!"
                 deb_files = list(self.ubuntu_pkgs.glob('*.deb'))
                 total_size = sum(f.stat().st_size for f in deb_files) / (1024 * 1024)
 
-                print(f"\n✓ Downloaded {len(deb_files)} .deb packages ({total_size:.1f} MB)")
+                print(f"\n[OK] Downloaded {len(deb_files)} .deb packages ({total_size:.1f} MB)")
 
                 # Create package list
                 list_file = self.ubuntu_pkgs / "package_list.txt"
@@ -315,18 +315,18 @@ echo "Download complete!"
                         size_mb = deb.stat().st_size / (1024 * 1024)
                         f.write(f"{deb.name} ({size_mb:.2f} MB)\n")
 
-                print(f"✓ Created package list: {list_file}")
+                print(f"[OK] Created package list: {list_file}")
 
                 return True
             else:
-                print("❌ Docker download failed")
+                print("[ERROR] Docker download failed")
                 return False
 
         except subprocess.TimeoutExpired:
-            print("❌ Docker download timed out")
+            print("[ERROR] Docker download timed out")
             return False
         except Exception as e:
-            print(f"\n❌ Error: {e}")
+            print(f"\n[ERROR] Error: {e}")
             return False
 
     def create_manual_download_instructions(self):
@@ -398,7 +398,7 @@ NOTES:
         inst_file = self.ubuntu_pkgs / "MANUAL_DOWNLOAD_INSTRUCTIONS.txt"
         inst_file.write_text(instructions)
 
-        print(f"\n✓ Created: {inst_file}")
+        print(f"\n[OK] Created: {inst_file}")
         print("\nPlease download packages manually and save to:")
         print(f"  {self.ubuntu_pkgs}/")
 
@@ -436,7 +436,7 @@ NOTES:
         with open(manifest_file, 'w') as f:
             json.dump(manifest, f, indent=2)
 
-        print(f"✓ Created: {manifest_file}")
+        print(f"[OK] Created: {manifest_file}")
         print(f"  Python packages: {len(manifest['python_packages'])}")
         print(f"  Ubuntu packages: {len(manifest['ubuntu_packages'])}")
 
@@ -510,32 +510,32 @@ WHAT GETS APPLIED
 -----------------
 
 All 172 STIG controls including:
-✓ SSH hardening (password auth disabled)
-✓ Password complexity and lockout
-✓ Audit logging (auditd)
-✓ File integrity monitoring (aide)
-✓ Firewall rules (UFW - deny all except SSH)
-✓ USB storage disabled
-✓ Wireless disabled
-✓ Kernel hardening (sysctl)
-✓ Service hardening
-✓ AppArmor enforcement
+[OK] SSH hardening (password auth disabled)
+[OK] Password complexity and lockout
+[OK] Audit logging (auditd)
+[OK] File integrity monitoring (aide)
+[OK] Firewall rules (UFW - deny all except SSH)
+[OK] USB storage disabled
+[OK] Wireless disabled
+[OK] Kernel hardening (sysctl)
+[OK] Service hardening
+[OK] AppArmor enforcement
 
 
 IMPORTANT NOTES
 ---------------
 
-⚠️  After execution:
+[WARNING]  After execution:
 - SSH password authentication will be DISABLED
 - You MUST use SSH keys to access the system
 - Have console access (KVM/IPMI) ready
 - System will require reboot
 
-⚠️  Backups are automatically created:
+[WARNING]  Backups are automatically created:
 - /var/backups/pre-stig-*
 - /var/backups/stig-v2r3/
 
-⚠️  Test in non-production first!
+[WARNING]  Test in non-production first!
 
 
 SUPPORT
@@ -552,7 +552,7 @@ Generated by: AIR-GAP PACKAGE BUILDER v{VERSION}
         readme_file = self.output_dir / "README.txt"
         readme_file.write_text(readme)
 
-        print(f"✓ Created: {readme_file}")
+        print(f"[OK] Created: {readme_file}")
         return True
 
     def print_summary(self):
@@ -570,7 +570,7 @@ Generated by: AIR-GAP PACKAGE BUILDER v{VERSION}
 
         total_size = python_size + ubuntu_size
 
-        print(f"\n📦 Package location: {self.output_dir.absolute()}/")
+        print(f"\n[PACKAGE] Package location: {self.output_dir.absolute()}/")
         print(f"\nPython packages:  {len(python_files)} files ({python_size:.1f} MB)")
         print(f"Ubuntu packages:  {len(ubuntu_files)} files ({ubuntu_size:.1f} MB)")
         print(f"TOTAL SIZE:       {total_size:.1f} MB")
@@ -579,23 +579,23 @@ Generated by: AIR-GAP PACKAGE BUILDER v{VERSION}
         print("NEXT STEPS")
         print("="*80)
 
-        print("\n1️⃣  VERIFY the package:")
+        print("\n1⃣  VERIFY the package:")
         print(f"   - Check {self.python_deps}/ has .whl files")
         print(f"   - Check {self.ubuntu_pkgs}/ has .deb files")
         if len(ubuntu_files) == 0:
-            print("\n   ⚠️  WARNING: No Ubuntu packages downloaded!")
+            print("\n   [WARNING]  WARNING: No Ubuntu packages downloaded!")
             print("   See MANUAL_DOWNLOAD_INSTRUCTIONS.txt")
 
-        print("\n2️⃣  COPY required scripts to same folder:")
+        print("\n2⃣  COPY required scripts to same folder:")
         print("   - ULTIMATE_AIRGAP_STIG_EXECUTOR.py")
         print("   - ubuntu20_stig_v2r3_enhanced.py")
 
-        print("\n3️⃣  TRANSFER to air-gapped system:")
+        print("\n3⃣  TRANSFER to air-gapped system:")
         print(f"   - Copy entire {self.output_dir}/ folder")
         print("   - Copy both .py scripts")
         print("   - Use USB drive, CD/DVD, or approved transfer method")
 
-        print("\n4️⃣  ON AIR-GAPPED SYSTEM:")
+        print("\n4⃣  ON AIR-GAPPED SYSTEM:")
         print("   - Extract/copy files")
         print("   - Verify directory structure")
         print("   - Run: python ULTIMATE_AIRGAP_STIG_EXECUTOR.py")
@@ -615,7 +615,7 @@ Generated by: AIR-GAP PACKAGE BUILDER v{VERSION}
 """)
 
         print("="*80)
-        print("✓ Package ready for air-gapped deployment!")
+        print("[OK] Package ready for air-gapped deployment!")
         print("="*80)
 
     def build(self):
@@ -623,20 +623,20 @@ Generated by: AIR-GAP PACKAGE BUILDER v{VERSION}
         self.print_banner()
 
         if not self.check_prerequisites():
-            print("\n❌ Prerequisites not met!")
+            print("\n[ERROR] Prerequisites not met!")
             return False
 
         if not self.create_directories():
             return False
 
         if not self.download_python_packages():
-            print("\n❌ Failed to download Python packages!")
+            print("\n[ERROR] Failed to download Python packages!")
             return False
 
         # Try Docker first, fallback to manual
         if self.docker_available:
             if not self.download_ubuntu_packages_docker():
-                print("\n⚠️  Docker download failed, creating manual instructions...")
+                print("\n[WARNING]  Docker download failed, creating manual instructions...")
                 self.create_manual_download_instructions()
         else:
             self.create_manual_download_instructions()

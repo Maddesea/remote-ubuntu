@@ -2,7 +2,7 @@
 
 Execute Ubuntu 20.04 DISA STIG V2R3 compliance remediation from your Windows workstation to a remote Ubuntu server.
 
-## 🎯 Overview
+## [TARGET] Overview
 
 This tool allows you to:
 - Run STIG remediation from Windows to Ubuntu 20.04 systems
@@ -12,16 +12,16 @@ This tool allows you to:
 - Monitor real-time execution progress
 - Create automatic backups before changes
 
-## ⚠️ CRITICAL WARNINGS
+## [WARNING] CRITICAL WARNINGS
 
 **BEFORE YOU BEGIN:**
 
-1. **🔴 This makes MAJOR security changes to your Ubuntu system**
-2. **🔴 ALWAYS test in a non-production environment first**
-3. **🔴 Have console access ready - SSH config will change**
-4. **🔴 Create VM snapshot or system backup before running**
-5. **🔴 Some services may be disabled (Bluetooth, CUPS, Avahi, etc.)**
-6. **🔴 Password policies will be enforced immediately**
+1. **[RED] This makes MAJOR security changes to your Ubuntu system**
+2. **[RED] ALWAYS test in a non-production environment first**
+3. **[RED] Have console access ready - SSH config will change**
+4. **[RED] Create VM snapshot or system backup before running**
+5. **[RED] Some services may be disabled (Bluetooth, CUPS, Avahi, etc.)**
+6. **[RED] Password policies will be enforced immediately**
 
 **AFTER EXECUTION:**
 - SSH root login will be DISABLED
@@ -29,7 +29,7 @@ This tool allows you to:
 - System MUST be rebooted to complete
 - Passwords must meet complexity requirements
 
-## 📋 Prerequisites
+## [LIST] Prerequisites
 
 ### On Windows (your workstation):
 ```powershell
@@ -47,7 +47,7 @@ pip install paramiko scp
 - Minimum 500 MB free disk space
 - Network connectivity
 
-## 🚀 Quick Start
+## [LAUNCH] Quick Start
 
 ### Option 1: Automated (Recommended for beginners)
 
@@ -84,7 +84,7 @@ dir *.py
 python windows_stig_remote_executor.py
 ```
 
-## 📖 Detailed Setup Instructions
+##  Detailed Setup Instructions
 
 ### Step 1: Install Python on Windows
 
@@ -182,37 +182,37 @@ python windows_stig_remote_executor.py
 9. Perform post-execution checks
 10. Display summary and next steps
 
-## 📊 What Gets Changed
+## [CHART] What Gets Changed
 
 ### Category I (High - 14 controls)
-- ✅ SSH hardening (root login, password auth)
-- ✅ PAM password hashing (SHA512)
-- ✅ Remove null password support
-- ✅ Lock blank password accounts
-- ✅ Remove insecure packages (telnet, rsh)
+- [OK] SSH hardening (root login, password auth)
+- [OK] PAM password hashing (SHA512)
+- [OK] Remove null password support
+- [OK] Lock blank password accounts
+- [OK] Remove insecure packages (telnet, rsh)
 
 ### Category II (Medium - 136 controls)
-- ✅ Password quality requirements (15 char min, complexity)
-- ✅ Account lockout policies (3 failed attempts)
-- ✅ Kernel security parameters (59 settings)
-- ✅ Comprehensive audit rules (136 rules)
-- ✅ SSH cipher restrictions (FIPS-validated)
-- ✅ Firewall configuration (UFW enabled)
-- ✅ Service hardening (disable unnecessary services)
-- ✅ USB storage restrictions
-- ✅ Wireless adapter disabling
-- ✅ Sudo restrictions (no NOPASSWD, no ALL)
-- ✅ File permissions (passwd, shadow, etc.)
-- ✅ Login banners
-- ✅ Session timeouts
-- ✅ AppArmor enforcement
-- ✅ AIDE integrity checking
+- [OK] Password quality requirements (15 char min, complexity)
+- [OK] Account lockout policies (3 failed attempts)
+- [OK] Kernel security parameters (59 settings)
+- [OK] Comprehensive audit rules (136 rules)
+- [OK] SSH cipher restrictions (FIPS-validated)
+- [OK] Firewall configuration (UFW enabled)
+- [OK] Service hardening (disable unnecessary services)
+- [OK] USB storage restrictions
+- [OK] Wireless adapter disabling
+- [OK] Sudo restrictions (no NOPASSWD, no ALL)
+- [OK] File permissions (passwd, shadow, etc.)
+- [OK] Login banners
+- [OK] Session timeouts
+- [OK] AppArmor enforcement
+- [OK] AIDE integrity checking
 
 ### Category III (Low - 22 controls)
-- ✅ Additional file permissions
-- ✅ System documentation
+- [OK] Additional file permissions
+- [OK] System documentation
 
-## 📁 Files Created/Modified
+## [FOLDER] Files Created/Modified
 
 ### On Windows (local):
 - `stig_execution_logs/stig_execution_YYYYMMDD_HHMMSS.log` - Detailed execution log
@@ -239,7 +239,7 @@ python windows_stig_remote_executor.py
 **Logs:**
 - `/var/log/ubuntu20-stig-v2r3-remediation.log` - Script execution log
 
-## 🔧 Troubleshooting
+## [CONFIG] Troubleshooting
 
 ### Connection Issues
 
@@ -317,7 +317,7 @@ sudo systemctl enable service_name
 sudo systemctl start service_name
 ```
 
-## 🔄 Rollback Procedures
+##  Rollback Procedures
 
 ### Automatic Rollback
 
@@ -378,7 +378,7 @@ If system is inaccessible:
    ```
 4. **Test SSH access**
 
-## 📋 Post-Execution Checklist
+## [LIST] Post-Execution Checklist
 
 After successful execution:
 
@@ -416,7 +416,7 @@ After successful execution:
 - [ ] Record SCAP scan results
 - [ ] Update change control records
 
-## 🔍 Verification & Compliance Scanning
+## [SEARCH] Verification & Compliance Scanning
 
 ### OpenSCAP Scanning
 
@@ -458,7 +458,7 @@ After remediation, you should see:
   - PKI/CAC authentication (requires infrastructure)
   - Some organizational policies
 
-## 🎓 Understanding the Changes
+## [LEARN] Understanding the Changes
 
 ### Password Policy Changes
 
@@ -516,7 +516,7 @@ After remediation, you should see:
 
 **Impact:** Explicitly allow required services
 
-## 💡 Tips & Best Practices
+## [IDEA] Tips & Best Practices
 
 ### For Testing:
 1. Use VM snapshots for quick rollback
@@ -538,7 +538,7 @@ After remediation, you should see:
 4. Update STIG script as new versions release
 5. Document exceptions with risk acceptance
 
-## 📞 Support & Resources
+##  Support & Resources
 
 ### DISA STIG Resources:
 - STIG Library: https://public.cyber.mil/stigs/
@@ -553,7 +553,7 @@ After remediation, you should see:
 - DISA STIGs Discussion: https://public.cyber.mil/
 - Ubuntu Security: https://ubuntu.com/security
 
-## 📄 License & Disclaimer
+## [FILE] License & Disclaimer
 
 **License:** MIT License
 
@@ -562,7 +562,7 @@ This script is provided as-is without warranty. The authors and contributors are
 
 **Not Affiliated:** This tool is not officially affiliated with DISA, DoD, or Canonical. It is an independent implementation of publicly available STIG requirements.
 
-## 📝 Version History
+## [NOTE] Version History
 
 ### v1.0.0 (Current)
 - Initial Windows remote executor
@@ -580,7 +580,7 @@ This script is provided as-is without warranty. The authors and contributors are
 - Compliance reporting
 - Automated rollback testing
 
-## 🤝 Contributing
+##  Contributing
 
 Found a bug? Have a suggestion? Contributions are welcome!
 
@@ -591,7 +591,7 @@ Areas for improvement:
 - Additional platform support
 - Enhanced reporting
 
-## ⚡ Quick Reference Commands
+## [FAST] Quick Reference Commands
 
 ```powershell
 # Install dependencies
@@ -610,22 +610,22 @@ ssh username@target_ip
 python --version
 ```
 
-## 🎯 Success Criteria
+## [TARGET] Success Criteria
 
 Your STIG remediation is successful when:
 
-✅ Script completes without critical errors  
-✅ System reboots successfully  
-✅ SSH access still works (with new restrictions)  
-✅ Critical services are running  
-✅ SCAP scan shows 90%+ compliance  
-✅ Users can login with compliant passwords  
-✅ Audit logs are being generated  
-✅ Firewall is active and configured  
-✅ Applications still function correctly  
+[OK] Script completes without critical errors  
+[OK] System reboots successfully  
+[OK] SSH access still works (with new restrictions)  
+[OK] Critical services are running  
+[OK] SCAP scan shows 90%+ compliance  
+[OK] Users can login with compliant passwords  
+[OK] Audit logs are being generated  
+[OK] Firewall is active and configured  
+[OK] Applications still function correctly  
 
 ---
 
 **Remember:** Security is a journey, not a destination. Regular scanning, monitoring, and updates are essential for maintaining compliance.
 
-**Good luck with your STIG compliance journey! 🛡️**
+**Good luck with your STIG compliance journey! [SHIELD]**
