@@ -1,6 +1,6 @@
 # Air-Gap STIG Quick Start - 5 Minutes
 
-## ⚡ Ultra-Quick Guide for Air-Gapped Systems
+## [FAST] Ultra-Quick Guide for Air-Gapped Systems
 
 ### What You Have:
 A complete offline package to apply maximum security STIG controls to Ubuntu 20.04.
@@ -12,7 +12,7 @@ A complete offline package to apply maximum security STIG controls to Ubuntu 20.
 
 ---
 
-## 🚀 Run It Now (3 Steps)
+## [LAUNCH] Run It Now (3 Steps)
 
 ### Step 1: Verify Files
 ```powershell
@@ -50,7 +50,7 @@ python airgap_windows_stig_executor.py
 
 ---
 
-## ✅ After Completion
+## [OK] After Completion
 
 ### Reboot Target:
 ```powershell
@@ -68,19 +68,19 @@ ssh user@target 'sudo systemctl status sshd auditd rsyslog ufw'
 
 ---
 
-## ⚠️ CRITICAL WARNINGS
+## [WARNING] CRITICAL WARNINGS
 
 ### Before Running:
-- 🔴 **Have console access ready** (KVM/IPMI)
-- 🔴 **Have SSH keys configured** (password auth will be disabled)
-- 🔴 **Create backup/snapshot**
-- 🔴 **Test in dev first**
+- [RED] **Have console access ready** (KVM/IPMI)
+- [RED] **Have SSH keys configured** (password auth will be disabled)
+- [RED] **Create backup/snapshot**
+- [RED] **Test in dev first**
 
 ### After Running:
-- 🔴 **SSH password login DISABLED** (use keys)
-- 🔴 **Many services DISABLED** (USB, WiFi, Bluetooth, CUPS)
-- 🔴 **Firewall STRICT** (only SSH allowed)
-- 🔴 **Must use compliant passwords** (15+ chars, complexity)
+- [RED] **SSH password login DISABLED** (use keys)
+- [RED] **Many services DISABLED** (USB, WiFi, Bluetooth, CUPS)
+- [RED] **Firewall STRICT** (only SSH allowed)
+- [RED] **Must use compliant passwords** (15+ chars, complexity)
 
 ---
 
@@ -113,24 +113,24 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-## 📋 What Gets Locked Down
+## [LIST] What Gets Locked Down
 
 ### Maximum Security Applied:
-- ✅ SSH password auth **DISABLED** (keys only)
-- ✅ Root SSH login **DISABLED**
-- ✅ USB storage **DISABLED**
-- ✅ Wireless **DISABLED**
-- ✅ Firewall **STRICT** (deny all except SSH)
-- ✅ 172 STIG controls applied
-- ✅ Password complexity enforced (15+ chars)
-- ✅ Account lockout (3 attempts)
-- ✅ Full audit logging
-- ✅ AppArmor enforcing
-- ✅ AIDE integrity monitoring
+- [OK] SSH password auth **DISABLED** (keys only)
+- [OK] Root SSH login **DISABLED**
+- [OK] USB storage **DISABLED**
+- [OK] Wireless **DISABLED**
+- [OK] Firewall **STRICT** (deny all except SSH)
+- [OK] 172 STIG controls applied
+- [OK] Password complexity enforced (15+ chars)
+- [OK] Account lockout (3 attempts)
+- [OK] Full audit logging
+- [OK] AppArmor enforcing
+- [OK] AIDE integrity monitoring
 
 ---
 
-## 📖 Need More Info?
+##  Need More Info?
 
 **Full Guide:** `README_AIRGAP.md`  
 **Security Details:** `MAXIMUM_SECURITY_GUIDE.md`  
@@ -145,7 +145,7 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-## 🎯 Checklist
+## [TARGET] Checklist
 
 **Before Running:**
 - [ ] Python 3.6+ installed
@@ -166,7 +166,7 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 ---
 
-## 💡 Pro Tips
+## [IDEA] Pro Tips
 
 **First Time?**
 1. Test on VM with snapshot
@@ -184,4 +184,4 @@ FIX: sudo cp /var/backups/pre-stig-*/sshd_config /etc/ssh/
 
 **Version:** 2.0.0-airgap | **Mode:** Maximum Security | **Controls:** 172
 
-**🔒 Lock it down!**
+**[SECURE] Lock it down!**

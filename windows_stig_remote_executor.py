@@ -77,12 +77,12 @@ class WindowsSTIGRemoteExecutor:
         print("="*80)
         print("\nThis script will connect to your Ubuntu 20.04 system and apply")
         print("DISA STIG V2R3 security hardening configurations.")
-        print("\n⚠️  WARNING: This will make significant security changes to the target system!")
-        print("⚠️  Ensure you have console access in case SSH is affected.")
+        print("\n[WARNING]  WARNING: This will make significant security changes to the target system!")
+        print("[WARNING]  Ensure you have console access in case SSH is affected.")
         print("\n" + "="*80)
         
         # Get target information
-        print("\n📋 Connection Information:")
+        print("\n[LIST] Connection Information:")
         self.target_host = input("Target Ubuntu system IP/hostname: ").strip()
         
         port_input = input("SSH port [22]: ").strip()
@@ -92,7 +92,7 @@ class WindowsSTIGRemoteExecutor:
         self.password = getpass.getpass(f"SSH password for {self.username}: ")
         
         # Get sudo password (may be same as SSH password)
-        print("\n🔑 Sudo Password:")
+        print("\n[KEY] Sudo Password:")
         print("The script needs sudo access to apply STIG configurations.")
         use_same = input(f"Use same password for sudo? [Y/n]: ").strip().lower()
         
@@ -107,12 +107,12 @@ class WindowsSTIGRemoteExecutor:
         print("="*80)
         print(f"Target Host:    {self.target_host}:{self.port}")
         print(f"SSH User:       {self.username}")
-        print(f"Sudo Password:  {'✓ Configured' if self.sudo_password else '✗ Not set'}")
+        print(f"Sudo Password:  {'[OK] Configured' if self.sudo_password else '[FAIL] Not set'}")
         print("="*80)
         
-        confirm = input("\n⚠️  Proceed with STIG remediation? [yes/NO]: ").strip().lower()
+        confirm = input("\n[WARNING]  Proceed with STIG remediation? [yes/NO]: ").strip().lower()
         if confirm != 'yes':
-            print("\n❌ Execution cancelled by user.")
+            print("\n[ERROR] Execution cancelled by user.")
             sys.exit(0)
     
     def connect(self):
@@ -137,17 +137,17 @@ class WindowsSTIGRemoteExecutor:
             )
             
             self.connected = True
-            logger.info(f"✓ Successfully connected to {self.target_host}")
+            logger.info(f"[OK] Successfully connected to {self.target_host}")
             return True
             
         except AuthenticationException:
-            logger.error("❌ Authentication failed - check username/password")
+            logger.error("[ERROR] Authentication failed - check username/password")
             return False
         except SSHException as e:
-            logger.error(f"❌ SSH error: {e}")
+            logger.error(f"[ERROR] SSH error: {e}")
             return False
         except Exception as e:
-            logger.error(f"❌ Connection failed: {e}")
+            logger.error(f"[ERROR] Connection failed: {e}")
             return False
     
     def disconnect(self):
@@ -228,10 +228,10 @@ class WindowsSTIGRemoteExecutor:
         rc, stdout, stderr = self.execute_command("whoami", use_sudo=True, timeout=10)
         
         if rc == 0 and 'root' in stdout:
-            logger.info("✓ Sudo access verified")
+            logger.info("[OK] Sudo access verified")
             return True
         else:
-            logger.error("❌ Sudo access verification failed")
+            logger.error("[ERROR] Sudo access verification failed")
             logger.error(f"Output: {stdout}")
             logger.error(f"Error: {stderr}")
             return False
@@ -252,7 +252,7 @@ class WindowsSTIGRemoteExecutor:
             
             # Verify Ubuntu 20.04
             if 'Ubuntu 20.04' not in stdout:
-                logger.warning("⚠️  WARNING: Target system is not Ubuntu 20.04!")
+                logger.warning("[WARNING]  WARNING: Target system is not Ubuntu 20.04!")
                 logger.warning("This script is designed for Ubuntu 20.04 LTS only.")
                 confirm = input("\nContinue anyway? [yes/NO]: ").strip().lower()
                 if confirm != 'yes':
@@ -282,7 +282,7 @@ class WindowsSTIGRemoteExecutor:
         stig_script = script_dir / "ubuntu20_stig_v2r3_enhanced.py"
         
         if not stig_script.exists():
-            logger.error(f"❌ STIG script not found: {stig_script}")
+            logger.error(f"[ERROR] STIG script not found: {stig_script}")
             logger.error("Please ensure ubuntu20_stig_v2r3_enhanced.py is in the same directory")
             return False
         
@@ -306,7 +306,7 @@ class WindowsSTIGRemoteExecutor:
             sftp.chmod(remote_script, 0o755)
             sftp.close()
             
-            logger.info(f"✓ Script transferred to {remote_script}")
+            logger.info(f"[OK] Script transferred to {remote_script}")
             
             # Verify transfer
             rc, stdout, stderr = self.execute_command(f"ls -lh {remote_script}")
@@ -317,7 +317,7 @@ class WindowsSTIGRemoteExecutor:
             return True
             
         except Exception as e:
-            logger.error(f"❌ Failed to transfer script: {e}")
+            logger.error(f"[ERROR] Failed to transfer script: {e}")
             return False
     
     def install_dependencies(self):
@@ -345,9 +345,9 @@ class WindowsSTIGRemoteExecutor:
         )
         
         if rc == 0:
-            logger.info("✓ Dependencies installed")
+            logger.info("[OK] Dependencies installed")
         else:
-            logger.warning("⚠️  Some dependencies may have failed to install")
+            logger.warning("[WARNING]  Some dependencies may have failed to install")
             logger.warning("Continuing anyway...")
         
         # Install pip packages
@@ -383,7 +383,7 @@ class WindowsSTIGRemoteExecutor:
         )
         
         if rc != 0:
-            logger.warning("⚠️  Could not create backup directory")
+            logger.warning("[WARNING]  Could not create backup directory")
             return False
         
         # Backup critical files
@@ -393,7 +393,7 @@ class WindowsSTIGRemoteExecutor:
                 use_sudo=True
             )
         
-        logger.info(f"✓ Backup created: {backup_dir}")
+        logger.info(f"[OK] Backup created: {backup_dir}")
         logger.info("You can restore from this backup if needed")
         
         return True
@@ -403,8 +403,8 @@ class WindowsSTIGRemoteExecutor:
         logger.info("\n" + "="*80)
         logger.info("EXECUTING STIG V2R3 REMEDIATION")
         logger.info("="*80)
-        logger.info("\n⏳ This will take several minutes...")
-        logger.info("⏳ Do not interrupt the process!\n")
+        logger.info("\n[WAIT] This will take several minutes...")
+        logger.info("[WAIT] Do not interrupt the process!\n")
         
         # Build command
         cmd = f"python3 {self.remote_script_path}"
@@ -450,17 +450,17 @@ class WindowsSTIGRemoteExecutor:
             
             if exit_code == 0:
                 logger.info("\n" + "="*80)
-                logger.info("✓ STIG REMEDIATION COMPLETED SUCCESSFULLY")
+                logger.info("[OK] STIG REMEDIATION COMPLETED SUCCESSFULLY")
                 logger.info("="*80)
                 return True
             else:
                 logger.error("\n" + "="*80)
-                logger.error(f"❌ STIG REMEDIATION FAILED (exit code: {exit_code})")
+                logger.error(f"[ERROR] STIG REMEDIATION FAILED (exit code: {exit_code})")
                 logger.error("="*80)
                 return False
                 
         except Exception as e:
-            logger.exception(f"❌ Error during STIG execution: {e}")
+            logger.exception(f"[ERROR] Error during STIG execution: {e}")
             return False
     
     def cleanup_remote_files(self):
@@ -471,7 +471,7 @@ class WindowsSTIGRemoteExecutor:
             # Remove the temporary directory
             remote_dir = str(Path(self.remote_script_path).parent)
             self.execute_command(f"rm -rf {remote_dir}", use_sudo=True, timeout=10)
-            logger.info("✓ Temporary files removed")
+            logger.info("[OK] Temporary files removed")
     
     def post_execution_checks(self):
         """Perform post-execution verification checks"""
@@ -480,7 +480,7 @@ class WindowsSTIGRemoteExecutor:
         logger.info("="*80)
         
         # Check if SSH is still accessible
-        logger.info("\n✓ SSH access verified (still connected)")
+        logger.info("\n[OK] SSH access verified (still connected)")
         
         # Check critical services
         logger.info("\nChecking critical services:")
@@ -494,9 +494,9 @@ class WindowsSTIGRemoteExecutor:
             )
             status = stdout.strip()
             if status == 'active':
-                logger.info(f"  ✓ {service}: {status}")
+                logger.info(f"  [OK] {service}: {status}")
             else:
-                logger.warning(f"  ⚠️  {service}: {status}")
+                logger.warning(f"  [WARNING]  {service}: {status}")
         
         # Check SSH config syntax
         logger.info("\nVerifying SSH configuration:")
@@ -506,9 +506,9 @@ class WindowsSTIGRemoteExecutor:
             timeout=10
         )
         if rc == 0:
-            logger.info("  ✓ SSH configuration syntax valid")
+            logger.info("  [OK] SSH configuration syntax valid")
         else:
-            logger.error(f"  ❌ SSH configuration has errors: {stderr}")
+            logger.error(f"  [ERROR] SSH configuration has errors: {stderr}")
         
         return True
     
@@ -523,31 +523,31 @@ class WindowsSTIGRemoteExecutor:
         print("\n" + "="*80)
         print("NEXT STEPS")
         print("="*80)
-        print("\n1. ⚠️  REBOOT THE SYSTEM to apply all changes:")
+        print("\n1. [WARNING]  REBOOT THE SYSTEM to apply all changes:")
         print(f"   ssh {self.username}@{self.target_host} 'sudo reboot'")
-        print("\n2. 📋 After reboot, verify system functionality:")
+        print("\n2. [LIST] After reboot, verify system functionality:")
         print("   - Test SSH access")
         print("   - Verify critical services are running")
         print("   - Test application functionality")
-        print("\n3. 🔍 Run SCAP scan to verify compliance:")
+        print("\n3. [SEARCH] Run SCAP scan to verify compliance:")
         print("   - Use OpenSCAP or SCC to validate STIG compliance")
         print("   - Review any remaining findings")
-        print("\n4. 💾 Backups are located in:")
+        print("\n4. [SAVE] Backups are located in:")
         print("   - /var/backups/pre-stig-* (on target system)")
         print("   - /var/backups/stig-v2r3/ (created by script)")
-        print("\n5. 📖 Review the detailed log:")
+        print("\n5.  Review the detailed log:")
         print(f"   - {log_file}")
         print("\n" + "="*80)
         print("IMPORTANT WARNINGS")
         print("="*80)
-        print("\n⚠️  SSH Configuration Changes:")
+        print("\n[WARNING]  SSH Configuration Changes:")
         print("   - Root login may be disabled")
         print("   - Password authentication may be disabled")
         print("   - Ensure you have alternative access methods")
-        print("\n⚠️  Password Policy Changes:")
+        print("\n[WARNING]  Password Policy Changes:")
         print("   - Users may need to change passwords on next login")
         print("   - Password complexity requirements are now enforced")
-        print("\n⚠️  Service Changes:")
+        print("\n[WARNING]  Service Changes:")
         print("   - Some services may be disabled")
         print("   - Firewall (UFW) is now enabled")
         print("   - Verify required services are still accessible")
@@ -588,19 +588,19 @@ class WindowsSTIGRemoteExecutor:
             
             # Final confirmation
             print("\n" + "="*80)
-            print("⚠️  FINAL CONFIRMATION BEFORE EXECUTION ⚠️")
+            print("[WARNING]  FINAL CONFIRMATION BEFORE EXECUTION [WARNING]")
             print("="*80)
             print("\nThe STIG remediation will now begin.")
             print("This will make significant security changes to your Ubuntu system.")
             print("\nEnsure you have:")
-            print("  ✓ Console access to the system (in case SSH is affected)")
-            print("  ✓ Recent backup of important data")
-            print("  ✓ Tested this in a non-production environment")
+            print("  [OK] Console access to the system (in case SSH is affected)")
+            print("  [OK] Recent backup of important data")
+            print("  [OK] Tested this in a non-production environment")
             print("\n" + "="*80)
             
-            final_confirm = input("\n🔴 Type 'EXECUTE' to begin STIG remediation: ").strip()
+            final_confirm = input("\n[RED] Type 'EXECUTE' to begin STIG remediation: ").strip()
             if final_confirm != 'EXECUTE':
-                logger.warning("❌ Execution cancelled by user")
+                logger.warning("[ERROR] Execution cancelled by user")
                 return False
             
             # Execute STIG remediation
@@ -613,20 +613,20 @@ class WindowsSTIGRemoteExecutor:
                 # Print final summary
                 self.print_final_summary()
             else:
-                logger.error("\n❌ STIG remediation encountered errors")
+                logger.error("\n[ERROR] STIG remediation encountered errors")
                 logger.error("Review the log file for details")
                 logger.error("Consider restoring from backup if system is unstable")
             
             return success
             
         except KeyboardInterrupt:
-            logger.warning("\n\n⚠️  Execution interrupted by user!")
+            logger.warning("\n\n[WARNING]  Execution interrupted by user!")
             logger.warning("System may be in a partially configured state")
             logger.warning("Consider restoring from backup")
             return False
         
         except Exception as e:
-            logger.exception("❌ Fatal error during execution")
+            logger.exception("[ERROR] Fatal error during execution")
             return False
         
         finally:
@@ -649,9 +649,9 @@ def main():
     
     # Check if running on Windows
     if sys.platform.startswith('win'):
-        print("✓ Running on Windows")
+        print("[OK] Running on Windows")
     else:
-        print("ℹ️  This script is designed for Windows but can run on any OS")
+        print("[INFO]  This script is designed for Windows but can run on any OS")
     
     # Create and run executor
     executor = WindowsSTIGRemoteExecutor()

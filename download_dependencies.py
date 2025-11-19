@@ -36,21 +36,21 @@ def check_prerequisites():
     
     # Check Python version
     if sys.version_info < (3, 6):
-        print(f"❌ Python 3.6+ required (current: {sys.version})")
+        print(f"[ERROR] Python 3.6+ required (current: {sys.version})")
         return False
-    print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
+    print(f"[OK] Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}")
     
     # Check pip
     try:
         result = subprocess.run([sys.executable, '-m', 'pip', '--version'],
                               capture_output=True, text=True)
         if result.returncode == 0:
-            print(f"✓ pip is available")
+            print(f"[OK] pip is available")
         else:
-            print("❌ pip not found")
+            print("[ERROR] pip not found")
             return False
     except Exception as e:
-        print(f"❌ pip error: {e}")
+        print(f"[ERROR] pip error: {e}")
         return False
     
     # Check internet connectivity
@@ -58,9 +58,9 @@ def check_prerequisites():
     try:
         import urllib.request
         urllib.request.urlopen('https://pypi.org', timeout=5)
-        print("✓ Internet connection available")
+        print("[OK] Internet connection available")
     except Exception as e:
-        print(f"❌ No internet connection: {e}")
+        print(f"[ERROR] No internet connection: {e}")
         print("\nThis script requires internet to download packages.")
         return False
     
@@ -75,16 +75,16 @@ def download_dependencies(output_dir="dependencies"):
     # Create output directory
     output_path = Path(output_dir)
     if output_path.exists():
-        print(f"\n⚠️  Directory '{output_dir}' already exists.")
+        print(f"\n[WARNING]  Directory '{output_dir}' already exists.")
         response = input("Delete and recreate? [y/N]: ").strip().lower()
         if response == 'y':
             shutil.rmtree(output_path)
-            print(f"✓ Removed existing directory")
+            print(f"[OK] Removed existing directory")
         else:
             print("Using existing directory (may contain old files)")
     
     output_path.mkdir(exist_ok=True)
-    print(f"\n📁 Output directory: {output_path.absolute()}")
+    print(f"\n[FOLDER] Output directory: {output_path.absolute()}")
     
     # List of packages to download
     packages = [
@@ -97,7 +97,7 @@ def download_dependencies(output_dir="dependencies"):
         'six',            # Python 2/3 compatibility
     ]
     
-    print(f"\n📦 Packages to download: {', '.join(packages)}")
+    print(f"\n[PACKAGE] Packages to download: {', '.join(packages)}")
     print("\nDownloading packages...")
     print("This may take a few minutes depending on your connection speed.")
     
@@ -119,11 +119,11 @@ def download_dependencies(output_dir="dependencies"):
         )
         
         if result.returncode == 0:
-            print("\n✓ Download completed successfully!")
+            print("\n[OK] Download completed successfully!")
             
             # List downloaded files
             files = list(output_path.glob('*'))
-            print(f"\n📦 Downloaded {len(files)} package files:")
+            print(f"\n[PACKAGE] Downloaded {len(files)} package files:")
             
             total_size = 0
             for f in sorted(files):
@@ -133,19 +133,19 @@ def download_dependencies(output_dir="dependencies"):
                 print(f"  - {f.name} ({size_mb:.2f} MB)")
             
             total_mb = total_size / (1024 * 1024)
-            print(f"\n✓ Total size: {total_mb:.2f} MB")
+            print(f"\n[OK] Total size: {total_mb:.2f} MB")
             
             return True
         else:
-            print(f"\n❌ Download failed!")
+            print(f"\n[ERROR] Download failed!")
             print(f"Error output:\n{result.stderr}")
             return False
             
     except subprocess.TimeoutExpired:
-        print("\n❌ Download timed out (exceeded 10 minutes)")
+        print("\n[ERROR] Download timed out (exceeded 10 minutes)")
         return False
     except Exception as e:
-        print(f"\n❌ Download error: {e}")
+        print(f"\n[ERROR] Download error: {e}")
         return False
 
 def create_verification_script(output_dir="dependencies"):
@@ -159,17 +159,17 @@ from pathlib import Path
 
 deps_dir = Path("{output_dir}")
 if not deps_dir.exists():
-    print(f"❌ Dependencies directory not found: {{deps_dir}}")
+    print(f"[ERROR] Dependencies directory not found: {{deps_dir}}")
     sys.exit(1)
 
 files = list(deps_dir.glob("*.whl")) + list(deps_dir.glob("*.tar.gz"))
 print(f"Found {{len(files)}} package files in {{deps_dir}}")
 
 if len(files) < 5:
-    print("⚠️  Warning: Expected more package files")
+    print("[WARNING]  Warning: Expected more package files")
     print("Some dependencies may be missing")
 else:
-    print("✓ Package count looks good")
+    print("[OK] Package count looks good")
 
 # Check for critical packages
 critical = ['paramiko', 'cryptography', 'bcrypt']
@@ -182,14 +182,14 @@ for f in files:
 
 print("\\nCritical packages:")
 for pkg, present in found.items():
-    status = "✓" if present else "❌"
+    status = "[OK]" if present else "[ERROR]"
     print(f"  {{status}} {{pkg}}")
 
 if all(found.values()):
-    print("\\n✓ All critical packages present")
+    print("\\n[OK] All critical packages present")
     sys.exit(0)
 else:
-    print("\\n❌ Some critical packages missing")
+    print("\\n[ERROR] Some critical packages missing")
     sys.exit(1)
 '''
     
@@ -197,7 +197,7 @@ else:
     with open(verify_path, 'w') as f:
         f.write(verification_script)
     
-    print(f"\n✓ Created verification script: {verify_path}")
+    print(f"\n[OK] Created verification script: {verify_path}")
     print(f"  Run 'python {verify_path}' to verify packages")
 
 def print_next_steps(output_dir="dependencies"):
@@ -208,24 +208,24 @@ def print_next_steps(output_dir="dependencies"):
     
     abs_path = Path(output_dir).absolute()
     
-    print(f"\n✓ Dependencies downloaded to: {abs_path}")
-    print(f"✓ Total files: {len(list(Path(output_dir).glob('*')))} packages")
+    print(f"\n[OK] Dependencies downloaded to: {abs_path}")
+    print(f"[OK] Total files: {len(list(Path(output_dir).glob('*')))} packages")
     
-    print("\n📋 Next Steps:")
-    print("\n1️⃣  VERIFY the downloaded packages (optional):")
+    print("\n[LIST] Next Steps:")
+    print("\n1⃣  VERIFY the downloaded packages (optional):")
     print(f"   python {output_dir}/verify_packages.py")
     
-    print("\n2️⃣  CREATE the air-gap package:")
+    print("\n2⃣  CREATE the air-gap package:")
     print("   a) Copy the entire 'dependencies' folder")
     print("   b) Copy 'airgap_windows_stig_executor.py'")
     print("   c) Copy 'ubuntu20_stig_v2r3_enhanced.py' (your STIG script)")
     print("   d) Copy all documentation files (.md)")
     
-    print("\n3️⃣  TRANSFER to air-gapped system:")
+    print("\n3⃣  TRANSFER to air-gapped system:")
     print("   - Use USB drive, CD/DVD, or approved transfer method")
     print("   - Ensure all files maintain their structure")
     
-    print("\n4️⃣  ON AIR-GAPPED SYSTEM:")
+    print("\n4⃣  ON AIR-GAPPED SYSTEM:")
     print("   - Place all files in same directory")
     print("   - Run: python airgap_windows_stig_executor.py")
     print("   - Script will auto-install from local dependencies")
@@ -250,7 +250,7 @@ def print_next_steps(output_dir="dependencies"):
     print("\n" + "="*80)
     print("SECURITY NOTES")
     print("="*80)
-    print("\n⚠️  IMPORTANT:")
+    print("\n[WARNING]  IMPORTANT:")
     print("   - Verify package integrity before transfer")
     print("   - Use approved transfer methods only")
     print("   - Scan for malware if required by policy")
@@ -260,11 +260,11 @@ def print_next_steps(output_dir="dependencies"):
 
 def main():
     """Main entry point"""
-    print("\n🌐 This script requires internet connection")
-    print("📥 It will download all dependencies for offline installation")
+    print("\n[NETWORK] This script requires internet connection")
+    print("[DOWNLOAD] It will download all dependencies for offline installation")
     
     if not check_prerequisites():
-        print("\n❌ Prerequisites not met. Cannot continue.")
+        print("\n[ERROR] Prerequisites not met. Cannot continue.")
         sys.exit(1)
     
     print("\n" + "="*80)
@@ -278,12 +278,12 @@ def main():
     
     response = input("\nProceed with download? [Y/n]: ").strip().lower()
     if response not in ['', 'y', 'yes']:
-        print("❌ Download cancelled.")
+        print("[ERROR] Download cancelled.")
         sys.exit(0)
     
     # Download dependencies
     if not download_dependencies():
-        print("\n❌ Download failed. Please check errors above.")
+        print("\n[ERROR] Download failed. Please check errors above.")
         sys.exit(1)
     
     # Create verification script
@@ -292,7 +292,7 @@ def main():
     # Print next steps
     print_next_steps()
     
-    print("\n✓ All done! Ready to create air-gap package.")
+    print("\n[OK] All done! Ready to create air-gap package.")
     print("=" * 80)
 
 if __name__ == '__main__':

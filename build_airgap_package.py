@@ -73,24 +73,24 @@ class AirGapPackageBuilder:
         for filename in self.required_files:
             if Path(filename).exists():
                 found.append(filename)
-                print(f"  ✓ {filename}")
+                print(f"  [OK] {filename}")
             else:
                 missing.append(filename)
-                print(f"  ✗ {filename} - MISSING")
+                print(f"  [FAIL] {filename} - MISSING")
         
         # Check optional files
         for filename in self.optional_files:
             if Path(filename).exists():
                 found.append(filename)
-                print(f"  ✓ {filename} (optional)")
+                print(f"  [OK] {filename} (optional)")
         
         if missing:
-            print(f"\n❌ Missing required files: {len(missing)}")
+            print(f"\n[ERROR] Missing required files: {len(missing)}")
             for f in missing:
                 print(f"  - {f}")
             return False
         
-        print(f"\n✓ All required files present ({len(found)} total)")
+        print(f"\n[OK] All required files present ({len(found)} total)")
         return True
     
     def check_dependencies(self):
@@ -100,15 +100,15 @@ class AirGapPackageBuilder:
         deps_dir = Path('dependencies')
         
         if not deps_dir.exists():
-            print("  ✗ dependencies/ folder not found")
-            print("\n📥 Dependencies need to be downloaded first")
+            print("  [FAIL] dependencies/ folder not found")
+            print("\n[DOWNLOAD] Dependencies need to be downloaded first")
             print("   This requires internet connection.")
             
             response = input("\nDownload dependencies now? [Y/n]: ").strip().lower()
             if response in ['', 'y', 'yes']:
                 return self.download_dependencies()
             else:
-                print("\n❌ Cannot proceed without dependencies")
+                print("\n[ERROR] Cannot proceed without dependencies")
                 print("   Run: python download_dependencies.py")
                 return False
         
@@ -117,17 +117,17 @@ class AirGapPackageBuilder:
         tar_files = list(deps_dir.glob('*.tar.gz'))
         
         if not wheel_files and not tar_files:
-            print("  ✗ dependencies/ folder is empty")
-            print("\n📥 Need to download package files")
+            print("  [FAIL] dependencies/ folder is empty")
+            print("\n[DOWNLOAD] Need to download package files")
             
             response = input("\nDownload dependencies now? [Y/n]: ").strip().lower()
             if response in ['', 'y', 'yes']:
                 return self.download_dependencies()
             else:
-                print("\n❌ Cannot proceed with empty dependencies")
+                print("\n[ERROR] Cannot proceed with empty dependencies")
                 return False
         
-        print(f"  ✓ dependencies/ folder found with {len(wheel_files + tar_files)} packages")
+        print(f"  [OK] dependencies/ folder found with {len(wheel_files + tar_files)} packages")
         return True
     
     def download_dependencies(self):
@@ -144,21 +144,21 @@ class AirGapPackageBuilder:
             )
             
             if result.returncode == 0:
-                print("\n✓ Dependencies downloaded successfully")
+                print("\n[OK] Dependencies downloaded successfully")
                 return True
             else:
-                print("\n❌ Dependency download failed")
+                print("\n[ERROR] Dependency download failed")
                 return False
                 
         except subprocess.TimeoutExpired:
-            print("\n❌ Download timed out")
+            print("\n[ERROR] Download timed out")
             return False
         except FileNotFoundError:
-            print("\n❌ download_dependencies.py not found")
+            print("\n[ERROR] download_dependencies.py not found")
             print("   Please ensure the download script is present")
             return False
         except Exception as e:
-            print(f"\n❌ Error during download: {e}")
+            print(f"\n[ERROR] Error during download: {e}")
             return False
     
     def create_package_structure(self):
@@ -169,23 +169,23 @@ class AirGapPackageBuilder:
         
         # Remove existing package dir if it exists
         if self.package_dir.exists():
-            print(f"\n⚠️  Package directory already exists: {self.package_dir}")
+            print(f"\n[WARNING]  Package directory already exists: {self.package_dir}")
             response = input("Delete and recreate? [y/N]: ").strip().lower()
             if response == 'y':
                 shutil.rmtree(self.package_dir)
-                print("✓ Removed existing package")
+                print("[OK] Removed existing package")
             else:
-                print("❌ Cannot proceed with existing directory")
+                print("[ERROR] Cannot proceed with existing directory")
                 return False
         
         # Create main directory
         self.package_dir.mkdir()
-        print(f"\n✓ Created: {self.package_dir}/")
+        print(f"\n[OK] Created: {self.package_dir}/")
         
         # Create documentation subdirectory
         docs_dir = self.package_dir / 'Documentation'
         docs_dir.mkdir()
-        print(f"✓ Created: {docs_dir}/")
+        print(f"[OK] Created: {docs_dir}/")
         
         return True
     
@@ -210,7 +210,7 @@ class AirGapPackageBuilder:
             if src.exists():
                 shutil.copy2(src, dst)
                 size_kb = src.stat().st_size / 1024
-                print(f"  ✓ {filename} ({size_kb:.1f} KB)")
+                print(f"  [OK] {filename} ({size_kb:.1f} KB)")
         
         # Copy documentation
         docs_dir = self.package_dir / 'Documentation'
@@ -223,7 +223,7 @@ class AirGapPackageBuilder:
                     dst = docs_dir / filename
                     shutil.copy2(src, dst)
                     size_kb = src.stat().st_size / 1024
-                    print(f"  ✓ {filename} → Documentation/ ({size_kb:.1f} KB)")
+                    print(f"  [OK] {filename} → Documentation/ ({size_kb:.1f} KB)")
         
         # Copy dependencies folder
         print("\n  Copying dependencies folder...")
@@ -236,9 +236,9 @@ class AirGapPackageBuilder:
             # Count files
             dep_files = list(dst_deps.glob('*'))
             total_size = sum(f.stat().st_size for f in dep_files) / (1024 * 1024)
-            print(f"  ✓ dependencies/ ({len(dep_files)} files, {total_size:.1f} MB)")
+            print(f"  [OK] dependencies/ ({len(dep_files)} files, {total_size:.1f} MB)")
         
-        print("\n✓ All files copied successfully")
+        print("\n[OK] All files copied successfully")
         return True
     
     def generate_checksums(self):
@@ -262,7 +262,7 @@ class AirGapPackageBuilder:
                 # Store relative path and checksum
                 rel_path = item.relative_to(self.package_dir)
                 checksums[str(rel_path)] = sha256.hexdigest()
-                print(f"  ✓ {rel_path}")
+                print(f"  [OK] {rel_path}")
         
         # Write checksums file
         checksums_file = self.package_dir / 'checksums.txt'
@@ -276,8 +276,8 @@ class AirGapPackageBuilder:
             for filepath, checksum in sorted(checksums.items()):
                 f.write(f"{checksum}  {filepath}\n")
         
-        print(f"\n✓ Generated checksums for {len(checksums)} files")
-        print(f"✓ Saved to: {checksums_file}")
+        print(f"\n[OK] Generated checksums for {len(checksums)} files")
+        print(f"[OK] Saved to: {checksums_file}")
         
         return True
     
@@ -340,10 +340,10 @@ See Documentation/README_AIRGAP.md for comprehensive documentation.
 
 ## Important Notes
 
-⚠️  CRITICAL: Ensure you have console access before running
-⚠️  CRITICAL: SSH keys must be configured (password auth disabled)
-⚠️  CRITICAL: Create backup/snapshot before execution
-⚠️  CRITICAL: Test in non-production environment first
+[WARNING]  CRITICAL: Ensure you have console access before running
+[WARNING]  CRITICAL: SSH keys must be configured (password auth disabled)
+[WARNING]  CRITICAL: Create backup/snapshot before execution
+[WARNING]  CRITICAL: Test in non-production environment first
 
 ## Verification
 
@@ -364,7 +364,7 @@ Security Mode: Maximum Lockdown
         with open(readme_file, 'w') as f:
             f.write(readme_content)
         
-        print(f"✓ Created: {readme_file}")
+        print(f"[OK] Created: {readme_file}")
         return True
     
     def create_archive(self):
@@ -392,8 +392,8 @@ Security Mode: Maximum Lockdown
             archive_path = Path(archive_name)
             size_mb = archive_path.stat().st_size / (1024 * 1024)
             
-            print(f"\n✓ Archive created: {archive_name}")
-            print(f"✓ Size: {size_mb:.2f} MB")
+            print(f"\n[OK] Archive created: {archive_name}")
+            print(f"[OK] Size: {size_mb:.2f} MB")
             
             # Generate archive checksum
             sha256 = hashlib.sha256()
@@ -405,12 +405,12 @@ Security Mode: Maximum Lockdown
             with open(checksum_file, 'w') as f:
                 f.write(f"{sha256.hexdigest()}  {archive_name}\n")
             
-            print(f"✓ Checksum: {checksum_file}")
+            print(f"[OK] Checksum: {checksum_file}")
             
             return archive_name
             
         except Exception as e:
-            print(f"\n❌ Failed to create archive: {e}")
+            print(f"\n[ERROR] Failed to create archive: {e}")
             return None
     
     def print_summary(self, archive_name):
@@ -422,7 +422,7 @@ Security Mode: Maximum Lockdown
         archive_path = Path(archive_name)
         package_size = archive_path.stat().st_size / (1024 * 1024)
         
-        print(f"\n✓ Package created successfully!")
+        print(f"\n[OK] Package created successfully!")
         print(f"\nPackage: {archive_name}")
         print(f"Size: {package_size:.2f} MB")
         print(f"Checksum: {archive_name}.sha256")
@@ -431,17 +431,17 @@ Security Mode: Maximum Lockdown
         print("NEXT STEPS")
         print("="*80)
         
-        print("\n1️⃣  VERIFY package integrity:")
+        print("\n1⃣  VERIFY package integrity:")
         print(f"   Windows: certutil -hashfile {archive_name} SHA256")
         print(f"   Linux/Mac: shasum -a 256 {archive_name}")
         print(f"   Compare with: {archive_name}.sha256")
         
-        print("\n2️⃣  TRANSFER to air-gapped system:")
+        print("\n2⃣  TRANSFER to air-gapped system:")
         print("   - Use approved transfer method (USB, CD/DVD, secure transfer)")
         print("   - Scan for malware if required by policy")
         print("   - Document transfer for compliance")
         
-        print("\n3️⃣  ON AIR-GAPPED SYSTEM:")
+        print("\n3⃣  ON AIR-GAPPED SYSTEM:")
         print(f"   - Extract: {archive_name}")
         print("   - Verify checksums (optional)")
         print("   - Read: README.txt")
@@ -451,20 +451,20 @@ Security Mode: Maximum Lockdown
         print("PACKAGE CONTENTS")
         print("="*80)
         
-        print(f"\n📦 {archive_name} contains:")
-        print("   ✓ airgap_windows_stig_executor.py - Main executor")
-        print("   ✓ ubuntu20_stig_v2r3_enhanced.py - STIG script")
-        print("   ✓ dependencies/ - All Python packages (offline)")
-        print("   ✓ Documentation/ - Complete documentation")
-        print("   ✓ run_airgap_stig.bat - Windows launcher")
-        print("   ✓ checksums.txt - File verification")
-        print("   ✓ README.txt - Package information")
+        print(f"\n[PACKAGE] {archive_name} contains:")
+        print("   [OK] airgap_windows_stig_executor.py - Main executor")
+        print("   [OK] ubuntu20_stig_v2r3_enhanced.py - STIG script")
+        print("   [OK] dependencies/ - All Python packages (offline)")
+        print("   [OK] Documentation/ - Complete documentation")
+        print("   [OK] run_airgap_stig.bat - Windows launcher")
+        print("   [OK] checksums.txt - File verification")
+        print("   [OK] README.txt - Package information")
         
         print("\n" + "="*80)
         print("SECURITY NOTES")
         print("="*80)
         
-        print("\n⚠️  This package will apply MAXIMUM SECURITY:")
+        print("\n[WARNING]  This package will apply MAXIMUM SECURITY:")
         print("   - SSH password authentication DISABLED")
         print("   - Root login DISABLED")
         print("   - USB storage DISABLED")
@@ -472,7 +472,7 @@ Security Mode: Maximum Lockdown
         print("   - Strict firewall (deny all except SSH)")
         print("   - All 172 STIG controls applied")
         
-        print("\n⚠️  ENSURE before running:")
+        print("\n[WARNING]  ENSURE before running:")
         print("   - Console access available (KVM/IPMI)")
         print("   - SSH keys configured on target")
         print("   - System backup/snapshot created")
@@ -486,38 +486,38 @@ Security Mode: Maximum Lockdown
         
         # Check prerequisites
         if not self.check_required_files():
-            print("\n❌ Build failed: Missing required files")
+            print("\n[ERROR] Build failed: Missing required files")
             return False
         
         if not self.check_dependencies():
-            print("\n❌ Build failed: Dependencies not available")
+            print("\n[ERROR] Build failed: Dependencies not available")
             return False
         
         # Create package
         if not self.create_package_structure():
-            print("\n❌ Build failed: Could not create package structure")
+            print("\n[ERROR] Build failed: Could not create package structure")
             return False
         
         if not self.copy_files():
-            print("\n❌ Build failed: Could not copy files")
+            print("\n[ERROR] Build failed: Could not copy files")
             return False
         
         if not self.generate_checksums():
-            print("\n❌ Build failed: Could not generate checksums")
+            print("\n[ERROR] Build failed: Could not generate checksums")
             return False
         
         if not self.create_readme():
-            print("\n❌ Build failed: Could not create README")
+            print("\n[ERROR] Build failed: Could not create README")
             return False
         
         archive_name = self.create_archive()
         if not archive_name:
-            print("\n❌ Build failed: Could not create archive")
+            print("\n[ERROR] Build failed: Could not create archive")
             return False
         
         self.print_summary(archive_name)
         
-        print("\n✓ Build successful! Package ready for transfer.")
+        print("\n[OK] Build successful! Package ready for transfer.")
         print("=" * 80)
         
         return True

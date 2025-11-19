@@ -1,20 +1,20 @@
 # Air-Gapped Maximum Security STIG Executor
 
-## 🔒 Overview
+## [SECURE] Overview
 
 Complete air-gapped package for executing Ubuntu 20.04 DISA STIG V2R3 remediation with **MAXIMUM SECURITY LOCKDOWN** from Windows workstations in isolated/classified environments.
 
 ### Key Features:
-- ✅ **NO INTERNET REQUIRED** - Fully self-contained
-- ✅ **ALL DEPENDENCIES BUNDLED** - Ready to use offline
-- ✅ **MAXIMUM SECURITY MODE** - Most restrictive configuration
-- ✅ **172 STIG CONTROLS** - Complete compliance
-- ✅ **AUTOMATIC PASSWORD HANDLING** - No manual intervention
-- ✅ **CLASSIFIED ENVIRONMENT READY** - Designed for air-gapped systems
+- [OK] **NO INTERNET REQUIRED** - Fully self-contained
+- [OK] **ALL DEPENDENCIES BUNDLED** - Ready to use offline
+- [OK] **MAXIMUM SECURITY MODE** - Most restrictive configuration
+- [OK] **172 STIG CONTROLS** - Complete compliance
+- [OK] **AUTOMATIC PASSWORD HANDLING** - No manual intervention
+- [OK] **CLASSIFIED ENVIRONMENT READY** - Designed for air-gapped systems
 
 ---
 
-## 🎯 What This Package Does
+## [TARGET] What This Package Does
 
 ### Standard Mode:
 - Applies 172 STIG controls (14 CAT I, 136 CAT II, 22 CAT III)
@@ -35,7 +35,7 @@ Complete air-gapped package for executing Ubuntu 20.04 DISA STIG V2R3 remediatio
 
 ---
 
-## 📦 Package Contents
+## [PACKAGE] Package Contents
 
 ```
 stig-airgap-package/
@@ -60,7 +60,7 @@ stig-airgap-package/
 
 ---
 
-## 🚀 Quick Start (Air-Gapped System)
+## [LAUNCH] Quick Start (Air-Gapped System)
 
 ### Prerequisites on Windows:
 - Python 3.6+ installed
@@ -105,7 +105,7 @@ ssh user@target 'sudo reboot'
 
 ---
 
-## 📋 Building the Air-Gap Package
+## [LIST] Building the Air-Gap Package
 
 ### On Internet-Connected System:
 
@@ -142,52 +142,52 @@ stig-airgap-package/
 
 ---
 
-## 🔒 Maximum Security Configuration
+## [SECURE] Maximum Security Configuration
 
 ### What Gets Locked Down:
 
 #### Authentication:
-- ✅ **SSH password auth DISABLED** - Keys only
-- ✅ **Root login DISABLED** - No root access via SSH
-- ✅ **Strong password policy** - 15 char min, complexity
-- ✅ **Account lockout** - 3 failed attempts = locked
-- ✅ **Sudo restrictions** - No NOPASSWD, no ALL
+- [OK] **SSH password auth DISABLED** - Keys only
+- [OK] **Root login DISABLED** - No root access via SSH
+- [OK] **Strong password policy** - 15 char min, complexity
+- [OK] **Account lockout** - 3 failed attempts = locked
+- [OK] **Sudo restrictions** - No NOPASSWD, no ALL
 
 #### Network:
-- ✅ **Firewall strict mode** - Deny all except SSH
-- ✅ **FIPS ciphers only** - Weak ciphers removed
-- ✅ **IP forwarding disabled** - Not a router
-- ✅ **ICMP restricted** - Minimal response
-- ✅ **Kernel hardening** - 59 security parameters
+- [OK] **Firewall strict mode** - Deny all except SSH
+- [OK] **FIPS ciphers only** - Weak ciphers removed
+- [OK] **IP forwarding disabled** - Not a router
+- [OK] **ICMP restricted** - Minimal response
+- [OK] **Kernel hardening** - 59 security parameters
 
 #### Services:
-- ✅ **CUPS disabled** - No printing
-- ✅ **Bluetooth disabled** - No wireless
-- ✅ **Avahi disabled** - No mDNS
-- ✅ **USB storage disabled** - No removable media
-- ✅ **Wireless disabled** - No WiFi
+- [OK] **CUPS disabled** - No printing
+- [OK] **Bluetooth disabled** - No wireless
+- [OK] **Avahi disabled** - No mDNS
+- [OK] **USB storage disabled** - No removable media
+- [OK] **Wireless disabled** - No WiFi
 
 #### Monitoring:
-- ✅ **AppArmor enforcing** - Mandatory access control
-- ✅ **AIDE enabled** - File integrity monitoring
-- ✅ **Audit logging** - 136 comprehensive rules
-- ✅ **All access logged** - Complete audit trail
-- ✅ **Immutable audit** - Rules cannot be changed
+- [OK] **AppArmor enforcing** - Mandatory access control
+- [OK] **AIDE enabled** - File integrity monitoring
+- [OK] **Audit logging** - 136 comprehensive rules
+- [OK] **All access logged** - Complete audit trail
+- [OK] **Immutable audit** - Rules cannot be changed
 
 ---
 
-## ⚠️ CRITICAL WARNINGS
+## [WARNING] CRITICAL WARNINGS
 
 ### Before Execution:
 
-#### 🔴 MUST HAVE:
+#### [RED] MUST HAVE:
 1. **Console access** (KVM/IPMI/Physical) - SSH will change
 2. **SSH keys configured** - Password auth will be disabled
 3. **System backup** - VM snapshot or full backup
 4. **Tested in dev** - Never run first time in production
 5. **Change control** - Documented and approved
 
-#### 🔴 AFTER EXECUTION:
+#### [RED] AFTER EXECUTION:
 1. **Password auth DISABLED** - Must use SSH keys
 2. **Root login DISABLED** - Use sudo with regular user
 3. **Many services DISABLED** - Only essential services run
@@ -196,14 +196,14 @@ stig-airgap-package/
 
 ### Expected Impact:
 
-#### ✅ SAFE:
+#### [OK] SAFE:
 - SSH with keys will work
 - Sudo with compliant passwords works
 - Essential services continue
 - Network connectivity maintained
 - System fully functional
 
-#### ⚠️ BROKEN:
+#### [WARNING] BROKEN:
 - SSH with passwords (disabled)
 - Root SSH login (disabled)
 - CUPS/printing (disabled)
@@ -214,7 +214,7 @@ stig-airgap-package/
 
 ---
 
-## 🔧 Configuration Options
+## [CONFIG] Configuration Options
 
 ### Security Level Options:
 
@@ -238,7 +238,7 @@ The executor asks for these options during setup:
 
 ---
 
-## 📊 Compliance Results
+## [CHART] Compliance Results
 
 ### Expected SCAP Scan Results:
 
@@ -278,7 +278,7 @@ After execution and reboot:
 
 ---
 
-## 🔄 Rollback Procedures
+##  Rollback Procedures
 
 ### If SSH Access Lost:
 
@@ -388,7 +388,7 @@ SOLUTION:
 
 ---
 
-## 📝 Post-Execution Checklist
+## [NOTE] Post-Execution Checklist
 
 ### Immediate (Before Reboot):
 - [ ] Review execution log for errors
@@ -425,7 +425,7 @@ SOLUTION:
 
 ---
 
-## 🔍 Verification & Scanning
+## [SEARCH] Verification & Scanning
 
 ### OpenSCAP Scanning:
 
@@ -451,7 +451,7 @@ firefox scan-report.html
 
 ---
 
-## 🔐 Security Compliance
+## [LOCKED] Security Compliance
 
 ### Regulatory Alignment:
 
@@ -472,7 +472,7 @@ All actions logged:
 
 ---
 
-## 💡 Best Practices
+## [IDEA] Best Practices
 
 ### For Air-Gapped Environments:
 
@@ -521,7 +521,7 @@ All actions logged:
 
 ---
 
-## 📞 Support Resources
+##  Support Resources
 
 ### Included Documentation:
 - `README_AIRGAP.md` - This file (comprehensive guide)
@@ -542,7 +542,7 @@ All actions logged:
 
 ---
 
-## ⚖️ License & Disclaimer
+##  License & Disclaimer
 
 **License**: MIT License
 
@@ -552,14 +552,14 @@ All actions logged:
 
 ---
 
-## 📊 Quick Reference
+## [CHART] Quick Reference
 
 ### Files You Need:
 ```
-✓ dependencies/ (folder)
-✓ airgap_windows_stig_executor.py
-✓ ubuntu20_stig_v2r3_enhanced.py
-✓ run_airgap_stig.bat (optional)
+[OK] dependencies/ (folder)
+[OK] airgap_windows_stig_executor.py
+[OK] ubuntu20_stig_v2r3_enhanced.py
+[OK] run_airgap_stig.bat (optional)
 ```
 
 ### Quick Commands:
@@ -591,23 +591,23 @@ sudo systemctl restart sshd
 **Controls**: 172 total (14 CAT I, 136 CAT II, 22 CAT III)  
 **Mode**: Maximum Security Lockdown  
 
-**🔒 Secure your air-gapped systems with confidence!**
+**[SECURE] Secure your air-gapped systems with confidence!**
 
 ---
 
-## 🎯 Success Criteria
+## [TARGET] Success Criteria
 
 Your STIG remediation is successful when:
 
-✅ Script completes without critical errors  
-✅ System reboots successfully  
-✅ SSH access works (with keys in max security mode)  
-✅ All critical services running  
-✅ SCAP scan shows 90-100% compliance  
-✅ Audit logs being generated  
-✅ Firewall active and configured  
-✅ Applications function correctly  
-✅ No unexpected access issues  
-✅ Documentation complete  
+[OK] Script completes without critical errors  
+[OK] System reboots successfully  
+[OK] SSH access works (with keys in max security mode)  
+[OK] All critical services running  
+[OK] SCAP scan shows 90-100% compliance  
+[OK] Audit logs being generated  
+[OK] Firewall active and configured  
+[OK] Applications function correctly  
+[OK] No unexpected access issues  
+[OK] Documentation complete  
 
 **Remember**: Maximum security means maximum restrictions. Plan accordingly!

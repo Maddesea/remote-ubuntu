@@ -112,28 +112,28 @@ class CompleteAirGapPackageBuilder:
 
     def check_prerequisites(self):
         """Check if required files exist"""
-        print("📋 Checking prerequisites...")
+        print("[LIST] Checking prerequisites...")
 
         missing = []
         for file in self.required_files:
             file_path = self.root_dir / file
             if file_path.exists():
-                print(f"  ✓ Found: {file}")
+                print(f"  [OK] Found: {file}")
             else:
-                print(f"  ✗ Missing: {file}")
+                print(f"  [FAIL] Missing: {file}")
                 missing.append(file)
 
         if missing:
-            print(f"\n❌ ERROR: Missing required files: {', '.join(missing)}")
+            print(f"\n[ERROR] ERROR: Missing required files: {', '.join(missing)}")
             print("\nPlease ensure all required script files are in the current directory.")
             return False
 
-        print("\n✓ All required files present\n")
+        print("\n[OK] All required files present\n")
         return True
 
     def create_directories(self):
         """Create package directory structure"""
-        print("📁 Creating directory structure...")
+        print("[FOLDER] Creating directory structure...")
 
         # Clean up old package
         if self.package_dir.exists():
@@ -146,14 +146,14 @@ class CompleteAirGapPackageBuilder:
         self.ubuntu_packages_dir.mkdir()
         self.scripts_dir.mkdir()
 
-        print(f"  ✓ Created: {self.package_dir}")
-        print(f"  ✓ Created: {self.dependencies_dir}")
-        print(f"  ✓ Created: {self.ubuntu_packages_dir}")
-        print(f"  ✓ Created: {self.scripts_dir}\n")
+        print(f"  [OK] Created: {self.package_dir}")
+        print(f"  [OK] Created: {self.dependencies_dir}")
+        print(f"  [OK] Created: {self.ubuntu_packages_dir}")
+        print(f"  [OK] Created: {self.scripts_dir}\n")
 
     def download_python_packages(self):
         """Download Windows Python packages"""
-        print("🐍 Downloading Windows Python packages...")
+        print(" Downloading Windows Python packages...")
         print(f"   Target: {self.dependencies_dir}\n")
 
         # Download using pip
@@ -171,27 +171,27 @@ class CompleteAirGapPackageBuilder:
 
             # Count downloaded files
             files = list(self.dependencies_dir.glob("*"))
-            print(f"\n✓ Downloaded {len(files)} Python package files\n")
+            print(f"\n[OK] Downloaded {len(files)} Python package files\n")
             return True
 
         except subprocess.CalledProcessError as e:
-            print(f"\n❌ ERROR: Failed to download Python packages")
+            print(f"\n[ERROR] ERROR: Failed to download Python packages")
             print(f"Error: {e.stderr}")
             return False
 
     def download_ubuntu_packages(self):
         """Download Ubuntu .deb packages and their dependencies"""
-        print("🐧 Downloading Ubuntu 20.04 .deb packages...")
+        print(" Downloading Ubuntu 20.04 .deb packages...")
         print(f"   Target: {self.ubuntu_packages_dir}\n")
 
         # Check if we're on a Debian-based system
         has_apt = shutil.which('apt-get') is not None
 
         if has_apt:
-            print("   ✓ Detected Debian-based system - using apt-get download\n")
+            print("   [OK] Detected Debian-based system - using apt-get download\n")
             return self._download_with_apt()
         else:
-            print("   ⚠️  Not on Debian system - will download from Ubuntu mirrors\n")
+            print("   [WARNING]  Not on Debian system - will download from Ubuntu mirrors\n")
             return self._download_from_mirrors()
 
     def _download_with_apt(self):
@@ -216,17 +216,17 @@ class CompleteAirGapPackageBuilder:
                     capture_output=True,
                     text=True
                 )
-                print(f"      ✓ Downloaded: {package}")
+                print(f"      [OK] Downloaded: {package}")
                 success_count += 1
 
             except subprocess.CalledProcessError as e:
-                print(f"      ⚠️  Failed to download {package}")
+                print(f"      [WARNING]  Failed to download {package}")
                 print(f"         {e.stderr}")
 
-        print(f"\n✓ Successfully downloaded {success_count}/{total} packages")
+        print(f"\n[OK] Successfully downloaded {success_count}/{total} packages")
 
         if success_count < total:
-            print(f"⚠️  {total - success_count} packages failed to download")
+            print(f"[WARNING]  {total - success_count} packages failed to download")
             print("   These packages will need to be manually provided or downloaded on the target")
 
         return True
@@ -265,10 +265,10 @@ failed=0
 for pkg in "${packages[@]}"; do
     echo "Downloading: $pkg"
     if apt-get download "$pkg" 2>/dev/null; then
-        echo "  ✓ Downloaded: $pkg"
+        echo "  [OK] Downloaded: $pkg"
         ((success++))
     else
-        echo "  ✗ Failed: $pkg"
+        echo "  [FAIL] Failed: $pkg"
         ((failed++))
     fi
 done
@@ -285,8 +285,8 @@ ls -lh *.deb 2>/dev/null | wc -l | xargs echo "Total .deb files:"
         download_script.write_text(script_content)
         download_script.chmod(0o755)
 
-        print(f"\n   ✓ Created download script: {download_script}")
-        print("\n   📝 MANUAL STEP REQUIRED:")
+        print(f"\n   [OK] Created download script: {download_script}")
+        print("\n   [NOTE] MANUAL STEP REQUIRED:")
         print("   ========================")
         print("   1. Copy this script to an Ubuntu 20.04 system with internet")
         print(f"   2. Run: bash {download_script.name}")
@@ -326,32 +326,32 @@ Run 'ls *.deb | wc -l' to count files.
 Expected: At least {len(self.ubuntu_packages)} .deb files.
 """)
 
-        print(f"   ✓ Created README: {readme}")
+        print(f"   [OK] Created README: {readme}")
         print("")
 
         return True
 
     def copy_scripts(self):
         """Copy executor and STIG scripts to package"""
-        print("📄 Copying scripts to package...")
+        print("[FILE] Copying scripts to package...")
 
         for file in self.required_files:
             src = self.root_dir / file
             dst = self.scripts_dir / file
             shutil.copy2(src, dst)
-            print(f"  ✓ Copied: {file}")
+            print(f"  [OK] Copied: {file}")
 
         # Also copy the batch launcher if it exists
         bat_file = self.root_dir / "run_airgap_stig.bat"
         if bat_file.exists():
             shutil.copy2(bat_file, self.package_dir / "RUN_ME.bat")
-            print(f"  ✓ Copied: RUN_ME.bat")
+            print(f"  [OK] Copied: RUN_ME.bat")
 
         print("")
 
     def create_manifest(self):
         """Create package manifest"""
-        print("📋 Creating package manifest...")
+        print("[LIST] Creating package manifest...")
 
         manifest = {
             'package_name': 'Ubuntu 20.04 STIG V2R3 Air-Gap Package',
@@ -382,7 +382,7 @@ Expected: At least {len(self.ubuntu_packages)} .deb files.
         with open(manifest_file, 'w') as f:
             json.dump(manifest, f, indent=2)
 
-        print(f"  ✓ Created: {manifest_file}")
+        print(f"  [OK] Created: {manifest_file}")
         print(f"     Python packages: {len(manifest['contents']['python_packages'])}")
         print(f"     Ubuntu packages: {len(manifest['contents']['ubuntu_packages'])}")
         print(f"     Scripts: {len(manifest['contents']['scripts'])}")
@@ -390,7 +390,7 @@ Expected: At least {len(self.ubuntu_packages)} .deb files.
 
     def create_readme(self):
         """Create comprehensive README for the package"""
-        print("📝 Creating package README...")
+        print("[NOTE] Creating package README...")
 
         readme_content = f"""
 UBUNTU 20.04 STIG V2R3 AIR-GAP PACKAGE
@@ -432,13 +432,13 @@ QUICK START (AIR-GAPPED WINDOWS):
    - Confirm execution
 
 The script will:
-  ✓ Install Python dependencies locally
-  ✓ Connect to Ubuntu target via SSH
-  ✓ Transfer all Ubuntu packages to target
-  ✓ Transfer STIG script to target
-  ✓ Execute STIG remediation (172 controls)
-  ✓ Create backups before changes
-  ✓ Log all actions
+  [OK] Install Python dependencies locally
+  [OK] Connect to Ubuntu target via SSH
+  [OK] Transfer all Ubuntu packages to target
+  [OK] Transfer STIG script to target
+  [OK] Execute STIG remediation (172 controls)
+  [OK] Create backups before changes
+  [OK] Log all actions
 
 REQUIREMENTS:
 =============
@@ -527,11 +527,11 @@ For issues or questions, refer to:
 SECURITY NOTICE:
 ================
 
-⚠️  This package applies 172 DISA STIG security controls
-⚠️  Changes are significant and may affect system behavior
-⚠️  ALWAYS test in non-production environment first
-⚠️  Ensure console access to Ubuntu target before running
-⚠️  Review PACKAGE_SUMMARY.md for detailed change list
+[WARNING]  This package applies 172 DISA STIG security controls
+[WARNING]  Changes are significant and may affect system behavior
+[WARNING]  ALWAYS test in non-production environment first
+[WARNING]  Ensure console access to Ubuntu target before running
+[WARNING]  Review PACKAGE_SUMMARY.md for detailed change list
 
 Package built with: build_complete_airgap_package.py
 """
@@ -539,11 +539,11 @@ Package built with: build_complete_airgap_package.py
         readme_file = self.package_dir / "README.txt"
         readme_file.write_text(readme_content)
 
-        print(f"  ✓ Created: {readme_file}\n")
+        print(f"  [OK] Created: {readme_file}\n")
 
     def create_package(self):
         """Create ZIP archive"""
-        print("📦 Creating ZIP package...")
+        print("[PACKAGE] Creating ZIP package...")
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         zip_name = f"ubuntu-stig-airgap-complete-{timestamp}.zip"
@@ -560,11 +560,11 @@ Package built with: build_complete_airgap_package.py
         # Calculate size
         size_mb = zip_path.stat().st_size / (1024 * 1024)
 
-        print(f"\n✓ Package created: {zip_path}")
+        print(f"\n[OK] Package created: {zip_path}")
         print(f"  Size: {size_mb:.2f} MB")
 
         # Calculate SHA256
-        print("\n🔐 Calculating SHA256 checksum...")
+        print("\n[LOCKED] Calculating SHA256 checksum...")
         sha256 = hashlib.sha256()
         with open(zip_path, 'rb') as f:
             for chunk in iter(lambda: f.read(4096), b''):
@@ -576,7 +576,7 @@ Package built with: build_complete_airgap_package.py
         # Write checksum file
         checksum_file = self.root_dir / f"{zip_name}.sha256"
         checksum_file.write_text(f"{checksum}  {zip_name}\n")
-        print(f"  ✓ Checksum saved: {checksum_file}")
+        print(f"  [OK] Checksum saved: {checksum_file}")
 
         return zip_path
 
@@ -590,11 +590,11 @@ Package built with: build_complete_airgap_package.py
         self.create_directories()
 
         if not self.download_python_packages():
-            print("\n❌ Failed to download Python packages")
+            print("\n[ERROR] Failed to download Python packages")
             return False
 
         if not self.download_ubuntu_packages():
-            print("\n❌ Failed to download Ubuntu packages")
+            print("\n[ERROR] Failed to download Ubuntu packages")
             return False
 
         self.copy_scripts()
@@ -604,7 +604,7 @@ Package built with: build_complete_airgap_package.py
         zip_path = self.create_package()
 
         print("\n" + "="*80)
-        print("✅ PACKAGE BUILD COMPLETE!")
+        print("[OK] PACKAGE BUILD COMPLETE!")
         print("="*80)
         print(f"\nPackage: {zip_path.name}")
         print(f"Location: {zip_path}")
@@ -625,10 +625,10 @@ def main():
         success = builder.build()
         sys.exit(0 if success else 1)
     except KeyboardInterrupt:
-        print("\n\n❌ Build cancelled by user")
+        print("\n\n[ERROR] Build cancelled by user")
         sys.exit(1)
     except Exception as e:
-        print(f"\n❌ ERROR: {e}")
+        print(f"\n[ERROR] ERROR: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)

@@ -1,12 +1,12 @@
 # ULTIMATE AIR-GAP STIG - FILES GUIDE
 
-## 📁 Complete File Reference
+## [FOLDER] Complete File Reference
 
 This guide explains every file in the Ultimate Air-Gap STIG solution and what each one does.
 
 ---
 
-## 🎯 CORE EXECUTION FILES
+## [TARGET] CORE EXECUTION FILES
 
 ### 1. `ULTIMATE_AIRGAP_STIG_EXECUTOR.py`
 
@@ -110,7 +110,7 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 
 ---
 
-## 📚 DOCUMENTATION FILES
+##  DOCUMENTATION FILES
 
 ### 5. `ULTIMATE_AIRGAP_README.md`
 
@@ -167,7 +167,7 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 
 ---
 
-## 📦 PACKAGE FOLDER
+## [PACKAGE] PACKAGE FOLDER
 
 ### 8. `airgap_packages/`
 
@@ -270,7 +270,7 @@ airgap_packages/
 
 ---
 
-## 📋 LOG FILES (Created During Execution)
+## [LIST] LOG FILES (Created During Execution)
 
 ### 9. Windows Execution Logs
 
@@ -313,7 +313,7 @@ ssh ubuntu@target 'cat /var/log/ubuntu20-stig-v2r3-remediation.log'
 
 ---
 
-## 💾 BACKUP FILES (Created During Execution)
+## [SAVE] BACKUP FILES (Created During Execution)
 
 ### 11. Pre-Execution Backups
 
@@ -337,7 +337,7 @@ ssh ubuntu@target 'ls -la /var/backups/pre-stig-*'
 
 ---
 
-## 🗂️ COMPLETE FILE LISTING
+##  COMPLETE FILE LISTING
 
 ### What You Download/Create:
 
@@ -390,26 +390,26 @@ During Execution:
 
 ---
 
-## 🎯 WHICH FILES DO YOU NEED?
+## [TARGET] WHICH FILES DO YOU NEED?
 
 ### Minimum Required Files for Air-Gap Execution:
 
 ```
 MUST HAVE:
-✅ ULTIMATE_AIRGAP_STIG_EXECUTOR.py
-✅ ubuntu20_stig_v2r3_enhanced.py
-✅ airgap_packages/
-   ✅ python_dependencies/
-   ✅ ubuntu_packages/
+[OK] ULTIMATE_AIRGAP_STIG_EXECUTOR.py
+[OK] ubuntu20_stig_v2r3_enhanced.py
+[OK] airgap_packages/
+   [OK] python_dependencies/
+   [OK] ubuntu_packages/
 ```
 
 ### Recommended Additional Files:
 
 ```
 SHOULD HAVE:
-✅ ULTIMATE_AIRGAP_README.md       ← Comprehensive docs
-✅ ULTRA_QUICK_START.md            ← Quick reference
-✅ RUN_ULTIMATE_AIRGAP_STIG.bat    ← Easy launcher
+[OK] ULTIMATE_AIRGAP_README.md       ← Comprehensive docs
+[OK] ULTRA_QUICK_START.md            ← Quick reference
+[OK] RUN_ULTIMATE_AIRGAP_STIG.bat    ← Easy launcher
 ```
 
 ### Nice to Have:
@@ -423,7 +423,7 @@ OPTIONAL:
 
 ---
 
-## 📏 TOTAL SIZE BREAKDOWN
+##  TOTAL SIZE BREAKDOWN
 
 | Component | Size | Files |
 |-----------|------|-------|
@@ -438,7 +438,7 @@ OPTIONAL:
 
 ---
 
-## 🔄 FILE FLOW DIAGRAM
+##  FILE FLOW DIAGRAM
 
 ```
 [Internet System]
@@ -505,7 +505,7 @@ ULTIMATE_AIRGAP_STIG_EXECUTOR.py
 
 ---
 
-## ✅ FILE CHECKLIST
+## [OK] FILE CHECKLIST
 
 Before running on air-gap, verify:
 

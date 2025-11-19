@@ -159,7 +159,7 @@
 - **User docs**: Markdown with emoji for visual hierarchy
 - **Format**: `## Title`, bullet lists, code blocks with language tags
 - **Structure**: What/Why/How format
-- **Warnings**: Clearly marked with ⚠️ symbol
+- **Warnings**: Clearly marked with [WARNING] symbol
 - **Checklists**: Interactive with `- [ ]` syntax
 
 ---
@@ -622,7 +622,7 @@ A: Yes, but that requires modifying the STIG script (`ubuntu20_stig_v2r3_enhance
 2. Keep quick starts concise (one page)
 3. Put details in comprehensive READMEs
 4. Use checklists for procedures
-5. Mark warnings clearly with ⚠️
+5. Mark warnings clearly with [WARNING]
 
 ### For User Support
 1. Direct users to appropriate documentation level

@@ -1,6 +1,6 @@
 # ULTIMATE AIR-GAP STIG EXECUTOR
 
-## 🔒 100% GUARANTEED AIR-GAPPED STIG EXECUTION
+## [SECURE] 100% GUARANTEED AIR-GAPPED STIG EXECUTION
 
 **Version:** 4.0.0 - ULTIMATE EDITION
 
@@ -8,7 +8,7 @@ Complete, plug-and-play solution for applying **all 172 DISA STIG controls** to 
 
 ---
 
-## ⚡ QUICK START (3 Steps)
+## [FAST] QUICK START (3 Steps)
 
 ### On Internet-Connected System:
 
@@ -39,7 +39,7 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 
 ---
 
-## 📋 TABLE OF CONTENTS
+## [LIST] TABLE OF CONTENTS
 
 1. [What This Does](#what-this-does)
 2. [Requirements](#requirements)
@@ -52,18 +52,18 @@ RUN_ULTIMATE_AIRGAP_STIG.bat
 
 ---
 
-## 🎯 WHAT THIS DOES
+## [TARGET] WHAT THIS DOES
 
 This solution provides **100% offline STIG execution** with:
 
-✅ **NO internet required** on Windows or Ubuntu
-✅ **NO apt install** on Ubuntu target
-✅ **NO pip install** on Ubuntu target
-✅ **ALL packages pre-bundled** and transferred
-✅ **Applies all 172 STIG controls** automatically
-✅ **Maximum security lockdown**
-✅ **Automatic backups** before changes
-✅ **Post-execution verification**
+[OK] **NO internet required** on Windows or Ubuntu
+[OK] **NO apt install** on Ubuntu target
+[OK] **NO pip install** on Ubuntu target
+[OK] **ALL packages pre-bundled** and transferred
+[OK] **Applies all 172 STIG controls** automatically
+[OK] **Maximum security lockdown**
+[OK] **Automatic backups** before changes
+[OK] **Post-execution verification**
 
 ### STIG Controls Applied:
 
@@ -74,7 +74,7 @@ This solution provides **100% offline STIG execution** with:
 
 ---
 
-## 📦 REQUIREMENTS
+## [PACKAGE] REQUIREMENTS
 
 ### On Internet-Connected System (for package building):
 
@@ -98,7 +98,7 @@ This solution provides **100% offline STIG execution** with:
 
 ---
 
-## 🚀 COMPLETE SETUP GUIDE
+## [LAUNCH] COMPLETE SETUP GUIDE
 
 ### Phase 1: Build Package (Internet-Connected System)
 
@@ -262,7 +262,7 @@ After successful completion:
 
 ---
 
-## 🔒 WHAT GETS APPLIED
+## [SECURE] WHAT GETS APPLIED
 
 ### CAT I (Critical - 14 controls)
 
@@ -346,7 +346,7 @@ After successful completion:
 
 ---
 
-## 📂 PACKAGE CONTENTS
+## [DIR] PACKAGE CONTENTS
 
 ### ULTIMATE_AIRGAP_STIG_EXECUTOR.py
 
@@ -430,7 +430,7 @@ airgap_packages/
 
 ---
 
-## 🔧 TROUBLESHOOTING
+## [CONFIG] TROUBLESHOOTING
 
 ### Problem: "paramiko not found"
 
@@ -528,7 +528,7 @@ pip install --no-index --find-links airgap_packages/python_dependencies paramiko
 
 ---
 
-## 🛡️ SAFETY & ROLLBACK
+## [SHIELD] SAFETY & ROLLBACK
 
 ### Automatic Backups
 
@@ -592,7 +592,7 @@ If you have a VM snapshot/backup:
 
 ---
 
-## ❓ FAQ
+##  FAQ
 
 ### Q: Do I need internet access?
 
@@ -690,7 +690,7 @@ sudo oscap xccdf eval \
 
 ---
 
-## 📞 SUPPORT
+##  SUPPORT
 
 ### Logs
 
@@ -708,21 +708,21 @@ sudo oscap xccdf eval \
 
 **Success:**
 ```
-✓ Successfully connected to target
-✓ Transferred packages successfully
-✓ STIG REMEDIATION COMPLETED SUCCESSFULLY
+[OK] Successfully connected to target
+[OK] Transferred packages successfully
+[OK] STIG REMEDIATION COMPLETED SUCCESSFULLY
 ```
 
 **Errors:**
 ```
-❌ Authentication failed - check username/password
-❌ STIG script not found: ubuntu20_stig_v2r3_enhanced.py
-❌ Failed to transfer packages
+[ERROR] Authentication failed - check username/password
+[ERROR] STIG script not found: ubuntu20_stig_v2r3_enhanced.py
+[ERROR] Failed to transfer packages
 ```
 
 ---
 
-## 📜 VERSION HISTORY
+##  VERSION HISTORY
 
 **4.0.0 - ULTIMATE EDITION** (Current)
 - Complete rewrite for guaranteed air-gap operation
@@ -747,13 +747,13 @@ sudo oscap xccdf eval \
 
 ---
 
-## 📄 LICENSE
+## [FILE] LICENSE
 
 MIT License - Use at your own risk
 
 ---
 
-## ⚠️ DISCLAIMER
+## [WARNING] DISCLAIMER
 
 This script makes significant system modifications. Always:
 - Test in non-production first
@@ -766,16 +766,16 @@ This script makes significant system modifications. Always:
 
 ---
 
-## 🎯 SUMMARY
+## [TARGET] SUMMARY
 
 This is the **most comprehensive, guaranteed-to-work air-gapped STIG solution** available:
 
-✅ **100% offline** - no internet on Windows or Ubuntu
-✅ **Plug-and-play** - download, transfer, execute
-✅ **Complete** - all 172 STIG controls
-✅ **Safe** - automatic backups
-✅ **Verified** - post-execution checks
-✅ **Documented** - comprehensive guides
+[OK] **100% offline** - no internet on Windows or Ubuntu
+[OK] **Plug-and-play** - download, transfer, execute
+[OK] **Complete** - all 172 STIG controls
+[OK] **Safe** - automatic backups
+[OK] **Verified** - post-execution checks
+[OK] **Documented** - comprehensive guides
 
 **Total setup time:** 30 minutes
 **Total execution time:** 10 minutes

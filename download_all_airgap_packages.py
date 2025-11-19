@@ -52,21 +52,21 @@ class CompleteAirGapDownloader:
 
         # Check Python version
         if sys.version_info < (3, 6):
-            print(f"❌ Python 3.6+ required (current: {sys.version})")
+            print(f"[ERROR] Python 3.6+ required (current: {sys.version})")
             return False
-        print(f"✓ Python {sys.version_info.major}.{sys.version_info.minor}")
+        print(f"[OK] Python {sys.version_info.major}.{sys.version_info.minor}")
 
         # Check pip
         try:
             result = subprocess.run([sys.executable, '-m', 'pip', '--version'],
                                   capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"✓ pip available")
+                print(f"[OK] pip available")
             else:
-                print("❌ pip not found")
+                print("[ERROR] pip not found")
                 return False
         except Exception:
-            print("❌ pip not available")
+            print("[ERROR] pip not available")
             return False
 
         # Check internet
@@ -74,9 +74,9 @@ class CompleteAirGapDownloader:
         try:
             import urllib.request
             urllib.request.urlopen('https://pypi.org', timeout=5)
-            print("✓ Internet connection available")
+            print("[OK] Internet connection available")
         except Exception as e:
-            print(f"❌ No internet: {e}")
+            print(f"[ERROR] No internet: {e}")
             return False
 
         return True
@@ -89,13 +89,13 @@ class CompleteAirGapDownloader:
 
         # Remove existing if present
         if self.output_dir.exists():
-            print(f"\n⚠️  Directory exists: {self.output_dir}")
+            print(f"\n[WARNING]  Directory exists: {self.output_dir}")
             response = input("Delete and recreate? [y/N]: ").strip().lower()
             if response == 'y':
                 shutil.rmtree(self.output_dir)
-                print("✓ Removed existing directory")
+                print("[OK] Removed existing directory")
             else:
-                print("❌ Cannot proceed")
+                print("[ERROR] Cannot proceed")
                 return False
 
         # Create structure
@@ -104,10 +104,10 @@ class CompleteAirGapDownloader:
         self.ubuntu_debs_dir.mkdir()
         self.scripts_dir.mkdir()
 
-        print(f"\n✓ Created: {self.output_dir}/")
-        print(f"✓ Created: {self.python_deps_dir}/")
-        print(f"✓ Created: {self.ubuntu_debs_dir}/")
-        print(f"✓ Created: {self.scripts_dir}/")
+        print(f"\n[OK] Created: {self.output_dir}/")
+        print(f"[OK] Created: {self.python_deps_dir}/")
+        print(f"[OK] Created: {self.ubuntu_debs_dir}/")
+        print(f"[OK] Created: {self.scripts_dir}/")
 
         return True
 
@@ -142,14 +142,14 @@ class CompleteAirGapDownloader:
             if result.returncode == 0:
                 files = list(self.python_deps_dir.glob('*'))
                 total_size = sum(f.stat().st_size for f in files) / (1024 * 1024)
-                print(f"\n✓ Downloaded {len(files)} Python packages ({total_size:.1f} MB)")
+                print(f"\n[OK] Downloaded {len(files)} Python packages ({total_size:.1f} MB)")
                 return True
             else:
-                print(f"\n❌ Download failed:\n{result.stderr}")
+                print(f"\n[ERROR] Download failed:\n{result.stderr}")
                 return False
 
         except Exception as e:
-            print(f"\n❌ Error: {e}")
+            print(f"\n[ERROR] Error: {e}")
             return False
 
     def download_ubuntu_packages_docker(self):
@@ -163,13 +163,13 @@ class CompleteAirGapDownloader:
             result = subprocess.run(['docker', '--version'],
                                   capture_output=True, text=True)
             if result.returncode != 0:
-                print("❌ Docker not available")
+                print("[ERROR] Docker not available")
                 return self.download_ubuntu_packages_urls()
         except FileNotFoundError:
-            print("❌ Docker not installed")
+            print("[ERROR] Docker not installed")
             return self.download_ubuntu_packages_urls()
 
-        print("✓ Docker available")
+        print("[OK] Docker available")
 
         # Ubuntu packages needed for STIG compliance
         ubuntu_packages = [
@@ -229,7 +229,7 @@ echo "Download complete!"
             if result.returncode == 0:
                 deb_files = list(self.ubuntu_debs_dir.glob('*.deb'))
                 total_size = sum(f.stat().st_size for f in deb_files) / (1024 * 1024)
-                print(f"\n✓ Downloaded {len(deb_files)} .deb packages ({total_size:.1f} MB)")
+                print(f"\n[OK] Downloaded {len(deb_files)} .deb packages ({total_size:.1f} MB)")
 
                 # Create package list
                 package_list = self.ubuntu_debs_dir / "package_list.txt"
@@ -241,11 +241,11 @@ echo "Download complete!"
 
                 return True
             else:
-                print("❌ Docker download failed")
+                print("[ERROR] Docker download failed")
                 return False
 
         except Exception as e:
-            print(f"\n❌ Error: {e}")
+            print(f"\n[ERROR] Error: {e}")
             return False
 
     def download_ubuntu_packages_urls(self):
@@ -253,7 +253,7 @@ echo "Download complete!"
         print("\n" + "="*80)
         print("DOWNLOADING UBUNTU PACKAGES (from URLs)")
         print("="*80)
-        print("\n⚠️  Manual download required")
+        print("\n[WARNING]  Manual download required")
 
         # Package URLs for Ubuntu 20.04
         package_info = {
@@ -280,7 +280,7 @@ echo "Download complete!"
             f.write("  apt-get download auditd aide aide-common libpam-pwquality apparmor-utils\n")
             f.write(f"  Copy all .deb files to: {self.ubuntu_debs_dir}/\n")
 
-        print(f"\n✓ Created instructions: {instructions_file}")
+        print(f"\n[OK] Created instructions: {instructions_file}")
         print(f"\nPlease download packages manually and place in:")
         print(f"  {self.ubuntu_debs_dir}/")
 
@@ -311,12 +311,12 @@ def install_deb_packages():
 
     deb_dir = Path("/tmp/stig_packages/ubuntu_packages")
     if not deb_dir.exists():
-        print(f"❌ Package directory not found: {deb_dir}")
+        print(f"[ERROR] Package directory not found: {deb_dir}")
         return False
 
     deb_files = list(deb_dir.glob("*.deb"))
     if not deb_files:
-        print(f"❌ No .deb files found in {deb_dir}")
+        print(f"[ERROR] No .deb files found in {deb_dir}")
         return False
 
     print(f"\\nFound {len(deb_files)} .deb packages")
@@ -333,11 +333,11 @@ def install_deb_packages():
             subprocess.run(['apt-get', 'install', '-f', '-y'],
                          env={'DEBIAN_FRONTEND': 'noninteractive'})
 
-        print("✓ Ubuntu packages installed")
+        print("[OK] Ubuntu packages installed")
         return True
 
     except Exception as e:
-        print(f"❌ Installation error: {e}")
+        print(f"[ERROR] Installation error: {e}")
         return False
 
 def verify_packages():
@@ -355,9 +355,9 @@ def verify_packages():
     all_ok = True
     for name, path in required_commands.items():
         if Path(path).exists():
-            print(f"  ✓ {name}")
+            print(f"  [OK] {name}")
         else:
-            print(f"  ✗ {name} - NOT FOUND")
+            print(f"  [FAIL] {name} - NOT FOUND")
             all_ok = False
 
     return all_ok
@@ -368,18 +368,18 @@ def main():
     print("="*60)
 
     if os.geteuid() != 0:
-        print("\\n❌ This script must be run as root (via sudo)")
+        print("\\n[ERROR] This script must be run as root (via sudo)")
         sys.exit(1)
 
     if not install_deb_packages():
-        print("\\n❌ Package installation failed")
+        print("\\n[ERROR] Package installation failed")
         sys.exit(1)
 
     if verify_packages():
-        print("\\n✓ All packages installed successfully!")
+        print("\\n[OK] All packages installed successfully!")
         return 0
     else:
-        print("\\n⚠️  Some packages may not have installed correctly")
+        print("\\n[WARNING]  Some packages may not have installed correctly")
         return 1
 
 if __name__ == '__main__':
@@ -390,7 +390,7 @@ if __name__ == '__main__':
         installer_file.write_text(installer_script)
         installer_file.chmod(0o755)
 
-        print(f"✓ Created: {installer_file}")
+        print(f"[OK] Created: {installer_file}")
         return True
 
     def create_manifest(self):
@@ -424,7 +424,7 @@ if __name__ == '__main__':
         with open(manifest_file, 'w') as f:
             json.dump(manifest, f, indent=2)
 
-        print(f"\n✓ Created manifest: {manifest_file}")
+        print(f"\n[OK] Created manifest: {manifest_file}")
         print(f"  Python packages: {len(manifest['python_packages'])}")
         print(f"  Ubuntu packages: {len(manifest['ubuntu_packages'])}")
 
@@ -488,7 +488,7 @@ if __name__ == '__main__':
 
 ## Security Notes
 
-⚠️  This package will:
+[WARNING]  This package will:
 - Apply ALL 172 STIG controls
 - Disable SSH password authentication
 - Enable strict firewall rules
@@ -505,7 +505,7 @@ Generated by: Complete Air-Gap Package Downloader v3.0.0
         readme_file = self.output_dir / "README.txt"
         readme_file.write_text(readme_content)
 
-        print(f"✓ Created: {readme_file}")
+        print(f"[OK] Created: {readme_file}")
         return True
 
     def print_summary(self):
@@ -521,7 +521,7 @@ Generated by: Complete Air-Gap Package Downloader v3.0.0
         ubuntu_files = list(self.ubuntu_debs_dir.glob('*.deb'))
         ubuntu_size = sum(f.stat().st_size for f in ubuntu_files) / (1024 * 1024)
 
-        print(f"\n✓ Package directory: {self.output_dir}/")
+        print(f"\n[OK] Package directory: {self.output_dir}/")
         print(f"\nPython packages: {len(python_files)} files ({python_size:.1f} MB)")
         print(f"Ubuntu packages: {len(ubuntu_files)} .deb files ({ubuntu_size:.1f} MB)")
         print(f"Total size: {python_size + ubuntu_size:.1f} MB")
@@ -530,20 +530,20 @@ Generated by: Complete Air-Gap Package Downloader v3.0.0
         print("NEXT STEPS")
         print("="*80)
 
-        print("\n1️⃣  VERIFY downloads are complete:")
+        print("\n1⃣  VERIFY downloads are complete:")
         print(f"   - Check {self.python_deps_dir}/ has .whl files")
         print(f"   - Check {self.ubuntu_debs_dir}/ has .deb files")
 
-        print("\n2️⃣  COPY required scripts:")
+        print("\n2⃣  COPY required scripts:")
         print("   - Copy airgap_stig_executor_complete.py")
         print("   - Copy ubuntu20_stig_v2r3_enhanced.py")
         print(f"   - To: {self.output_dir}/")
 
-        print("\n3️⃣  TRANSFER entire package to air-gapped system:")
+        print("\n3⃣  TRANSFER entire package to air-gapped system:")
         print(f"   - Copy entire folder: {self.output_dir}/")
         print("   - Use USB, CD/DVD, or approved method")
 
-        print("\n4️⃣  ON AIR-GAPPED SYSTEM:")
+        print("\n4⃣  ON AIR-GAPPED SYSTEM:")
         print("   - Extract package")
         print("   - Read README.txt")
         print("   - Run: python airgap_stig_executor_complete.py")
@@ -561,7 +561,7 @@ Generated by: Complete Air-Gap Package Downloader v3.0.0
             return False
 
         if not self.download_python_packages():
-            print("\n❌ Failed to download Python packages")
+            print("\n[ERROR] Failed to download Python packages")
             return False
 
         # Try Docker method first, fall back to manual instructions

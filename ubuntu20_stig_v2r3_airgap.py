@@ -17,17 +17,17 @@ BREAKDOWN:
 - CAT III (Low):  22 controls
 
 NEW IN V3.0.0 - AIR-GAP EDITION:
-✓ 100% offline operation - no internet required
-✓ Installs packages from local .deb files
-✓ Automatic detection of offline package directory
-✓ Intelligent fallback to system package cache
-✓ Full remote execution capability via SSH
-✓ Parallel multi-host deployment support
-✓ Enhanced force/bypass modes for emergency situations
-✓ Comprehensive CLI argument parser with argparse
-✓ Remote connection pooling and error handling
-✓ Fail-safe remote rollback mechanisms
-✓ Interactive and batch execution modes
+[OK] 100% offline operation - no internet required
+[OK] Installs packages from local .deb files
+[OK] Automatic detection of offline package directory
+[OK] Intelligent fallback to system package cache
+[OK] Full remote execution capability via SSH
+[OK] Parallel multi-host deployment support
+[OK] Enhanced force/bypass modes for emergency situations
+[OK] Comprehensive CLI argument parser with argparse
+[OK] Remote connection pooling and error handling
+[OK] Fail-safe remote rollback mechanisms
+[OK] Interactive and batch execution modes
 
 NEW IN V2R3 STIG:
 - V-251503/V-251504: No blank/null passwords (CAT I)
@@ -170,7 +170,7 @@ class RemoteExecutor:
             
             host.ssh_client = ssh
             host.connected = True
-            logger.info(f"✓ Connected to {host.hostname}")
+            logger.info(f"[OK] Connected to {host.hostname}")
             return True
             
         except AuthenticationException:
@@ -240,7 +240,7 @@ class RemoteExecutor:
             sftp.chmod(remote_path, 0o755)
             sftp.close()
             
-            logger.info(f"✓ Script transferred to {host.hostname}")
+            logger.info(f"[OK] Script transferred to {host.hostname}")
             return True
             
         except Exception as e:
@@ -283,11 +283,11 @@ class RemoteExecutor:
                     logger.error(f"  {line}")
             
             if rc == 0:
-                logger.info(f"✓ STIG remediation completed successfully on {host.hostname}")
+                logger.info(f"[OK] STIG remediation completed successfully on {host.hostname}")
                 self.successful_hosts.append(host)
                 return True
             else:
-                logger.error(f"✗ STIG remediation failed on {host.hostname} (RC={rc})")
+                logger.error(f"[FAIL] STIG remediation failed on {host.hostname} (RC={rc})")
                 self.failed_hosts.append(host)
                 return False
                 
@@ -299,7 +299,7 @@ class RemoteExecutor:
         finally:
             try:
                 self.execute_command(host, "rm -f /tmp/stig_remediation.py", sudo=True, check_error=False)
-            except:
+            except Exception:
                 pass
     
     def execute_parallel(self, script_path, max_workers=5):
@@ -339,7 +339,7 @@ class RemoteExecutor:
                 all_successful = False
                 
                 if not STIGConfig.FORCE_IGNORE_ERRORS:
-                    response = input(f"\n❌ Failed on {host.hostname}. Continue to next host? (y/n): ")
+                    response = input(f"\n[ERROR] Failed on {host.hostname}. Continue to next host? (y/n): ")
                     if response.lower() != 'y':
                         logger.warning("Serial execution aborted by user")
                         break
@@ -356,12 +356,12 @@ class RemoteExecutor:
         print(f"Failed: {len(self.failed_hosts)}")
         
         if self.successful_hosts:
-            print("\n✓ Successful hosts:")
+            print("\n[OK] Successful hosts:")
             for host in self.successful_hosts:
                 print(f"  • {host.hostname}")
         
         if self.failed_hosts:
-            print("\n✗ Failed hosts:")
+            print("\n[FAIL] Failed hosts:")
             for host in self.failed_hosts:
                 print(f"  • {host.hostname}")
                 if host.errors:
@@ -712,7 +712,7 @@ class SystemModifier:
                 logger.info(f"Wrote {filepath} successfully")
                 self.changes.append(f"Modified {filepath}")
                 return True
-            except:
+            except Exception:
                 if os.path.exists(temp_path):
                     os.unlink(temp_path)
                 raise
@@ -791,14 +791,14 @@ class PreFlightChecker:
             try:
                 passed, message = check_func()
                 if passed:
-                    logger.info(f"✓ {check_name}: PASS - {message}")
+                    logger.info(f"[OK] {check_name}: PASS - {message}")
                     self.checks_passed.append(check_name)
                 else:
-                    logger.error(f"✗ {check_name}: FAIL - {message}")
+                    logger.error(f"[FAIL] {check_name}: FAIL - {message}")
                     self.checks_failed.append((check_name, message))
                     all_passed = False
             except Exception as e:
-                logger.error(f"✗ {check_name}: ERROR - {str(e)}")
+                logger.error(f"[FAIL] {check_name}: ERROR - {str(e)}")
                 self.checks_failed.append((check_name, str(e)))
                 all_passed = False
         
@@ -886,7 +886,7 @@ class PreFlightChecker:
                 if result.returncode == 0:
                     return True, "Network connectivity OK (ping)"
                 return False, "Cannot ping external hosts"
-            except:
+            except Exception:
                 self.warnings.append("Cannot verify network connectivity")
                 return True, "Network check skipped (no tools available)"
     
@@ -915,7 +915,7 @@ class PreFlightChecker:
                 self.warnings.append("Running via SSH - SSH config changes may disconnect you")
                 return True, "SSH connection detected - recommend console access"
             return True, "Not running via SSH (recommended)"
-        except:
+        except Exception:
             return True, "Cannot determine SSH status"
     
     def check_snapshot(self) -> Tuple[bool, str]:
@@ -930,7 +930,7 @@ class PreFlightChecker:
             )
             if 'snapshot' in result.stdout.lower() or 'snap' in result.stdout.lower():
                 return True, "LVM snapshot detected"
-        except:
+        except Exception:
             pass
         
         # Check for VM snapshot markers
@@ -1079,7 +1079,7 @@ class RecoveryManager:
             self.current_recovery_point = recovery_id
             self.recovery_manifest = manifest
             
-            logger.info(f"✓ Recovery point created: {recovery_id}")
+            logger.info(f"[OK] Recovery point created: {recovery_id}")
             logger.info(f"  Files backed up: {len(manifest['files'])}")
             logger.info(f"  Directories backed up: {len(manifest['directories'])}")
             
@@ -1119,7 +1119,7 @@ class RecoveryManager:
                 backup_path = os.path.join(recovery_path, filepath.lstrip('/'))
                 if os.path.exists(backup_path):
                     shutil.copy2(backup_path, filepath)
-                    logger.info(f"✓ Restored {filepath}")
+                    logger.info(f"[OK] Restored {filepath}")
             
             # Restore directories
             for dirpath in manifest['directories']:
@@ -1129,7 +1129,7 @@ class RecoveryManager:
                     if os.path.exists(dirpath):
                         shutil.rmtree(dirpath)
                     shutil.copytree(backup_path, dirpath)
-                    logger.info(f"✓ Restored {dirpath}")
+                    logger.info(f"[OK] Restored {dirpath}")
             
             logger.warning("="*80)
             logger.warning("RECOVERY COMPLETE")
@@ -1161,7 +1161,7 @@ class RecoveryManager:
                         'name': manifest['name'],
                         'timestamp': manifest['timestamp'],
                     })
-                except:
+                except Exception:
                     pass
         
         return recovery_points
@@ -1190,11 +1190,11 @@ class ConfigValidator:
         )
         
         if result.returncode == 0:
-            logger.info("✓ SSH configuration valid")
+            logger.info("[OK] SSH configuration valid")
             return True
         else:
             self.validation_errors.append(f"SSH config invalid: {result.stderr}")
-            logger.error(f"✗ SSH configuration INVALID: {result.stderr}")
+            logger.error(f"[FAIL] SSH configuration INVALID: {result.stderr}")
             return False
     
     def validate_pam_config(self, config_dir: str = '/etc/pam.d') -> bool:
@@ -1233,10 +1233,10 @@ class ConfigValidator:
         
         if errors:
             self.validation_errors.extend(errors)
-            logger.error(f"✗ PAM validation errors: {errors}")
+            logger.error(f"[FAIL] PAM validation errors: {errors}")
             return False
         
-        logger.info("✓ PAM configuration valid")
+        logger.info("[OK] PAM configuration valid")
         return True
     
     def validate_sudoers(self, sudoers_file: str = '/etc/sudoers') -> bool:
@@ -1255,11 +1255,11 @@ class ConfigValidator:
         )
         
         if result.returncode == 0:
-            logger.info("✓ Sudoers configuration valid")
+            logger.info("[OK] Sudoers configuration valid")
             return True
         else:
             self.validation_errors.append(f"Sudoers invalid: {result.stderr}")
-            logger.error(f"✗ Sudoers INVALID: {result.stderr}")
+            logger.error(f"[FAIL] Sudoers INVALID: {result.stderr}")
             return False
     
     def validate_grub_config(self) -> bool:
@@ -1279,7 +1279,7 @@ class ConfigValidator:
             if 'audit=1' not in content:
                 self.validation_warnings.append("GRUB missing audit=1 parameter")
             
-            logger.info("✓ GRUB configuration valid")
+            logger.info("[OK] GRUB configuration valid")
             return True
         except Exception as e:
             self.validation_errors.append(f"Cannot validate GRUB: {e}")
@@ -1312,17 +1312,17 @@ class ConfigValidator:
         if self.validation_errors:
             logger.error(f"\nValidation errors ({len(self.validation_errors)}):")
             for error in self.validation_errors:
-                logger.error(f"  ✗ {error}")
+                logger.error(f"  [FAIL] {error}")
         
         if self.validation_warnings:
             logger.warning(f"\nValidation warnings ({len(self.validation_warnings)}):")
             for warning in self.validation_warnings:
-                logger.warning(f"  ⚠ {warning}")
+                logger.warning(f"  [WARNING] {warning}")
         
         if all_valid:
-            logger.info("\n✓ All critical configurations valid")
+            logger.info("\n[OK] All critical configurations valid")
         else:
-            logger.error("\n✗ Configuration validation FAILED")
+            logger.error("\n[FAIL] Configuration validation FAILED")
         
         return all_valid
 
@@ -1465,7 +1465,7 @@ class PackageManager(SystemModifier):
             )
             if result:
                 self.changes.append(f"Installed package: {package}")
-                logger.info(f"✓ Installed: {package}")
+                logger.info(f"[OK] Installed: {package}")
             else:
                 logger.warning(f"Failed to install {package}: {output}")
                 success = False
@@ -1486,7 +1486,7 @@ class PackageManager(SystemModifier):
         for package in packages:
             # Check if already installed
             if self.is_package_installed(package):
-                logger.info(f"✓ Already installed: {package}")
+                logger.info(f"[OK] Already installed: {package}")
                 success_count += 1
                 continue
 
@@ -1508,7 +1508,7 @@ class PackageManager(SystemModifier):
 
                 if result:
                     self.changes.append(f"Installed package (offline): {package}")
-                    logger.info(f"✓ Installed: {package}")
+                    logger.info(f"[OK] Installed: {package}")
                     success_count += 1
                 else:
                     # Try to fix dependencies
@@ -1519,10 +1519,10 @@ class PackageManager(SystemModifier):
                     result2, _ = self.run_command(['dpkg', '-i', deb_file], check=False)
                     if result2:
                         self.changes.append(f"Installed package (offline): {package}")
-                        logger.info(f"✓ Installed: {package} (after dependency fix)")
+                        logger.info(f"[OK] Installed: {package} (after dependency fix)")
                         success_count += 1
                     else:
-                        logger.warning(f"✗ Failed to install: {package}")
+                        logger.warning(f"[FAIL] Failed to install: {package}")
                         failed_packages.append(package)
             else:
                 logger.warning(f"No .deb file found for: {package}")
@@ -1544,7 +1544,7 @@ class PackageManager(SystemModifier):
                 # Re-check failed packages
                 for package in failed_packages[:]:
                     if self.is_package_installed(package):
-                        logger.info(f"✓ Installed via batch: {package}")
+                        logger.info(f"[OK] Installed via batch: {package}")
                         success_count += 1
                         failed_packages.remove(package)
 
@@ -1656,21 +1656,21 @@ class ServiceManager(SystemModifier):
 # Agent 3 - Kernel Parameter Enhancement - COMPLETED & ENHANCED
 #
 # Phase 1 - Core TODO Items (COMPLETED):
-# ✓ Added validation of current kernel parameters before change
-# ✓ Implemented parameter persistence verification
-# ✓ Added reboot requirement detection
-# ✓ Implemented parameter conflict detection
-# ✓ Added performance impact assessment
+# [OK] Added validation of current kernel parameters before change
+# [OK] Implemented parameter persistence verification
+# [OK] Added reboot requirement detection
+# [OK] Implemented parameter conflict detection
+# [OK] Added performance impact assessment
 #
 # Phase 2 - Advanced Enhancements (COMPLETED):
-# ✓ Rollback capability with snapshot/restore
-# ✓ Comprehensive compliance reporting with scoring (A+ to F grades)
-# ✓ Automated remediation recommendations
-# ✓ Dry-run and testing mode for safe parameter testing
-# ✓ Parameter grouping for selective application
-# ✓ Parameter history tracking and audit trail
-# ✓ Enhanced conflict detection with routing checks
-# ✓ Automatic rollback on critical failures
+# [OK] Rollback capability with snapshot/restore
+# [OK] Comprehensive compliance reporting with scoring (A+ to F grades)
+# [OK] Automated remediation recommendations
+# [OK] Dry-run and testing mode for safe parameter testing
+# [OK] Parameter grouping for selective application
+# [OK] Parameter history tracking and audit trail
+# [OK] Enhanced conflict detection with routing checks
+# [OK] Automatic rollback on critical failures
 #
 # New methods (16 total):
 #   Core Validation:
@@ -4074,7 +4074,7 @@ class UBUNTU20STIGRemediation:
         if self.all_changes:
             logger.info("\nChanges (first 50):")
             for change in self.all_changes[:50]:
-                logger.info(f"  ✓ {change}")
+                logger.info(f"  [OK] {change}")
             if len(self.all_changes) > 50:
                 logger.info(f"  ... and {len(self.all_changes) - 50} more changes")
         
@@ -4082,7 +4082,7 @@ class UBUNTU20STIGRemediation:
         if self.all_stig_controls:
             logger.info("\nKey STIG Controls:")
             for control in self.all_stig_controls[:20]:
-                logger.info(f"  ✓ {control['id']}: {control['description']}")
+                logger.info(f"  [OK] {control['id']}: {control['description']}")
             if len(self.all_stig_controls) > 20:
                 logger.info(f"  ... and {len(self.all_stig_controls) - 20} more controls")
         
@@ -4090,13 +4090,13 @@ class UBUNTU20STIGRemediation:
             logger.warning(f"\nTotal warnings: {len(self.all_warnings)}")
             logger.warning("\nWarnings:")
             for warning in self.all_warnings:
-                logger.warning(f"  ⚠ {warning}")
+                logger.warning(f"  [WARNING] {warning}")
         
         if self.all_errors:
             logger.error(f"\nTotal errors: {len(self.all_errors)}")
             logger.error("\nErrors:")
             for error in self.all_errors:
-                logger.error(f"  ✗ {error}")
+                logger.error(f"  [FAIL] {error}")
         
         logger.info("")
         logger.info("="*80)
@@ -4140,14 +4140,14 @@ class UBUNTU20STIGRemediation:
             if STIGConfig.ENABLE_PREFLIGHT_CHECKS:
                 preflight = PreFlightChecker()
                 if not preflight.run_all_checks():
-                    logger.error("\n❌ Pre-flight checks FAILED. Cannot proceed.")
+                    logger.error("\n[ERROR] Pre-flight checks FAILED. Cannot proceed.")
                     logger.error("Fix the issues above or set ENABLE_PREFLIGHT_CHECKS=False to bypass")
                     logger.error("(bypassing is NOT recommended for production)")
                     return False
                 
                 # Display warnings
                 if preflight.warnings:
-                    logger.warning("\n⚠️  Pre-flight WARNINGS:")
+                    logger.warning("\n[WARNING]  Pre-flight WARNINGS:")
                     for warning in preflight.warnings:
                         logger.warning(f"  - {warning}")
                     
@@ -4166,10 +4166,10 @@ class UBUNTU20STIGRemediation:
                 logger.info("CREATING RECOVERY POINT")
                 logger.info("="*80)
                 if not recovery_mgr.create_recovery_point("pre-stig-remediation"):
-                    logger.error("❌ Failed to create recovery point")
+                    logger.error("[ERROR] Failed to create recovery point")
                     logger.error("Set ENABLE_AUTO_ROLLBACK=False to bypass (not recommended)")
                     return False
-                logger.info("✓ Recovery point created successfully")
+                logger.info("[OK] Recovery point created successfully")
             
             # DRY RUN notification
             if STIGConfig.DRY_RUN:
@@ -4196,7 +4196,7 @@ class UBUNTU20STIGRemediation:
                 self.run_cat3_controls()
                 
             except Exception as e:
-                logger.error(f"\n❌ Critical error during remediation: {e}")
+                logger.error(f"\n[ERROR] Critical error during remediation: {e}")
                 
                 # AUTOMATIC ROLLBACK on critical errors
                 if STIGConfig.ENABLE_AUTO_ROLLBACK and not STIGConfig.DRY_RUN:
@@ -4206,10 +4206,10 @@ class UBUNTU20STIGRemediation:
                     
                     if recovery_mgr.current_recovery_point:
                         if recovery_mgr.restore_recovery_point():
-                            logger.warning("✓ System restored to pre-remediation state")
+                            logger.warning("[OK] System restored to pre-remediation state")
                             logger.warning("Please review errors and try again")
                         else:
-                            logger.error("❌ ROLLBACK FAILED - Manual recovery required")
+                            logger.error("[ERROR] ROLLBACK FAILED - Manual recovery required")
                             logger.error("Use: python3 script.py with EMERGENCY_RECOVERY_MODE=True")
                     
                 raise
@@ -4222,13 +4222,13 @@ class UBUNTU20STIGRemediation:
                 
                 validator = ConfigValidator()
                 if not validator.validate_all():
-                    logger.error("\n❌ POST-REMEDIATION VALIDATION FAILED")
+                    logger.error("\n[ERROR] POST-REMEDIATION VALIDATION FAILED")
                     logger.error("Critical configuration errors detected!")
                     
                     if STIGConfig.ENABLE_AUTO_ROLLBACK:
                         logger.warning("\nInitiating automatic rollback due to validation failure...")
                         if recovery_mgr.restore_recovery_point():
-                            logger.warning("✓ System restored to pre-remediation state")
+                            logger.warning("[OK] System restored to pre-remediation state")
                             return False
                     
                     logger.error("\nManual intervention required:")
@@ -4236,7 +4236,7 @@ class UBUNTU20STIGRemediation:
                         logger.error(f"  - {error}")
                     return False
                 
-                logger.info("✓ Post-remediation validation passed")
+                logger.info("[OK] Post-remediation validation passed")
             
             # Print summary
             self.print_summary()
@@ -4246,11 +4246,11 @@ class UBUNTU20STIGRemediation:
             
             if success:
                 logger.info("\n" + "="*80)
-                logger.info("✓ STIG REMEDIATION COMPLETED SUCCESSFULLY")
+                logger.info("[OK] STIG REMEDIATION COMPLETED SUCCESSFULLY")
                 logger.info("="*80)
             else:
                 logger.warning("\n" + "="*80)
-                logger.warning("⚠️  STIG REMEDIATION COMPLETED WITH ERRORS")
+                logger.warning("[WARNING]  STIG REMEDIATION COMPLETED WITH ERRORS")
                 logger.warning("="*80)
             
             return success
@@ -4375,19 +4375,19 @@ def main():
             print("\nThe following safety bypasses are active:")
             
             if STIGConfig.FORCE_IGNORE_ERRORS:
-                print("  ⚠️  FORCE_IGNORE_ERRORS: Will continue even on command failures")
+                print("  [WARNING]  FORCE_IGNORE_ERRORS: Will continue even on command failures")
             if STIGConfig.FORCE_SKIP_VALIDATION:
-                print("  ⚠️  FORCE_SKIP_VALIDATION: Configuration validation disabled")
+                print("  [WARNING]  FORCE_SKIP_VALIDATION: Configuration validation disabled")
             if STIGConfig.FORCE_NO_ROLLBACK:
-                print("  ⚠️  FORCE_NO_ROLLBACK: Automatic rollback disabled")
+                print("  [WARNING]  FORCE_NO_ROLLBACK: Automatic rollback disabled")
             if STIGConfig.FORCE_SKIP_PREFLIGHT:
-                print("  ⚠️  FORCE_SKIP_PREFLIGHT: Pre-flight safety checks disabled")
+                print("  [WARNING]  FORCE_SKIP_PREFLIGHT: Pre-flight safety checks disabled")
             if STIGConfig.FORCE_APPLY_ALL:
-                print("  ⚠️  FORCE_APPLY_ALL: All STIGs will be applied regardless of risk")
+                print("  [WARNING]  FORCE_APPLY_ALL: All STIGs will be applied regardless of risk")
             if STIGConfig.FORCE_OVERRIDE_OS:
-                print("  ⚠️  FORCE_OVERRIDE_OS: OS version check disabled")
+                print("  [WARNING]  FORCE_OVERRIDE_OS: OS version check disabled")
             if STIGConfig.FORCE_NO_BACKUP:
-                print("  ⚠️  FORCE_NO_BACKUP: System backups will NOT be created")
+                print("  [WARNING]  FORCE_NO_BACKUP: System backups will NOT be created")
             
             print("\nForce mode should ONLY be used:")
             print("  • In controlled test environments")
